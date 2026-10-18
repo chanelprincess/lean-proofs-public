@@ -1,0 +1,9 @@
+{
+ "job_id": "s437.nspkg.R2.t1.negtoplevel",
+ "request_id": "s437.nspkg.R2.t1.negtoplevel.request",
+ "outcome": "BLOCKED_REQUEST",
+ "reason": "archive rejected whole before extraction: outside the declared top directory: OTHER_TOP/x",
+ "first_failing_step": null,
+ "checks": [],
+ "steps": []
+}

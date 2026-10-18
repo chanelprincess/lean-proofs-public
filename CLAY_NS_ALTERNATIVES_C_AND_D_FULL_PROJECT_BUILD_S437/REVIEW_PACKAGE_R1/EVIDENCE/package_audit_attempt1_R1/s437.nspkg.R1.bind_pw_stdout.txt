@@ -1,0 +1,31 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0 -- /usr/bin/python3
+rootdir: /home/ktsadmin/chaos_node/workspace/s437.nspkg.R1.bind/in
+configfile: pytest.ini
+testpaths: tests
+collecting ... collected 9 items
+
+tests/test_package_bind.py::test_members_are_confined_regular_files PASSED [ 11%]
+tests/test_package_bind.py::test_transport_bytes_equal_retained_node_outbox PASSED [ 22%]
+tests/test_package_bind.py::test_package_equals_executed_tree_by_exact_bytes FAILED [ 33%]
+tests/test_package_bind.py::test_import_closure_and_trust_token_scan PASSED [ 44%]
+tests/test_package_bind.py::test_dependency_pins_and_comparator_config_consistent PASSED [ 55%]
+tests/test_package_bind.py::test_layout_refers_only_to_delivered_sources FAILED [ 66%]
+tests/test_package_bind.py::test_challenge_placeholders_are_confined_to_the_challenge_file PASSED [ 77%]
+tests/test_package_bind.py::test_statement_text_of_challenge_and_solution_agree_informational PASSED [ 88%]
+tests/test_package_bind.py::test_license_and_header_inventory PASSED     [100%]
+
+=================================== FAILURES ===================================
+_______________ test_package_equals_executed_tree_by_exact_bytes _______________
+tests/test_package_bind.py:108: in test_package_equals_executed_tree_by_exact_bytes
+    assert not mism and not missing
+E   AssertionError: assert (not [] and not ['DEPENDENCY_CLOSURE.json', 'RESTORE_AND_VERIFY.md', 'UPSTREAM_PROVENANCE.json'])
+_________________ test_layout_refers_only_to_delivered_sources _________________
+tests/test_package_bind.py:172: in test_layout_refers_only_to_delivered_sources
+    assert not any(k in hits for k in ("lakefile.toml", "lake-manifest.json", "lean-toolchain", "ComparatorChallenges/NavierStokes.json"))
+E   assert not True
+E    +  where True = any(<generator object test_layout_refers_only_to_delivered_sources.<locals>.<genexpr> at 0x7b8f27ac57d0>)
+=========================== short test summary info ============================
+FAILED tests/test_package_bind.py::test_package_equals_executed_tree_by_exact_bytes
+FAILED tests/test_package_bind.py::test_layout_refers_only_to_delivered_sources
+========================= 2 failed, 7 passed in 4.37s ==========================

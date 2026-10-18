@@ -1,0 +1,9 @@
+{
+ "job_id": "s437.nspkg.R2.t1.negallowed",
+ "request_id": null,
+ "outcome": "BLOCKED_REQUEST",
+ "reason": "allowed_changes may not include proof-bearing source or configuration: NavierStokes/ComparatorSolution.lean",
+ "first_failing_step": null,
+ "checks": [],
+ "steps": []
+}

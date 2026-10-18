@@ -1,0 +1,14 @@
+git clone https://github.com/robsimmons/nanoda_lib nanoda_lib
+git -C nanoda_lib checkout 68d5ca9db226849b41a6fff59d796ff19d0a8840
+cargo fetch --locked --manifest-path nanoda_lib/Cargo.toml
+cargo build --release --offline --locked --manifest-path nanoda_lib/Cargo.toml
+install -m 755 nanoda_lib/target/release/nanoda_bin bin/nanoda_bin
+git clone https://github.com/zouuup/landrun landrun_src
+git -C landrun_src checkout 5ed4a3db3a4ad930d577215c6b9abaa19df7f99f
+(cd landrun_src && go mod download)
+(cd landrun_src && GOFLAGS=-mod=mod GOPROXY=off GOSUMDB=off go build -buildvcs=false -o ../bin/landrun ./cmd/landrun)
+(cd tree && lake exe cache get)
+(cd tree/.lake/packages/lean4export && cp ../../../lean-toolchain lean-toolchain && lake build)
+install -m 755 tree/.lake/packages/lean4export/.lake/build/bin/lean4export bin/lean4export
+(cd tree && lake build Comparator/comparator)
+(cd tree && lake exe comparator ComparatorChallenges/NavierStokes.json)

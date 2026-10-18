@@ -1,0 +1,11 @@
+{
+ "schema": "RELEASE_STATE_v1",
+ "release_state": "RELEASED",
+ "release_law": "HELD_UNDER_RELEASE_LAW - the operator word alone releases (VERIFIED_SUBMISSIONS_PROTOCOL_v1.0, S349)",
+ "prepared_utc": "2026-10-11T08:50:55Z",
+ "session": "S437",
+ "released_by": "Tim Jacobs (operator)",
+ "released_utc": "2026-10-18T07:00:00Z",
+ "release_ref": "https://github.com/kts-global/lean-proofs-public/tree/s437-v1/CLAY_NS_ALTERNATIVES_C_AND_D_FULL_PROJECT_BUILD_S437",
+ "external_publication": true
+}

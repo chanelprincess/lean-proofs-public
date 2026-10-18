@@ -1,0 +1,7 @@
+Running as unit: run-u648.service; invocation ID: 27b57f9a2e4b42e2bfb722f6b31232b9
+Finished with result: success
+Main processes terminated with: code=exited/status=0
+Service runtime: 2.321s
+CPU time consumed: 2.318s
+Memory peak: 512.0K
+Memory swap peak: 0B

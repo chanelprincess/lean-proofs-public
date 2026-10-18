@@ -1,0 +1,28 @@
+{
+ "schema": "NS_COMMUNITY_TEST_DISPOSITION/2",
+ "prepared_utc": "2026-10-11T14:22:10Z",
+ "creates_authority": false,
+ "candidate": {
+  "archive": "ns-blowup-lean-test.tar.gz",
+  "version": "v3",
+  "bytes": 6547862,
+  "project_files": 2674,
+  "executed_archive": "v2 (6547423 bytes); scripts/reproduce.sh and project/ identical to v3"
+ },
+ "tests": {
+  "public_entry_point": "s437.pubentry.run4: PUBLIC_ENTRYPOINT_VERIFIED, exit 0, 1834 s",
+  "static_v3": "s437.pubpkg.R3.static: 10 passed"
+ },
+ "not_tested": [
+  "first-time Mathlib download",
+  "clean machine",
+  "Windows/macOS",
+  "offline restoration",
+  "independent reviewer",
+  "repeat executions"
+ ],
+ "release": {
+  "state": "HELD",
+  "posting": "not done"
+ }
+}

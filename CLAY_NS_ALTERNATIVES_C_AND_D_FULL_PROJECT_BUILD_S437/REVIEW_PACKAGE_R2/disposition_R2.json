@@ -1,0 +1,69 @@
+{
+ "schema": "NS_REVIEW_PACKAGE_DISPOSITION/2",
+ "prepared_utc": "2026-10-11T11:50:18Z",
+ "session": "S437",
+ "set_by": "coordinator session from the cited evidence; NOT an owner admission or approval receipt; creates no authority",
+ "management": "builder-managed, operator-directed (not autonomous Chaos dispatch)",
+ "candidate": {
+  "archive": "s437_ns_candidate_R2.project.tar.gz",
+  "regular_files": 2674,
+  "identical_to_reference": 2671,
+  "modified": [
+   "RESTORE_AND_VERIFY.md"
+  ],
+  "added": [
+   "CANDIDATE_CHANGES.md",
+   "TOOLS_CLOSURE.json"
+  ],
+  "reference_job": "s437.lpb.t6.full"
+ },
+ "rebuild": {
+  "attempt1": {
+   "job": "s437.nspkg.R2.rebuild",
+   "outcome": "VERIFIED",
+   "checks": 27,
+   "note": "retained defect: rustc/cargo host probes failed (rc 127), non-gating"
+  },
+  "attempt2": {
+   "job": "s437.nspkg.R2.rebuild2",
+   "outcome": "VERIFIED",
+   "checks": 28
+  },
+  "platform": "Ubuntu 24.04.5 x86_64 only",
+  "network": "git clones, crates, Go modules",
+  "resident": "Mathlib cache (8,907 files), Lean/Rust/Go toolchains, gcc, git",
+  "not_tested": [
+   "Windows",
+   "offline",
+   "clean machine",
+   "first-time Mathlib cache download",
+   "independent person following the guide"
+  ]
+ },
+ "P": {
+  "P1": "ACHIEVED",
+  "P2": "ACHIEVED",
+  "P3": "ACHIEVED_WITH_STATED_SCOPE",
+  "P4": "PARTIAL",
+  "P5": "ACHIEVED_AS_COORDINATOR_ANALYSIS_SPECIALIST_JUDGMENTS_REMAIN",
+  "P6": "ACHIEVED"
+ },
+ "correspondence": {
+  "C": "all clauses matched; no mismatch; residual J2 STANDARD",
+  "D": "matches except pressure periodicity depends on the erratum reading (J1); larger-class question OPEN (J4)",
+  "independent_expert_review": "none; none claimed"
+ },
+ "release": {
+  "state": "HELD",
+  "authority": "operator word",
+  "release_state_file": "release_state.json (unchanged)"
+ },
+ "not_implied": [
+  "Clay acceptance",
+  "public release",
+  "external submission",
+  "admission into the persistent theorem field",
+  "that estate tools produced the mathematics",
+  "reproducible tool bytes"
+ ]
+}

@@ -1,0 +1,1 @@
+{"home_entries": [".cache", ".elan", ".rustup", "chaos_node"], "visible:.ssh": false, "visible:.gnupg": false, "visible:.config": false, "visible:.aws": false, "visible:chaos_node/spool": false, "visible:chaos_node/NODE_IDENTITY.json": false, "af_inet_socket": true, "af_unix_socket": false, "write_usr": false, "write_elan": false, "write_rustup_toolchain": false}

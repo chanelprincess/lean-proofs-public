@@ -1,0 +1,300 @@
+{
+ "kind": "PUBLIC_ENTRYPOINT_RESULT",
+ "schema": "PUBLIC_ENTRYPOINT_RESULT/1",
+ "job_id": "s437.pubentry.run4",
+ "request_id": "s437.pubentry.run4.request",
+ "originating_owner": "chaos.prime:ns_formal_theorem_delivery",
+ "outcome": "PUBLIC_ENTRYPOINT_VERIFIED",
+ "rc": 0,
+ "reason": "all runner-determined checks passed",
+ "first_failing_step": null,
+ "complete_run": true,
+ "runner_determined": true,
+ "authoritative_verdict": "reserved_for_chaos_reconciler",
+ "elapsed_s": 1835.4,
+ "workspace": "/home/ktsadmin/chaos_node/workspace/s437.pubentry.run4",
+ "node_platform": "Linux-7.0.0-34-generic-x86_64-with-glibc2.39",
+ "entry_run": {
+  "argv": [
+   "/home/ktsadmin/chaos_node/workspace/s437.pubentry.run4/in/ns-blowup-lean-test/scripts/reproduce.sh",
+   "/home/ktsadmin/chaos_node/workspace/s437.pubentry.run4/run"
+  ],
+  "rc": 0,
+  "elapsed_s": 1834.0,
+  "stdout_log": "k:s437.pubentry.run4_pe_entry_stdout.txt|2417|1791724660",
+  "properties": [
+   "PrivateTmp=yes",
+   "NoNewPrivileges=yes",
+   "ProtectSystem=strict",
+   "ProtectHome=tmpfs",
+   "BindReadOnlyPaths=/home/ktsadmin/.elan",
+   "BindReadOnlyPaths=/home/ktsadmin/.rustup/toolchains/stable-x86_64-unknown-linux-gnu",
+   "BindPaths=/home/ktsadmin/chaos_node/workspace/s437.pubentry.run4 /home/ktsadmin/.cache/mathlib",
+   "RestrictAddressFamilies=~AF_UNIX",
+   "LimitNOFILE=65536",
+   "RuntimeMaxSec=14400"
+  ]
+ },
+ "environment": {
+  "lean_version": "toolchain file: leanprover/lean4:v4.34.1",
+  "tools_line": "tools: git version 2.43.0; cargo 1.99.0 (5f94df478 2026-08-27); go version go1.27.2 linux/amd64; gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cache_line": "Mathlib cache directory in use: /home/ktsadmin/.cache/mathlib (reused if populated; downloaded by step 10 otherwise)"
+ },
+ "cache_before": {
+  "path": "/home/ktsadmin/.cache/mathlib",
+  "entries": 17655
+ },
+ "checks": [
+  {
+   "check": "archive_equals_node_tested_archive_exact_bytes",
+   "pass": true,
+   "observed": {
+    "archive": "k:s437.pubentry.run4.archive.tar.gz|6547423|1791722436",
+    "reference_bundle": "k:s437.pubpkg.R2.static.bundle.tar|13189120|1791722533",
+    "member": "data/ns-blowup-lean-test.tar.gz",
+    "bytes": 6547423,
+    "reference_bytes": 6547423,
+    "comparison": "exact; no hashing"
+   }
+  },
+  {
+   "check": "archive_validated_before_extraction",
+   "pass": true,
+   "observed": {
+    "members": 2683,
+    "regular_files": 2683,
+    "uncompressed_bytes": 33923495
+   }
+  },
+  {
+   "check": "extracted_cleanly_entry_point_executable",
+   "pass": true,
+   "observed": {
+    "entry": "scripts/reproduce.sh",
+    "mode": "0o755",
+    "symlinks": [],
+    "extracted_files": 2683
+   }
+  },
+  {
+   "check": "confinement_effective_for_public_entry_profile",
+   "pass": true,
+   "observed": {
+    "observed": {
+     "home_entries": [
+      ".cache",
+      ".elan",
+      ".rustup",
+      "chaos_node"
+     ],
+     "visible:.ssh": false,
+     "visible:.gnupg": false,
+     "visible:.config": false,
+     "visible:.aws": false,
+     "visible:chaos_node/spool": false,
+     "visible:chaos_node/NODE_IDENTITY.json": false,
+     "af_inet_socket": true,
+     "af_unix_socket": false,
+     "write_usr": false,
+     "write_elan": false,
+     "write_rustup_toolchain": false
+    },
+    "mismatch": [],
+    "properties": [
+     "PrivateTmp=yes",
+     "NoNewPrivileges=yes",
+     "ProtectSystem=strict",
+     "ProtectHome=tmpfs",
+     "BindReadOnlyPaths=/home/ktsadmin/.elan",
+     "BindReadOnlyPaths=/home/ktsadmin/.rustup/toolchains/stable-x86_64-unknown-linux-gnu",
+     "BindPaths=/home/ktsadmin/chaos_node/workspace/s437.pubentry.run4 /home/ktsadmin/.cache/mathlib",
+     "RestrictAddressFamilies=~AF_UNIX",
+     "LimitNOFILE=65536",
+     "RuntimeMaxSec=600"
+    ]
+   }
+  },
+  {
+   "check": "entry_point_exit_status_zero",
+   "pass": true,
+   "observed": 0
+  },
+  {
+   "check": "fourteen_steps_announced_in_order",
+   "pass": true,
+   "observed": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14"
+   ]
+  },
+  {
+   "check": "controls_and_challenge_raw_output_counts",
+   "pass": true,
+   "observed": {
+    "observed": {
+     "solution_okay": 3,
+     "constant_kind_mismatch": 2,
+     "nanoda_accepts": 2,
+     "default_kernel_accepts": 3
+    },
+    "expected": {
+     "solution_okay": 3,
+     "constant_kind_mismatch": 2,
+     "nanoda_accepts": 2,
+     "default_kernel_accepts": 3
+    },
+    "note": "from Comparator's own output in the entry point's log: 2 accepting + 2 rejecting controls and the challenge"
+   }
+  },
+  {
+   "check": "four_controls_exit_codes_as_expected",
+   "pass": true,
+   "observed": [
+    [
+     "simple_match",
+     0,
+     0
+    ],
+    [
+     "simple_mismatch",
+     1,
+     1
+    ],
+    [
+     "simple_nanoda",
+     0,
+     0
+    ],
+    [
+     "simple_nanoda_mismatch",
+     1,
+     1
+    ]
+   ]
+  },
+  {
+   "check": "challenge_raw_both_kernels_and_all_declarations",
+   "pass": true,
+   "observed": {
+    "export_lines": 2,
+    "build_lines": [
+     "Build completed successfully (8924 jobs).",
+     "Build completed successfully (9532 jobs)."
+    ]
+   }
+  },
+  {
+   "check": "axioms_raw_both_declarations_within_permitted",
+   "pass": true,
+   "observed": {
+    "NavierStokes.Comparator.navier_stokes_breakdown_R3": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "NavierStokes.Comparator.navier_stokes_breakdown_periodic": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ]
+   }
+  },
+  {
+   "check": "final_line_emitted_consistent_with_the_checks_above_not_itself_evidence",
+   "pass": true,
+   "observed": {
+    "final_line_present": true,
+    "exit_status": 0
+   }
+  },
+  {
+   "check": "lake_manifest_unchanged_vs_archive",
+   "pass": true,
+   "observed": "exact bytes"
+  },
+  {
+   "check": "dependency_checkouts_equal_manifest_revisions",
+   "pass": true,
+   "observed": {
+    "packages": 11,
+    "mismatch": []
+   }
+  },
+  {
+   "check": "tools_restored_and_project_compiled_in_this_run",
+   "pass": true,
+   "observed": {
+    "tools_present": {
+     "nanoda_bin": true,
+     "landrun": true,
+     "lean4export": true
+    },
+    "project_oleans": 610,
+    "created_after_job_start": 610
+   }
+  },
+  {
+   "check": "existing_mathlib_cache_preserved_not_deleted",
+   "pass": true,
+   "observed": {
+    "entries_before": 17655,
+    "entries_after": 17655,
+    "removed": [],
+    "added": 0
+   }
+  },
+  {
+   "check": "no_lake_update_in_output",
+   "pass": true,
+   "observed": []
+  }
+ ],
+ "artifacts": [
+  {
+   "name": "s437.pubentry.run4.evidence.tar.gz",
+   "size": 20350,
+   "kcoord": "k:s437.pubentry.run4.evidence.tar.gz|20350|1791724661"
+  }
+ ],
+ "request_echo": {
+  "archive": "s437.pubentry.run4.archive.tar.gz",
+  "top_dir": "ns-blowup-lean-test",
+  "entry": "scripts/reproduce.sh",
+  "same_bytes_as": {
+   "job_id": "s437.pubpkg.R2.static",
+   "member": "data/ns-blowup-lean-test.tar.gz"
+  },
+  "expect": {
+   "declarations": [
+    "NavierStokes.Comparator.navier_stokes_breakdown_R3",
+    "NavierStokes.Comparator.navier_stokes_breakdown_periodic"
+   ],
+   "permitted_axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+   ],
+   "final_line": "RESULT: PASS",
+   "steps": 14,
+   "raw_counts": {
+    "solution_okay": 3,
+    "constant_kind_mismatch": 2,
+    "nanoda_accepts": 2,
+    "default_kernel_accepts": 3
+   }
+  },
+  "runtime_max_s": 14400
+ }
+}

@@ -1,0 +1,7 @@
+Running as unit: run-u531.service; invocation ID: aa05d712891049f39973511a0c2b472d
+Finished with result: exit-code
+Main processes terminated with: code=exited/status=1
+Service runtime: 4.614s
+CPU time consumed: 4.610s
+Memory peak: 512.0K
+Memory swap peak: 0B

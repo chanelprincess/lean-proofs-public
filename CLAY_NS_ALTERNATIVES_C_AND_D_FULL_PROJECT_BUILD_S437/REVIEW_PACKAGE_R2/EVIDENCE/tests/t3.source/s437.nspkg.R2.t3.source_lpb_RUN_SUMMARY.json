@@ -1,0 +1,173 @@
+{
+ "job_id": "s437.nspkg.R2.t3.source",
+ "request_id": "s437.nspkg.R2.t3.source.request",
+ "outcome": "PARTIAL_RUN_COMPLETED_THROUGH_SOURCE",
+ "reason": "run_until limit reached; theorem verification not performed",
+ "first_failing_step": null,
+ "checks": [
+  {
+   "check": "archive_validated_before_extraction",
+   "pass": true,
+   "observed": {
+    "members": 2679,
+    "files": 2674,
+    "directories": 5,
+    "uncompressed_bytes": 33762644,
+    "top_dir": "S412_ESTATE_PORT_v4.34.1__candidate_R2"
+   }
+  },
+  {
+   "check": "candidate_equals_reference_except_declared_changes",
+   "pass": true,
+   "observed": {
+    "reference_job": "s437.lpb.t6.full",
+    "reference_files": 2672,
+    "candidate_files": 2674,
+    "identical": 2671,
+    "modified": [
+     "RESTORE_AND_VERIFY.md"
+    ],
+    "added": [
+     "CANDIDATE_CHANGES.md",
+     "TOOLS_CLOSURE.json"
+    ],
+    "removed": [],
+    "proof_bearing_files_compared": 2666,
+    "proof_bearing_all_identical": true
+   }
+  },
+  {
+   "check": "dependencies_are_pinned_git_only",
+   "pass": true,
+   "observed": {
+    "non_git_or_foreign": [],
+    "path_requires": []
+   }
+  },
+  {
+   "check": "restore_guide_documents_executed_steps",
+   "pass": true,
+   "observed": {
+    "guide": "RESTORE_AND_VERIFY.md",
+    "fenced_steps_found": true,
+    "steps_equal": true,
+    "n_steps": 14,
+    "declarations_named": true,
+    "tools_closure_matches_request": true
+   }
+  },
+  {
+   "check": "confinement_effective:retrieve",
+   "pass": true,
+   "observed": {
+    "observed": {
+     "home_entries": [
+      ".cache",
+      ".elan",
+      "chaos_node"
+     ],
+     "visible:.ssh": false,
+     "visible:.gnupg": false,
+     "visible:.config": false,
+     "visible:.aws": false,
+     "visible:chaos_node/spool": false,
+     "visible:chaos_node/NODE_IDENTITY.json": false,
+     "af_inet_socket": true,
+     "af_unix_socket": false,
+     "write_usr": false,
+     "write_elan": false
+    },
+    "mismatch": []
+   }
+  },
+  {
+   "check": "confinement_effective:compile",
+   "pass": true,
+   "observed": {
+    "observed": {
+     "home_entries": [
+      ".elan",
+      "chaos_node"
+     ],
+     "visible:.ssh": false,
+     "visible:.gnupg": false,
+     "visible:.config": false,
+     "visible:.aws": false,
+     "visible:chaos_node/spool": false,
+     "visible:chaos_node/NODE_IDENTITY.json": false,
+     "af_inet_socket": false,
+     "af_unix_socket": false,
+     "write_usr": false,
+     "write_elan": false
+    },
+    "mismatch": []
+   }
+  },
+  {
+   "check": "toolchain_expected",
+   "pass": true,
+   "observed": "leanprover/lean4:v4.34.1"
+  },
+  {
+   "check": "manifest_pin:mathlib",
+   "pass": true,
+   "observed": "d13f23b723b8a846827a245b89c10fc7d3f11612"
+  },
+  {
+   "check": "manifest_pin:Comparator",
+   "pass": true,
+   "observed": "19e111e2141cf333c7daff0f64c5f24acc91dd2e"
+  },
+  {
+   "check": "manifest_pin:lean4export",
+   "pass": true,
+   "observed": "cacf989bd75f608700820f6afc595f32e7a99a4d"
+  },
+  {
+   "check": "challenge_config_matches_request",
+   "pass": true,
+   "observed": {
+    "theorem_names": [
+     "NavierStokes.Comparator.navier_stokes_breakdown_R3",
+     "NavierStokes.Comparator.navier_stokes_breakdown_periodic"
+    ],
+    "permitted_axioms": [
+     "propext",
+     "Quot.sound",
+     "Classical.choice"
+    ],
+    "enable_nanoda": true
+   }
+  }
+ ],
+ "steps": [
+  {
+   "step": "C0_selftest_retrieve",
+   "profile": "retrieve",
+   "argv": [
+    "/usr/bin/python3",
+    "-c",
+    "\nimport os, socket, json\nrh = os.environ[\"RH\"]; r = {}\ntry: r[\"home_entries\"] = sorted(os.listdir(rh))\nexcept Exception as e: r[\"home_entries\"] = \"ERR:\" + str(e)\nfor n in (\".ssh\", \".gnupg\", \".config\", \".aws\", \"chaos_node/spool\", \"chaos_node/NODE_IDENTITY.json\"):\n    r[\"visible:\" + n] = os.path.exists(os.path.join(rh, n))\ndef sock(f):\n    try:\n        s = socket.socket(f, socket.SOCK_STREAM); s.close(); return True\n    except Exception: return False\nr[\"af_inet_socket\"] = sock(socket.AF_INET); r[\"af_unix_socket\"] = sock(socket.AF_UNIX)\nfor tag, p in ((\"write_usr\", \"/usr/lpb_probe\"), (\"write_elan\", os.path.join(rh, \".elan\", \"lpb_probe\"))):\n    try: open(p, \"w\").close(); r[tag] = True\n    except Exception: r[tag] = False\nprint(json.dumps(r))\n"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.t3.source",
+   "rc": 0,
+   "elapsed_s": 0.1,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.t3.source_lpb_C0_selftest_retrieve.txt",
+   "log_kcoord": "k:s437.nspkg.R2.t3.source_lpb_C0_selftest_retrieve.txt|322|1791717468"
+  },
+  {
+   "step": "C0_selftest_compile",
+   "profile": "compile",
+   "argv": [
+    "/usr/bin/python3",
+    "-c",
+    "\nimport os, socket, json\nrh = os.environ[\"RH\"]; r = {}\ntry: r[\"home_entries\"] = sorted(os.listdir(rh))\nexcept Exception as e: r[\"home_entries\"] = \"ERR:\" + str(e)\nfor n in (\".ssh\", \".gnupg\", \".config\", \".aws\", \"chaos_node/spool\", \"chaos_node/NODE_IDENTITY.json\"):\n    r[\"visible:\" + n] = os.path.exists(os.path.join(rh, n))\ndef sock(f):\n    try:\n        s = socket.socket(f, socket.SOCK_STREAM); s.close(); return True\n    except Exception: return False\nr[\"af_inet_socket\"] = sock(socket.AF_INET); r[\"af_unix_socket\"] = sock(socket.AF_UNIX)\nfor tag, p in ((\"write_usr\", \"/usr/lpb_probe\"), (\"write_elan\", os.path.join(rh, \".elan\", \"lpb_probe\"))):\n    try: open(p, \"w\").close(); r[tag] = True\n    except Exception: r[tag] = False\nprint(json.dumps(r))\n"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.t3.source",
+   "rc": 0,
+   "elapsed_s": 0.1,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.t3.source_lpb_C0_selftest_compile.txt",
+   "log_kcoord": "k:s437.nspkg.R2.t3.source_lpb_C0_selftest_compile.txt|313|1791717468"
+  }
+ ]
+}

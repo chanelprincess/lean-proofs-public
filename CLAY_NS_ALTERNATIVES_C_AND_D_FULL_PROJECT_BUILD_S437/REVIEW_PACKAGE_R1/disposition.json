@@ -1,0 +1,64 @@
+{
+ "schema": "NS_REVIEW_PACKAGE_DISPOSITION/1",
+ "prepared_utc": "2026-10-11T10:23:01Z",
+ "session": "S437",
+ "set_by": "coordinator session from the cited evidence; NOT an owner admission or approval receipt; creates no authority",
+ "package_location": "D:\\KQAS_NATIVE\\VERIFIED_SUBMISSIONS\\CLAY_NS_ALTERNATIVES_C_AND_D_FULL_PROJECT_BUILD_S437\\REVIEW_PACKAGE_R1",
+ "entry": "D:\\KQAS_NATIVE\\VERIFIED_SUBMISSIONS\\CLAY_NS_ALTERNATIVES_C_AND_D_FULL_PROJECT_BUILD_S437",
+ "formal_artifact": {
+  "state": "COMPLETE_KERNEL_CHECKED_WITHIN_SCOPE",
+  "declarations": [
+   "NavierStokes.Comparator.navier_stokes_breakdown_R3",
+   "NavierStokes.Comparator.navier_stokes_breakdown_periodic"
+  ],
+  "kernels": [
+   "Lean default",
+   "nanoda"
+  ],
+  "axioms": [
+   "propext",
+   "Classical.choice",
+   "Quot.sound"
+  ],
+  "runner_checks": "20/20",
+  "platform": "Ubuntu 24.04.5 x86_64 only",
+  "not_claimed": [
+   "Windows",
+   "offline restoration",
+   "rebuild from the unpacked package"
+  ]
+ },
+ "review_package": {
+  "state": "ASSEMBLED_WITH_UNRESOLVED_ITEMS",
+  "unresolved": [
+   "U1 no independent expert review of correspondence",
+   "U2 (D) pressure periodicity depends on reading the Clay erratum",
+   "U3 informal paper not independently refereed in these records",
+   "U4 no from-package Lean rebuild; network restoration; Linux only",
+   "U5 nanoda identity bound by exact comparison to recorded build, not an independent rebuild",
+   "U6 package restore notes omit nanoda_bin/landrun source (supplement in 03)",
+   "U7 estate-tool attribution not established; S314/S315 reports and command logs not found"
+  ]
+ },
+ "original_problem_correspondence": {
+  "state": "ESTABLISHED_BY_REASONED_ASSESSMENT_WITH_ONE_READING_DEPENDENCY",
+  "assessment": "02_CORRESPONDENCE_ASSESSMENT.md",
+  "mismatches_found": 0,
+  "reading_dependent": [
+   "pressure periodicity in (D) (Clay erratum numbering)"
+  ],
+  "independent_expert_review": "none; none claimed"
+ },
+ "release": {
+  "state": "HELD",
+  "authority": "operator word",
+  "release_state_file": "release_state.json (unchanged)"
+ },
+ "not_implied": [
+  "Clay acceptance",
+  "public release",
+  "external submission",
+  "admission into the persistent theorem field",
+  "that estate tools produced the mathematics"
+ ]
+}

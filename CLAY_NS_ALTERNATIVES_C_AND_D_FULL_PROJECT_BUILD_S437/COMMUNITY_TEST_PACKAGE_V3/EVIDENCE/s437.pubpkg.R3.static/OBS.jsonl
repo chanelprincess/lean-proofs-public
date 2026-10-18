@@ -1,0 +1,11 @@
+{"problems": [], "regular": 2683, "test": "members", "top": "ns-blowup-lean-test", "total": 2683}
+{"outside": 0, "script_executable": true, "symlinks": 0, "test": "extract", "top_level": ["ns-blowup-lean-test"]}
+{"byte_mismatch": 0, "only_public": [], "only_r2": [], "public_project_files": 2674, "r2_files": 2674, "test": "project_vs_r2"}
+{"distinct": 2674, "rows": 2674, "test": "file_list"}
+{"rc": 0, "stderr": "", "test": "bash_n"}
+{"embedded_steps": 14, "equal": true, "guide_steps": 14, "test": "steps"}
+{"cd_line": 46, "loop_line": 49, "mkdir_bin_line": 39, "test": "cwd_discipline"}
+{"checks_manifest_unchanged": true, "forbidden_hits": [], "refuses_nonempty_workdir": true, "test": "script_hygiene"}
+{"closure": "d13f23b723b8a846827a245b89c10fc7d3f11612", "closure_head": "d13f23b723b8a846827a245b89c10fc7d3f11612", "docs_naming_full_pin": ["TESTING.md", "docs/02_CORRESPONDENCE_ASSESSMENT.md"], "docs_with_other_d13_strings": [], "lakefile": "d13f23b723b8a846827a245b89c10fc7d3f11612", "manifest": "d13f23b723b8a846827a245b89c10fc7d3f11612", "test": "pin"}
+{"broken": [], "forbidden_phrases": [], "missing_limit_phrases": [], "test": "links_wording"}
+{"added_file_hits": {}, "project_nonlean_hits": [], "test": "privacy"}

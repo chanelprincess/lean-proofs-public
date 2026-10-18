@@ -1,0 +1,941 @@
+{
+ "job_id": "s437.nspkg.R2.rebuild2",
+ "request_id": "s437.nspkg.R2.rebuild2.request",
+ "outcome": "VERIFIED",
+ "reason": "all runner-determined checks passed",
+ "first_failing_step": null,
+ "checks": [
+  {
+   "check": "archive_validated_before_extraction",
+   "pass": true,
+   "observed": {
+    "members": 2679,
+    "files": 2674,
+    "directories": 5,
+    "uncompressed_bytes": 33762644,
+    "top_dir": "S412_ESTATE_PORT_v4.34.1__candidate_R2"
+   }
+  },
+  {
+   "check": "candidate_equals_reference_except_declared_changes",
+   "pass": true,
+   "observed": {
+    "reference_job": "s437.lpb.t6.full",
+    "reference_files": 2672,
+    "candidate_files": 2674,
+    "identical": 2671,
+    "modified": [
+     "RESTORE_AND_VERIFY.md"
+    ],
+    "added": [
+     "CANDIDATE_CHANGES.md",
+     "TOOLS_CLOSURE.json"
+    ],
+    "removed": [],
+    "proof_bearing_files_compared": 2666,
+    "proof_bearing_all_identical": true
+   }
+  },
+  {
+   "check": "dependencies_are_pinned_git_only",
+   "pass": true,
+   "observed": {
+    "non_git_or_foreign": [],
+    "path_requires": []
+   }
+  },
+  {
+   "check": "restore_guide_documents_executed_steps",
+   "pass": true,
+   "observed": {
+    "guide": "RESTORE_AND_VERIFY.md",
+    "fenced_steps_found": true,
+    "steps_equal": true,
+    "n_steps": 14,
+    "declarations_named": true,
+    "tools_closure_matches_request": true
+   }
+  },
+  {
+   "check": "confinement_effective:retrieve",
+   "pass": true,
+   "observed": {
+    "observed": {
+     "home_entries": [
+      ".cache",
+      ".elan",
+      "chaos_node"
+     ],
+     "visible:.ssh": false,
+     "visible:.gnupg": false,
+     "visible:.config": false,
+     "visible:.aws": false,
+     "visible:chaos_node/spool": false,
+     "visible:chaos_node/NODE_IDENTITY.json": false,
+     "af_inet_socket": true,
+     "af_unix_socket": false,
+     "write_usr": false,
+     "write_elan": false
+    },
+    "mismatch": []
+   }
+  },
+  {
+   "check": "confinement_effective:compile",
+   "pass": true,
+   "observed": {
+    "observed": {
+     "home_entries": [
+      ".elan",
+      "chaos_node"
+     ],
+     "visible:.ssh": false,
+     "visible:.gnupg": false,
+     "visible:.config": false,
+     "visible:.aws": false,
+     "visible:chaos_node/spool": false,
+     "visible:chaos_node/NODE_IDENTITY.json": false,
+     "af_inet_socket": false,
+     "af_unix_socket": false,
+     "write_usr": false,
+     "write_elan": false
+    },
+    "mismatch": []
+   }
+  },
+  {
+   "check": "toolchain_expected",
+   "pass": true,
+   "observed": "leanprover/lean4:v4.34.1"
+  },
+  {
+   "check": "manifest_pin:mathlib",
+   "pass": true,
+   "observed": "d13f23b723b8a846827a245b89c10fc7d3f11612"
+  },
+  {
+   "check": "manifest_pin:Comparator",
+   "pass": true,
+   "observed": "19e111e2141cf333c7daff0f64c5f24acc91dd2e"
+  },
+  {
+   "check": "manifest_pin:lean4export",
+   "pass": true,
+   "observed": "cacf989bd75f608700820f6afc595f32e7a99a4d"
+  },
+  {
+   "check": "challenge_config_matches_request",
+   "pass": true,
+   "observed": {
+    "theorem_names": [
+     "NavierStokes.Comparator.navier_stokes_breakdown_R3",
+     "NavierStokes.Comparator.navier_stokes_breakdown_periodic"
+    ],
+    "permitted_axioms": [
+     "propext",
+     "Quot.sound",
+     "Classical.choice"
+    ],
+    "enable_nanoda": true
+   }
+  },
+  {
+   "check": "dependency_checkouts_match_manifest",
+   "pass": true,
+   "observed": {
+    "packages": 11,
+    "mismatch": []
+   }
+  },
+  {
+   "check": "tool_source_at_pinned_commit:nanoda",
+   "pass": true,
+   "observed": "68d5ca9db226849b41a6fff59d796ff19d0a8840"
+  },
+  {
+   "check": "tool_source_tree_clean:nanoda",
+   "pass": true,
+   "observed": ""
+  },
+  {
+   "check": "tool_source_at_pinned_commit:landrun",
+   "pass": true,
+   "observed": "5ed4a3db3a4ad930d577215c6b9abaa19df7f99f"
+  },
+  {
+   "check": "tool_source_tree_clean:landrun",
+   "pass": true,
+   "observed": ""
+  },
+  {
+   "check": "tool_invoked_equals_build_output:nanoda_bin",
+   "pass": true,
+   "observed": {
+    "invoked": "k:nanoda_bin|1308032|1791717704",
+    "build_output": "k:nanoda_bin|1308032|1791717704"
+   }
+  },
+  {
+   "check": "tool_invoked_equals_build_output:landrun",
+   "pass": true,
+   "observed": {
+    "invoked": "k:landrun|7528280|1791717711",
+    "build_output": "k:landrun|7528280|1791717711"
+   }
+  },
+  {
+   "check": "trials_all_as_expected_including_negative_controls",
+   "pass": true,
+   "observed": [
+    [
+     "simple_match",
+     0,
+     0
+    ],
+    [
+     "simple_mismatch",
+     1,
+     1
+    ],
+    [
+     "simple_nanoda",
+     0,
+     0
+    ],
+    [
+     "simple_nanoda_mismatch",
+     1,
+     1
+    ]
+   ]
+  },
+  {
+   "check": "comparator_rc_zero",
+   "pass": true,
+   "observed": 0
+  },
+  {
+   "check": "nanoda_kernel_accepts",
+   "pass": true,
+   "observed": null
+  },
+  {
+   "check": "lean_default_kernel_accepts",
+   "pass": true,
+   "observed": null
+  },
+  {
+   "check": "comparator_okay_line",
+   "pass": true,
+   "observed": null
+  },
+  {
+   "check": "statements_exported_for_all_declarations",
+   "pass": true,
+   "observed": {
+    "export_lines": 2
+   }
+  },
+  {
+   "check": "no_sorry_warning_outside_challenge_file",
+   "pass": true,
+   "observed": []
+  },
+  {
+   "check": "axioms_independent_probe:NavierStokes.Comparator.navier_stokes_breakdown_R3",
+   "pass": true,
+   "observed": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  {
+   "check": "axioms_independent_probe:NavierStokes.Comparator.navier_stokes_breakdown_periodic",
+   "pass": true,
+   "observed": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ]
+  },
+  {
+   "check": "project_oleans_compiled_in_this_workspace",
+   "pass": true,
+   "observed": {
+    "project_oleans": 610,
+    "created_after_job_start": 610
+   }
+  }
+ ],
+ "steps": [
+  {
+   "step": "C0_selftest_retrieve",
+   "profile": "retrieve",
+   "argv": [
+    "/usr/bin/python3",
+    "-c",
+    "\nimport os, socket, json\nrh = os.environ[\"RH\"]; r = {}\ntry: r[\"home_entries\"] = sorted(os.listdir(rh))\nexcept Exception as e: r[\"home_entries\"] = \"ERR:\" + str(e)\nfor n in (\".ssh\", \".gnupg\", \".config\", \".aws\", \"chaos_node/spool\", \"chaos_node/NODE_IDENTITY.json\"):\n    r[\"visible:\" + n] = os.path.exists(os.path.join(rh, n))\ndef sock(f):\n    try:\n        s = socket.socket(f, socket.SOCK_STREAM); s.close(); return True\n    except Exception: return False\nr[\"af_inet_socket\"] = sock(socket.AF_INET); r[\"af_unix_socket\"] = sock(socket.AF_UNIX)\nfor tag, p in ((\"write_usr\", \"/usr/lpb_probe\"), (\"write_elan\", os.path.join(rh, \".elan\", \"lpb_probe\"))):\n    try: open(p, \"w\").close(); r[tag] = True\n    except Exception: r[tag] = False\nprint(json.dumps(r))\n"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2",
+   "rc": 0,
+   "elapsed_s": 0.1,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_C0_selftest_retrieve.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_C0_selftest_retrieve.txt|322|1791717519"
+  },
+  {
+   "step": "C0_selftest_compile",
+   "profile": "compile",
+   "argv": [
+    "/usr/bin/python3",
+    "-c",
+    "\nimport os, socket, json\nrh = os.environ[\"RH\"]; r = {}\ntry: r[\"home_entries\"] = sorted(os.listdir(rh))\nexcept Exception as e: r[\"home_entries\"] = \"ERR:\" + str(e)\nfor n in (\".ssh\", \".gnupg\", \".config\", \".aws\", \"chaos_node/spool\", \"chaos_node/NODE_IDENTITY.json\"):\n    r[\"visible:\" + n] = os.path.exists(os.path.join(rh, n))\ndef sock(f):\n    try:\n        s = socket.socket(f, socket.SOCK_STREAM); s.close(); return True\n    except Exception: return False\nr[\"af_inet_socket\"] = sock(socket.AF_INET); r[\"af_unix_socket\"] = sock(socket.AF_UNIX)\nfor tag, p in ((\"write_usr\", \"/usr/lpb_probe\"), (\"write_elan\", os.path.join(rh, \".elan\", \"lpb_probe\"))):\n    try: open(p, \"w\").close(); r[tag] = True\n    except Exception: r[tag] = False\nprint(json.dumps(r))\n"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2",
+   "rc": 0,
+   "elapsed_s": 0.1,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_C0_selftest_compile.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_C0_selftest_compile.txt|313|1791717519"
+  },
+  {
+   "step": "R1_nanoda_clone",
+   "profile": "retrieve",
+   "argv": [
+    "git",
+    "clone",
+    "-q",
+    "https://github.com/robsimmons/nanoda_lib",
+    "nanoda_lib"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2",
+   "rc": 0,
+   "elapsed_s": 1.5,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_R1_nanoda_clone.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_R1_nanoda_clone.txt|0|1791717519"
+  },
+  {
+   "step": "R1_nanoda_checkout",
+   "profile": "retrieve",
+   "argv": [
+    "git",
+    "-C",
+    "nanoda_lib",
+    "checkout",
+    "-q",
+    "68d5ca9db226849b41a6fff59d796ff19d0a8840"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2",
+   "rc": 0,
+   "elapsed_s": 0.1,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_R1_nanoda_checkout.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_R1_nanoda_checkout.txt|0|1791717521"
+  },
+  {
+   "step": "R1_nanoda_fetch",
+   "profile": "retrieve",
+   "argv": [
+    "/home/ktsadmin/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+    "fetch",
+    "--locked",
+    "--manifest-path",
+    "nanoda_lib/Cargo.toml"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2",
+   "rc": 0,
+   "elapsed_s": 3.4,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_R1_nanoda_fetch.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_R1_nanoda_fetch.txt|910|1791717524"
+  },
+  {
+   "step": "R2_landrun_clone",
+   "profile": "retrieve",
+   "argv": [
+    "git",
+    "clone",
+    "-q",
+    "https://github.com/zouuup/landrun",
+    "landrun_src"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2",
+   "rc": 0,
+   "elapsed_s": 0.9,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_R2_landrun_clone.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_R2_landrun_clone.txt|0|1791717524"
+  },
+  {
+   "step": "R2_landrun_checkout",
+   "profile": "retrieve",
+   "argv": [
+    "git",
+    "-C",
+    "landrun_src",
+    "checkout",
+    "-q",
+    "5ed4a3db3a4ad930d577215c6b9abaa19df7f99f"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2",
+   "rc": 0,
+   "elapsed_s": 0.1,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_R2_landrun_checkout.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_R2_landrun_checkout.txt|0|1791717525"
+  },
+  {
+   "step": "R2_landrun_modules",
+   "profile": "retrieve",
+   "argv": [
+    "/usr/local/go/bin/go",
+    "mod",
+    "download"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2/landrun_src",
+   "rc": 0,
+   "elapsed_s": 2.4,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_R2_landrun_modules.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_R2_landrun_modules.txt|0|1791717525"
+  },
+  {
+   "step": "S3_cache",
+   "profile": "retrieve",
+   "argv": [
+    "lake",
+    "exe",
+    "cache",
+    "get"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2/tree",
+   "rc": 0,
+   "elapsed_s": 134.8,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_S3_cache.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_S3_cache.txt|1954|1791717662"
+  },
+  {
+   "step": "S3_pkg_head_Comparator",
+   "profile": "compile",
+   "argv": [
+    "git",
+    "-C",
+    "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2/tree/.lake/packages/Comparator",
+    "rev-parse",
+    "HEAD"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2",
+   "rc": 0,
+   "elapsed_s": 0.1,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_S3_pkg_head_Comparator.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_S3_pkg_head_Comparator.txt|41|1791717662"
+  },
+  {
+   "step": "S3_pkg_head_mathlib",
+   "profile": "compile",
+   "argv": [
+    "git",
+    "-C",
+    "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2/tree/.lake/packages/mathlib",
+    "rev-parse",
+    "HEAD"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2",
+   "rc": 0,
+   "elapsed_s": 0.0,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_S3_pkg_head_mathlib.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_S3_pkg_head_mathlib.txt|41|1791717662"
+  },
+  {
+   "step": "S3_pkg_head_lean4export",
+   "profile": "compile",
+   "argv": [
+    "git",
+    "-C",
+    "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2/tree/.lake/packages/lean4export",
+    "rev-parse",
+    "HEAD"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2",
+   "rc": 0,
+   "elapsed_s": 0.1,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_S3_pkg_head_lean4export.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_S3_pkg_head_lean4export.txt|41|1791717662"
+  },
+  {
+   "step": "S3_pkg_head_plausible",
+   "profile": "compile",
+   "argv": [
+    "git",
+    "-C",
+    "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2/tree/.lake/packages/plausible",
+    "rev-parse",
+    "HEAD"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2",
+   "rc": 0,
+   "elapsed_s": 0.0,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_S3_pkg_head_plausible.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_S3_pkg_head_plausible.txt|41|1791717662"
+  },
+  {
+   "step": "S3_pkg_head_LeanSearchClient",
+   "profile": "compile",
+   "argv": [
+    "git",
+    "-C",
+    "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2/tree/.lake/packages/LeanSearchClient",
+    "rev-parse",
+    "HEAD"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2",
+   "rc": 0,
+   "elapsed_s": 0.1,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_S3_pkg_head_LeanSearchClient.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_S3_pkg_head_LeanSearchClient.txt|41|1791717662"
+  },
+  {
+   "step": "S3_pkg_head_importGraph",
+   "profile": "compile",
+   "argv": [
+    "git",
+    "-C",
+    "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2/tree/.lake/packages/importGraph",
+    "rev-parse",
+    "HEAD"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2",
+   "rc": 0,
+   "elapsed_s": 0.0,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_S3_pkg_head_importGraph.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_S3_pkg_head_importGraph.txt|41|1791717662"
+  },
+  {
+   "step": "S3_pkg_head_proofwidgets",
+   "profile": "compile",
+   "argv": [
+    "git",
+    "-C",
+    "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2/tree/.lake/packages/proofwidgets",
+    "rev-parse",
+    "HEAD"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2",
+   "rc": 0,
+   "elapsed_s": 0.0,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_S3_pkg_head_proofwidgets.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_S3_pkg_head_proofwidgets.txt|41|1791717663"
+  },
+  {
+   "step": "S3_pkg_head_aesop",
+   "profile": "compile",
+   "argv": [
+    "git",
+    "-C",
+    "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2/tree/.lake/packages/aesop",
+    "rev-parse",
+    "HEAD"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2",
+   "rc": 0,
+   "elapsed_s": 0.1,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_S3_pkg_head_aesop.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_S3_pkg_head_aesop.txt|41|1791717663"
+  },
+  {
+   "step": "S3_pkg_head_Qq",
+   "profile": "compile",
+   "argv": [
+    "git",
+    "-C",
+    "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2/tree/.lake/packages/Qq",
+    "rev-parse",
+    "HEAD"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2",
+   "rc": 0,
+   "elapsed_s": 0.1,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_S3_pkg_head_Qq.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_S3_pkg_head_Qq.txt|41|1791717663"
+  },
+  {
+   "step": "S3_pkg_head_batteries",
+   "profile": "compile",
+   "argv": [
+    "git",
+    "-C",
+    "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2/tree/.lake/packages/batteries",
+    "rev-parse",
+    "HEAD"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2",
+   "rc": 0,
+   "elapsed_s": 0.0,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_S3_pkg_head_batteries.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_S3_pkg_head_batteries.txt|41|1791717663"
+  },
+  {
+   "step": "S3_pkg_head_Cli",
+   "profile": "compile",
+   "argv": [
+    "git",
+    "-C",
+    "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2/tree/.lake/packages/Cli",
+    "rev-parse",
+    "HEAD"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2",
+   "rc": 0,
+   "elapsed_s": 0.1,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_S3_pkg_head_Cli.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_S3_pkg_head_Cli.txt|41|1791717663"
+  },
+  {
+   "step": "B0_lean_version",
+   "profile": "compile",
+   "argv": [
+    "lake",
+    "env",
+    "lean",
+    "--version"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2/tree",
+   "rc": 0,
+   "elapsed_s": 1.3,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_B0_lean_version.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_B0_lean_version.txt|106|1791717664"
+  },
+  {
+   "step": "B1_lean4export_build",
+   "profile": "compile",
+   "argv": [
+    "lake",
+    "build"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2/tree/.lake/packages/lean4export",
+   "rc": 0,
+   "elapsed_s": 7.6,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_B1_lean4export_build.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_B1_lean4export_build.txt|203|1791717672"
+  },
+  {
+   "step": "B2_comparator_build",
+   "profile": "compile",
+   "argv": [
+    "lake",
+    "build",
+    "Comparator/comparator"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2/tree",
+   "rc": 0,
+   "elapsed_s": 11.0,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_B2_comparator_build.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_B2_comparator_build.txt|570|1791717683"
+  },
+  {
+   "step": "R3_nanoda_head",
+   "profile": "compile",
+   "argv": [
+    "git",
+    "-C",
+    "nanoda_lib",
+    "rev-parse",
+    "HEAD"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2",
+   "rc": 0,
+   "elapsed_s": 0.1,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_R3_nanoda_head.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_R3_nanoda_head.txt|41|1791717683"
+  },
+  {
+   "step": "R3_nanoda_clean",
+   "profile": "compile",
+   "argv": [
+    "git",
+    "-C",
+    "nanoda_lib",
+    "status",
+    "--porcelain"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2",
+   "rc": 0,
+   "elapsed_s": 0.1,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_R3_nanoda_clean.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_R3_nanoda_clean.txt|0|1791717683"
+  },
+  {
+   "step": "R3_landrun_head",
+   "profile": "compile",
+   "argv": [
+    "git",
+    "-C",
+    "landrun_src",
+    "rev-parse",
+    "HEAD"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2",
+   "rc": 0,
+   "elapsed_s": 0.1,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_R3_landrun_head.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_R3_landrun_head.txt|41|1791717683"
+  },
+  {
+   "step": "R3_landrun_clean",
+   "profile": "compile",
+   "argv": [
+    "git",
+    "-C",
+    "landrun_src",
+    "status",
+    "--porcelain"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2",
+   "rc": 0,
+   "elapsed_s": 0.1,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_R3_landrun_clean.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_R3_landrun_clean.txt|0|1791717683"
+  },
+  {
+   "step": "R3_nanoda_build",
+   "profile": "compile",
+   "argv": [
+    "/home/ktsadmin/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+    "build",
+    "--release",
+    "--offline",
+    "--locked",
+    "--manifest-path",
+    "nanoda_lib/Cargo.toml"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2",
+   "rc": 0,
+   "elapsed_s": 21.2,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_R3_nanoda_build.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_R3_nanoda_build.txt|775|1791717704"
+  },
+  {
+   "step": "R4_landrun_build",
+   "profile": "compile",
+   "argv": [
+    "/usr/local/go/bin/go",
+    "build",
+    "-buildvcs=false",
+    "-o",
+    "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2/bin/landrun",
+    "./cmd/landrun"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2/landrun_src",
+   "rc": 0,
+   "elapsed_s": 7.2,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_R4_landrun_build.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_R4_landrun_build.txt|0|1791717704"
+  },
+  {
+   "step": "R4_landrun_buildinfo",
+   "profile": "compile",
+   "argv": [
+    "/usr/local/go/bin/go",
+    "version",
+    "-m",
+    "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2/bin/landrun"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2",
+   "rc": 0,
+   "elapsed_s": 0.1,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_R4_landrun_buildinfo.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_R4_landrun_buildinfo.txt|1584|1791717711"
+  },
+  {
+   "step": "R5_host_rustc",
+   "profile": "compile",
+   "argv": [
+    "/home/ktsadmin/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc",
+    "--version"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2",
+   "rc": 0,
+   "elapsed_s": 0.1,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_R5_host_rustc.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_R5_host_rustc.txt|36|1791717712"
+  },
+  {
+   "step": "R5_host_cargo",
+   "profile": "compile",
+   "argv": [
+    "/home/ktsadmin/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/cargo",
+    "--version"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2",
+   "rc": 0,
+   "elapsed_s": 0.1,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_R5_host_cargo.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_R5_host_cargo.txt|36|1791717712"
+  },
+  {
+   "step": "R5_host_go",
+   "profile": "compile",
+   "argv": [
+    "/usr/local/go/bin/go",
+    "version"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2",
+   "rc": 0,
+   "elapsed_s": 0.1,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_R5_host_go.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_R5_host_go.txt|32|1791717712"
+  },
+  {
+   "step": "R5_host_gcc",
+   "profile": "compile",
+   "argv": [
+    "/usr/bin/gcc",
+    "--version"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2",
+   "rc": 0,
+   "elapsed_s": 0.1,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_R5_host_gcc.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_R5_host_gcc.txt|246|1791717712"
+  },
+  {
+   "step": "R5_host_git",
+   "profile": "compile",
+   "argv": [
+    "/usr/bin/git",
+    "--version"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2",
+   "rc": 0,
+   "elapsed_s": 0.0,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_R5_host_git.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_R5_host_git.txt|19|1791717712"
+  },
+  {
+   "step": "B3_tool_probe_landrun",
+   "profile": "compile",
+   "argv": [
+    "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2/bin/landrun",
+    "--version"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2",
+   "rc": 0,
+   "elapsed_s": 0.1,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_B3_tool_probe_landrun.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_B3_tool_probe_landrun.txt|23|1791717712"
+  },
+  {
+   "step": "B3_tool_probe_nanoda_bin",
+   "profile": "compile",
+   "argv": [
+    "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2/bin/nanoda_bin",
+    "--version"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2",
+   "rc": 1,
+   "elapsed_s": 0.0,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_B3_tool_probe_nanoda_bin.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_B3_tool_probe_nanoda_bin.txt|147|1791717712"
+  },
+  {
+   "step": "T_simple_match",
+   "profile": "compile",
+   "argv": [
+    "lake",
+    "env",
+    "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2/tree/.lake/packages/Comparator/.lake/build/bin/comparator",
+    "config.json"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2/trial/simple_match",
+   "rc": 0,
+   "elapsed_s": 3.6,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_T_simple_match.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_T_simple_match.txt|1106|1791717715"
+  },
+  {
+   "step": "T_simple_mismatch",
+   "profile": "compile",
+   "argv": [
+    "lake",
+    "env",
+    "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2/tree/.lake/packages/Comparator/.lake/build/bin/comparator",
+    "config.json"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2/trial/simple_mismatch",
+   "rc": 1,
+   "elapsed_s": 3.3,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_T_simple_mismatch.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_T_simple_mismatch.txt|1078|1791717719"
+  },
+  {
+   "step": "T_simple_nanoda",
+   "profile": "compile",
+   "argv": [
+    "lake",
+    "env",
+    "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2/tree/.lake/packages/Comparator/.lake/build/bin/comparator",
+    "config.json"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2/trial/simple_nanoda",
+   "rc": 0,
+   "elapsed_s": 3.6,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_T_simple_nanoda.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_T_simple_nanoda.txt|1175|1791717722"
+  },
+  {
+   "step": "T_simple_nanoda_mismatch",
+   "profile": "compile",
+   "argv": [
+    "lake",
+    "env",
+    "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2/tree/.lake/packages/Comparator/.lake/build/bin/comparator",
+    "config.json"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2/trial/simple_nanoda_mismatch",
+   "rc": 1,
+   "elapsed_s": 3.1,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_T_simple_nanoda_mismatch.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_T_simple_nanoda_mismatch.txt|1078|1791717726"
+  },
+  {
+   "step": "C1_challenge",
+   "profile": "compile",
+   "argv": [
+    "/usr/bin/time",
+    "-v",
+    "lake",
+    "exe",
+    "comparator",
+    "ComparatorChallenges/NavierStokes.json"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2/tree",
+   "rc": 0,
+   "elapsed_s": 1596.4,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_C1_challenge.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_C1_challenge.txt|41598|1791719322"
+  },
+  {
+   "step": "C2_solution_olean",
+   "profile": "compile",
+   "argv": [
+    "lake",
+    "build",
+    "NavierStokes.ComparatorSolution"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2/tree",
+   "rc": 0,
+   "elapsed_s": 10.3,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_C2_solution_olean.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_C2_solution_olean.txt|1964|1791719332"
+  },
+  {
+   "step": "C3_axiom_probe",
+   "profile": "compile",
+   "argv": [
+    "lake",
+    "env",
+    "lean",
+    "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2/axiom_probe.lean"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild2/tree",
+   "rc": 0,
+   "elapsed_s": 7.2,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.rebuild2_lpb_C3_axiom_probe.txt",
+   "log_kcoord": "k:s437.nspkg.R2.rebuild2_lpb_C3_axiom_probe.txt|230|1791719339"
+  }
+ ]
+}

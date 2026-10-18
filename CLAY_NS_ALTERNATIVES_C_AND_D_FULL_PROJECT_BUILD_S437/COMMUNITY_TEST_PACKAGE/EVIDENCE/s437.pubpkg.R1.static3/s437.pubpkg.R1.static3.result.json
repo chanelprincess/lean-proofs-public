@@ -1,0 +1,18 @@
+{
+  "kind": "PYTHON_WORK_RESULT",
+  "job_id": "s437.pubpkg.R1.static3",
+  "outcome": "COMPLETED",
+  "rc": 0,
+  "entry_point": "pytest",
+  "stdout_file": "/home/ktsadmin/chaos_node/spool/logs/s437.pubpkg.R1.static3_pw_stdout.txt",
+  "stderr_file": "/home/ktsadmin/chaos_node/spool/logs/s437.pubpkg.R1.static3_pw_stderr.txt",
+  "elapsed_s": 2.0,
+  "workspace": "/home/ktsadmin/chaos_node/workspace/s437.pubpkg.R1.static3",
+  "interpreter": "/usr/bin/python3",
+  "artifacts": [
+    "OBS.jsonl"
+  ],
+  "notes": "scope=public_package_static_tests",
+  "authoritative_verdict": "reserved_for_chaos_reconciler",
+  "node_identity_kcoord": "k:NODE_IDENTITY.json.kid|493|1791568880"
+}

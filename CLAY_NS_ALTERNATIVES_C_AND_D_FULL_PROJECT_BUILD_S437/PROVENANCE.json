@@ -1,0 +1,43 @@
+{
+ "schema": "CLAIM_PROVENANCE_v1",
+ "session": "S437",
+ "prepared_utc": "2026-10-11T08:51:35Z",
+ "claim": "Lean kernel acceptance (nanoda and Lean default) of NavierStokes.Comparator.navier_stokes_breakdown_R3 and NavierStokes.Comparator.navier_stokes_breakdown_periodic against ComparatorChallenges/NavierStokes.lean, axioms within propext/Classical.choice/Quot.sound, for the v4.34.1 port realization S412_ESTATE_PORT_v4.34.1.",
+ "not_claimed": [
+  "correspondence between the Lean definitions and the official Clay Navier-Stokes problem statement (not reviewed)",
+  "Windows or offline reproducibility (only Ubuntu 24.04.5 x86_64 executed)",
+  "that the project is a new porting result (the v4.34.1 port and its historical two-kernel verification pre-existed; this is a fresh full-build execution of that port)"
+ ],
+ "chain": {
+  "request_id": "s437.lpb.t6.full.request",
+  "originating_owner": "chaos.prime:ns_formal_theorem_delivery",
+  "job_id": "s437.lpb.t6.full",
+  "route": "Chaos dispatch (s437_dispatch_lean_pinned_build.py, extending s437_dispatch_first_kernel.py) -> ssh/scp envelope+bundle -> chaos_node/spool/inbox -> run_v4_once.sh (flock one-shot) -> envelope_runner_v4.sh LEAN_PINNED_BUILD branch -> outbox/receipt -> Chaos pull and reconciliation",
+  "runner_changes": "LEAN_PINNED_BUILD added to the existing runner (backups chaos_node/envelope_runner_v4.sh.bak_lpb_* and .bak_lpb2_*); LimitNOFILE=65536 added after job t4 failed on the file-descriptor limit",
+  "prior_jobs": {
+   "t1.neg_*": "six of seven blocked by a defect in the Chaos dispatcher stimulus (owner id contained a slash) - not valid tests of their intended gates; retained as failed oracle",
+   "t2.neg_*": "each negative request blocked at its intended gate (repo not authorized, non-commit ref, shell metacharacters in config, wrong trial set, absent bundle, path-escaping bundle member)",
+   "t3.source": "PARTIAL through source gate: PASS",
+   "t4.trials": "EXECUTION_ERROR at S3_cache: file descriptor limit (runner defect, fixed)",
+   "t5.trials": "PARTIAL through trials: PASS"
+  }
+ },
+ "source": {
+  "repo": "https://github.com/openai/NavierStokesAndEuler",
+  "base_commit": "f9e8bc5b38b6e212696e8a30e3e91517af887bbd",
+  "port": "PORT.patch applied once to the base (24 files); patched files equal the reference realization under LF-normalised byte comparison; whole-tree comparison: 0 files differ, 0 only in built tree, 1 only in reference (axiom_check_result.txt, a historical estate artifact)",
+  "toolchain": "leanprover/lean4:v4.34.1 (commit 5045d0056413266e57c625dcd7c365b10e377c52)",
+  "pins": {
+   "mathlib": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+   "Comparator": "19e111e2141cf333c7daff0f64c5f24acc91dd2e",
+   "lean4export": "cacf989bd75f608700820f6afc595f32e7a99a4d"
+  }
+ },
+ "identity_witness_note": "transport witnesses are k:name|size|mtime and are NOT exact persistent identity; no new hash was computed. Exact content is the preserved bytes in ARTIFACTS/.",
+ "limits": [
+  "nanoda_bin version probe returned rc=1 (needs a config file); its identity rests on its size/mtime witness and the Comparator run",
+  "landrun and nanoda_bin were copied from the scoped S410 installation, not rebuilt",
+  "dependency source trees are not bundled; they restore from lake-manifest.json (network needed)",
+  "per-declaration kernel attribution is not printed by Comparator; both kernels are reported at run level and both declarations were exported"
+ ]
+}

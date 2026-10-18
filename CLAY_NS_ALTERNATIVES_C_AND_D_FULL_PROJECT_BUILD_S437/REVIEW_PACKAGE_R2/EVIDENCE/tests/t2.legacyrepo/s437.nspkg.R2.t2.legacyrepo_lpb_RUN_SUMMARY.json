@@ -1,0 +1,9 @@
+{
+ "job_id": "s437.nspkg.R2.t2.legacyrepo",
+ "request_id": null,
+ "outcome": "BLOCKED_REQUEST",
+ "reason": "source.repo_url not in the authorized retrieval set",
+ "first_failing_step": null,
+ "checks": [],
+ "steps": []
+}

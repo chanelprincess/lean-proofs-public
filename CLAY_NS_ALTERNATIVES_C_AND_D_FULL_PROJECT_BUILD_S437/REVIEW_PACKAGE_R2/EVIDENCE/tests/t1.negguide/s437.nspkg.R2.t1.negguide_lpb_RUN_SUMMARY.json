@@ -1,0 +1,61 @@
+{
+ "job_id": "s437.nspkg.R2.t1.negguide",
+ "request_id": "s437.nspkg.R2.t1.negguide.request",
+ "outcome": "BLOCKED_SOURCE_MISMATCH",
+ "reason": "restore guide does not document the executed restore steps / tools closure",
+ "first_failing_step": "S2_gate",
+ "checks": [
+  {
+   "check": "archive_validated_before_extraction",
+   "pass": true,
+   "observed": {
+    "members": 2679,
+    "files": 2674,
+    "directories": 5,
+    "uncompressed_bytes": 33762644,
+    "top_dir": "S412_ESTATE_PORT_v4.34.1__candidate_R2"
+   }
+  },
+  {
+   "check": "candidate_equals_reference_except_declared_changes",
+   "pass": true,
+   "observed": {
+    "reference_job": "s437.lpb.t6.full",
+    "reference_files": 2672,
+    "candidate_files": 2674,
+    "identical": 2671,
+    "modified": [
+     "RESTORE_AND_VERIFY.md"
+    ],
+    "added": [
+     "CANDIDATE_CHANGES.md",
+     "TOOLS_CLOSURE.json"
+    ],
+    "removed": [],
+    "proof_bearing_files_compared": 2666,
+    "proof_bearing_all_identical": true
+   }
+  },
+  {
+   "check": "dependencies_are_pinned_git_only",
+   "pass": true,
+   "observed": {
+    "non_git_or_foreign": [],
+    "path_requires": []
+   }
+  },
+  {
+   "check": "restore_guide_documents_executed_steps",
+   "pass": false,
+   "observed": {
+    "guide": "RESTORE_AND_VERIFY.md",
+    "fenced_steps_found": true,
+    "steps_equal": false,
+    "n_steps": 14,
+    "declarations_named": true,
+    "tools_closure_matches_request": true
+   }
+  }
+ ],
+ "steps": []
+}

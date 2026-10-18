@@ -1,0 +1,18 @@
+{
+ "archive": "s437_ns_candidate_R2.project.tar.gz",
+ "archive_bytes": 6618138,
+ "top_dir": "S412_ESTATE_PORT_v4.34.1__candidate_R2",
+ "regular_files": 2674,
+ "reference_regular_files": 2672,
+ "identical_to_reference": 2671,
+ "modified": [
+  "RESTORE_AND_VERIFY.md"
+ ],
+ "added": [
+  "CANDIDATE_CHANGES.md",
+  "TOOLS_CLOSURE.json"
+ ],
+ "removed": [],
+ "lean_files": 2659,
+ "comparison": "exact bytes; no hashing"
+}

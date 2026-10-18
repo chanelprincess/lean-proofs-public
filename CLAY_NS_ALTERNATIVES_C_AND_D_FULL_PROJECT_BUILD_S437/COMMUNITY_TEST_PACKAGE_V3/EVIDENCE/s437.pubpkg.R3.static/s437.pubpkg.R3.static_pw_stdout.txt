@@ -1,0 +1,19 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0 -- /usr/bin/python3
+rootdir: /home/ktsadmin/chaos_node/workspace/s437.pubpkg.R3.static/in
+configfile: pytest.ini
+testpaths: tests
+collecting ... collected 10 items
+
+tests/test_public.py::test_archive_members_are_safe PASSED               [ 10%]
+tests/test_public.py::test_extraction_stays_inside_destination_and_needs_no_symlinks PASSED [ 20%]
+tests/test_public.py::test_project_is_byte_identical_to_r2_candidate PASSED [ 30%]
+tests/test_public.py::test_file_list_matches_r2_exactly PASSED           [ 40%]
+tests/test_public.py::test_script_syntax_and_embedded_steps_equal_the_guide PASSED [ 50%]
+tests/test_public.py::test_script_runs_its_steps_from_the_work_directory PASSED [ 60%]
+tests/test_public.py::test_script_never_updates_or_changes_pins PASSED   [ 70%]
+tests/test_public.py::test_mathlib_pin_consistent_everywhere PASSED      [ 80%]
+tests/test_public.py::test_relative_links_resolve_and_wording_limits_present PASSED [ 90%]
+tests/test_public.py::test_privacy_scan_of_added_files PASSED            [100%]
+
+============================== 10 passed in 2.06s ==============================

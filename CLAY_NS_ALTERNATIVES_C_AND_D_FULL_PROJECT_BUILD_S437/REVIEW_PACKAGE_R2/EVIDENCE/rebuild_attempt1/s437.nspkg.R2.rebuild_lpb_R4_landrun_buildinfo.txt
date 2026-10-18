@@ -1,0 +1,21 @@
+/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.rebuild/bin/landrun: go1.27.2
+	path	github.com/zouuup/landrun/cmd/landrun
+	mod	github.com/zouuup/landrun	(devel)	
+	dep	github.com/cpuguy83/go-md2man/v2	v2.0.5	h1:ZtcqGrnekaHpVLArFSe4HK5DoKx1T0rq2DwVB0alcyc=
+	dep	github.com/landlock-lsm/go-landlock	v0.0.0-20250303204525-1544bccde3a3	h1:zcMi8R8vP0WrrXlFMNUBpDy/ydo3sTnCcUPowq1XmSc=
+	dep	github.com/russross/blackfriday/v2	v2.1.0	h1:JIOH55/0cWyOuilr9/qlrm0BSXldqnqwMsf35Ld67mk=
+	dep	github.com/urfave/cli/v2	v2.27.6	h1:VdRdS98FNhKZ8/Az8B7MTyGQmpIr36O1EHybx/LaZ4g=
+	dep	github.com/xrash/smetrics	v0.0.0-20240521201337-686a1a2994c1	h1:gEOO8jv9F4OT7lGCjxCBTO/36wtF6j2nSip77qHd4x4=
+	dep	golang.org/x/sys	v0.26.0	h1:KHjCJyddX0LoSTb3J+vWpupP9p0oznkqVk/IfjymZbo=
+	dep	kernel.org/pub/linux/libs/security/libcap/psx	v1.2.70	h1:HsB2G/rEQiYyo1bGoQqHZ/Bvd6x1rERQTNdPr1FyWjI=
+	build	-buildmode=exe
+	build	-compiler=gc
+	build	DefaultGODEBUG=containermaxprocs=0,cryptocustomrand=1,decoratemappings=0,gotestjsonbuildtext=1,httpcookiemaxnum=0,httplaxcontentlength=1,httpmuxgo121=1,httpservecontentkeepheaders=1,httpservecontentmaxranges=1,multipathtcp=0,netedns0=0,panicnil=1,randseednop=0,rsa1024min=0,tlsmlkem=0,tlssecpmlkem=0,tlssha1=1,tracebacklabels=0,updatemaxprocs=0,urlmaxqueryparams=0,urlstrictcolons=0,winreadlinkvolume=0,winsymlink=0,x509negativeserial=1,x509rsacrt=0,x509sha256skid=0,x509sslcertoverrideplatform=0,x509usepolicies=0
+	build	CGO_ENABLED=1
+	build	CGO_CFLAGS=
+	build	CGO_CPPFLAGS=
+	build	CGO_CXXFLAGS=
+	build	CGO_LDFLAGS=
+	build	GOARCH=amd64
+	build	GOOS=linux
+	build	GOAMD64=v1

@@ -1,0 +1,9 @@
+{
+ "job_id": "s437.nspkg.R2.t1.negtoolsrc",
+ "request_id": null,
+ "outcome": "BLOCKED_REQUEST",
+ "reason": "tools_source is not allowed in bundle_package mode (tools are restored from pinned source)",
+ "first_failing_step": null,
+ "checks": [],
+ "steps": []
+}

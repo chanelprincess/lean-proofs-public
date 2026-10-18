@@ -1,0 +1,21 @@
+{
+ "job_id": "s437.nspkg.R2.t1.negref",
+ "request_id": "s437.nspkg.R2.t1.negref.request",
+ "outcome": "BLOCKED_SOURCE_MISMATCH",
+ "reason": "reference job outputs absent in this node's outbox: s437.no.such.job",
+ "first_failing_step": null,
+ "checks": [
+  {
+   "check": "archive_validated_before_extraction",
+   "pass": true,
+   "observed": {
+    "members": 2679,
+    "files": 2674,
+    "directories": 5,
+    "uncompressed_bytes": 33762644,
+    "top_dir": "S412_ESTATE_PORT_v4.34.1__candidate_R2"
+   }
+  }
+ ],
+ "steps": []
+}

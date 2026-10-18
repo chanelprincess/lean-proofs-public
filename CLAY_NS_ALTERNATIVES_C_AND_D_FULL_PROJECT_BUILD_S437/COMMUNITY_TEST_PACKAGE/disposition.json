@@ -1,0 +1,36 @@
+{
+ "schema": "NS_COMMUNITY_TEST_DISPOSITION/1",
+ "prepared_utc": "2026-10-11T12:21:49Z",
+ "set_by": "coordinator session from the cited evidence; NOT an owner release record; creates no authority",
+ "candidate": {
+  "archive": "ns-blowup-lean-test.tar.gz",
+  "bytes": 6547762,
+  "project_files": 2674,
+  "added_files": 9,
+  "project_equals": "R2 candidate (exact bytes)",
+  "mathlib_pin": "d13f23b723b8a846827a245b89c10fc7d3f11612"
+ },
+ "tests": {
+  "static_final": {
+   "job": "s437.pubpkg.R1.static3",
+   "result": "9 passed"
+  },
+  "predecessors": {
+   "s437.pubpkg.R1.static": "8 passed, 1 failed (test oracle defect)",
+   "s437.pubpkg.R1.static2": "9 passed (archive before explicit not-run wording)"
+  }
+ },
+ "not_tested": [
+  "scripts/reproduce.sh executed end to end",
+  "first-time Mathlib download",
+  "clean machine",
+  "Windows/macOS",
+  "offline restoration"
+ ],
+ "withdrawn_by_operator": "mandatory empty-cache test",
+ "release": {
+  "state": "HELD",
+  "authority": "operator word, recorded by the actual owner",
+  "posting": "not done; not authorized by this record"
+ }
+}

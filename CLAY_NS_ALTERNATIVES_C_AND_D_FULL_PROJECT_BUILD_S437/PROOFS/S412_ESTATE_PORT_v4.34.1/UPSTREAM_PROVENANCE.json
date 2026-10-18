@@ -1,0 +1,15 @@
+{
+ "schema": "UPSTREAM_PROVENANCE/1",
+ "realization": "S412_ESTATE_PORT_v4.34.1",
+ "upstream_repo": "https://github.com/openai/NavierStokesAndEuler",
+ "upstream_base_commit": "f9e8bc5b38b6e212696e8a30e3e91517af887bbd",
+ "port": "upstream base plus the supplied port patch applied once; patched files equal the reference realization under LF-normalised byte comparison",
+ "changed_files": 24,
+ "license_files_included": [
+  "LICENSE"
+ ],
+ "formal_claim_scope": "Lean kernel acceptance (nanoda and Lean default) of the named declarations against the challenge statements, with axioms within the permitted set. Correspondence between the Lean definitions and the official Clay problem statement has NOT been reviewed and is not claimed.",
+ "originating_owner": "chaos.prime:ns_formal_theorem_delivery",
+ "request_id": "s437.lpb.t6.full.request",
+ "job_id": "s437.lpb.t6.full"
+}

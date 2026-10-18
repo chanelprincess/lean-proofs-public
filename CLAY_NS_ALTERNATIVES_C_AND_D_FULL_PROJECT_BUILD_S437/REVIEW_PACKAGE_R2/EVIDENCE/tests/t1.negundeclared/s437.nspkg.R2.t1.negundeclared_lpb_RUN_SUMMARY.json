@@ -1,0 +1,42 @@
+{
+ "job_id": "s437.nspkg.R2.t1.negundeclared",
+ "request_id": "s437.nspkg.R2.t1.negundeclared.request",
+ "outcome": "BLOCKED_SOURCE_MISMATCH",
+ "reason": "candidate differs from the reference outside the declared changes: modified=['RESTORE_AND_VERIFY.md'] added=['CANDIDATE_CHANGES.md', 'TOOLS_CLOSURE.json', 'stray.txt'] removed=[] proof_bearing_identical=True",
+ "first_failing_step": "S2_gate",
+ "checks": [
+  {
+   "check": "archive_validated_before_extraction",
+   "pass": true,
+   "observed": {
+    "members": 2680,
+    "files": 2675,
+    "directories": 5,
+    "uncompressed_bytes": 33762645,
+    "top_dir": "S412_ESTATE_PORT_v4.34.1__candidate_R2"
+   }
+  },
+  {
+   "check": "candidate_equals_reference_except_declared_changes",
+   "pass": false,
+   "observed": {
+    "reference_job": "s437.lpb.t6.full",
+    "reference_files": 2672,
+    "candidate_files": 2675,
+    "identical": 2671,
+    "modified": [
+     "RESTORE_AND_VERIFY.md"
+    ],
+    "added": [
+     "CANDIDATE_CHANGES.md",
+     "TOOLS_CLOSURE.json",
+     "stray.txt"
+    ],
+    "removed": [],
+    "proof_bearing_files_compared": 2666,
+    "proof_bearing_all_identical": true
+   }
+  }
+ ],
+ "steps": []
+}

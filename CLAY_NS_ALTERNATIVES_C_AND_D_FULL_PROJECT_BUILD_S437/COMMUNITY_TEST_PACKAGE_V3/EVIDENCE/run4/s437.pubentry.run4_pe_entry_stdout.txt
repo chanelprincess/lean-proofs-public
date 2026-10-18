@@ -1,0 +1,29 @@
+reproduce.sh started 2026-10-11T12:47:07Z; workdir /home/ktsadmin/chaos_node/workspace/s437.pubentry.run4/run
+tools: git version 2.43.0; cargo 1.99.0 (5f94df478 2026-08-27); go version go1.27.2 linux/amd64; gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
+toolchain file: leanprover/lean4:v4.34.1
+Mathlib cache directory in use: /home/ktsadmin/.cache/mathlib (reused if populated; downloaded by step 10 otherwise)
+== step 1/14: git clone https://github.com/robsimmons/nanoda_lib nanoda_lib
+== step 2/14: git -C nanoda_lib checkout 68d5ca9db226849b41a6fff59d796ff19d0a8840
+== step 3/14: cargo fetch --locked --manifest-path nanoda_lib/Cargo.toml
+== step 4/14: cargo build --release --offline --locked --manifest-path nanoda_lib/Cargo.toml
+== step 5/14: install -m 755 nanoda_lib/target/release/nanoda_bin bin/nanoda_bin
+== step 6/14: git clone https://github.com/zouuup/landrun landrun_src
+== step 7/14: git -C landrun_src checkout 5ed4a3db3a4ad930d577215c6b9abaa19df7f99f
+== step 8/14: (cd landrun_src && go mod download)
+== step 9/14: (cd landrun_src && GOFLAGS=-mod=mod GOPROXY=off GOSUMDB=off go build -buildvcs=false -o ../bin/landrun ./cmd/landrun)
+== step 10/14: (cd tree && lake exe cache get)
+== step 11/14: (cd tree/.lake/packages/lean4export && cp ../../../lean-toolchain lean-toolchain && lake build)
+== step 12/14: install -m 755 tree/.lake/packages/lean4export/.lake/build/bin/lean4export bin/lean4export
+== step 13/14: (cd tree && lake build Comparator/comparator)
+== controls: Comparator's own projects, run before the challenge (expected exit codes 0,1,0,1)
+   control simple_match: exit 0 (expected 0) ok
+   control simple_mismatch: exit 1 (expected 1) ok
+   control simple_nanoda: exit 0 (expected 0) ok
+   control simple_nanoda_mismatch: exit 1 (expected 1) ok
+== step 14/14: (cd tree && lake exe comparator ComparatorChallenges/NavierStokes.json)
+   Comparator: both kernels accept; 'Your solution is okay!'
+== independent axiom check
+   NavierStokes.Comparator.navier_stokes_breakdown_R3: axioms [propext  Classical.choice  Quot.sound]
+   NavierStokes.Comparator.navier_stokes_breakdown_periodic: axioms [propext  Classical.choice  Quot.sound]
+RESULT: PASS -- both declarations accepted by Lean's default kernel and by nanoda; axioms within {propext, Classical.choice, Quot.sound}; controls as expected; manifest unchanged
+log: /home/ktsadmin/chaos_node/workspace/s437.pubentry.run4/run/reproduce.log

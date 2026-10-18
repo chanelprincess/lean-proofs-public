@@ -1,0 +1,46 @@
+{
+ "kind": "LEAN_PINNED_BUILD_RESULT",
+ "schema": "LEAN_PINNED_BUILD_RESULT/1",
+ "job_id": "s437.nspkg.R2.t1.negescape",
+ "request_id": "s437.nspkg.R2.t1.negescape.request",
+ "originating_owner": "chaos.prime:ns_formal_theorem_delivery",
+ "realization": "S412_ESTATE_PORT_v4.34.1__candidate_R2",
+ "run_until": "source",
+ "outcome": "BLOCKED_REQUEST",
+ "rc": 96,
+ "reason": "archive rejected whole before extraction: invalid path: 'S412_ESTATE_PORT_v4.34.1__candidate_R2/../escape.txt'",
+ "first_failing_step": null,
+ "complete_run": false,
+ "runner_determined": true,
+ "authoritative_verdict": "reserved_for_chaos_reconciler",
+ "elapsed_s": 0.3,
+ "workspace": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.t1.negescape",
+ "source_binding": {},
+ "environment": {
+  "node_platform": "Linux-7.0.0-34-generic-x86_64-with-glibc2.39"
+ },
+ "tools": [],
+ "dependency_closure": [],
+ "mathlib_cache": {},
+ "controls": {
+  "profiles": {},
+  "challenge_runtime_max_s": 10800,
+  "note": "effective controls are the C0_selftest checks below, not the property lists alone"
+ },
+ "trials": [],
+ "theorem_outcomes": {},
+ "checks": [],
+ "steps": [],
+ "artifacts": [
+  {
+   "name": "s437.nspkg.R2.t1.negescape.evidence.tar.gz",
+   "kind": "evidence_logs",
+   "size": 444,
+   "kcoord": "k:s437.nspkg.R2.t1.negescape.evidence.tar.gz|444|1791715288"
+  }
+ ],
+ "package": null,
+ "source_mode": "bundle_package",
+ "bundle_binding": null,
+ "node_identity_kcoord": "k:NODE_IDENTITY.json.kid|493|1791568880"
+}

@@ -1,0 +1,42 @@
+{
+ "job_id": "s437.nspkg.R2.t3.negmismatch",
+ "request_id": "s437.nspkg.R2.t3.negmismatch.request",
+ "outcome": "BLOCKED_SOURCE_MISMATCH",
+ "reason": "candidate differs from the reference outside the declared changes: modified=['NavierStokes/ComparatorSolution.lean', 'RESTORE_AND_VERIFY.md'] added=['CANDIDATE_CHANGES.md', 'TOOLS_CLOSURE.json'] removed=[] proof_bearing_identical=False",
+ "first_failing_step": "S2_gate",
+ "checks": [
+  {
+   "check": "archive_validated_before_extraction",
+   "pass": true,
+   "observed": {
+    "members": 2679,
+    "files": 2674,
+    "directories": 5,
+    "uncompressed_bytes": 33762657,
+    "top_dir": "S412_ESTATE_PORT_v4.34.1__candidate_R2"
+   }
+  },
+  {
+   "check": "candidate_equals_reference_except_declared_changes",
+   "pass": false,
+   "observed": {
+    "reference_job": "s437.lpb.t6.full",
+    "reference_files": 2672,
+    "candidate_files": 2674,
+    "identical": 2670,
+    "modified": [
+     "NavierStokes/ComparatorSolution.lean",
+     "RESTORE_AND_VERIFY.md"
+    ],
+    "added": [
+     "CANDIDATE_CHANGES.md",
+     "TOOLS_CLOSURE.json"
+    ],
+    "removed": [],
+    "proof_bearing_files_compared": 2666,
+    "proof_bearing_all_identical": false
+   }
+  }
+ ],
+ "steps": []
+}

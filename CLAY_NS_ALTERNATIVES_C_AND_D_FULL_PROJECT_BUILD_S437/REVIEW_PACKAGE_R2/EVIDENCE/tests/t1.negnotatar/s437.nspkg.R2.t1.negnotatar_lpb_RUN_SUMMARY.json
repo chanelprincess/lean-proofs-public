@@ -1,0 +1,9 @@
+{
+ "job_id": "s437.nspkg.R2.t1.negnotatar",
+ "request_id": "s437.nspkg.R2.t1.negnotatar.request",
+ "outcome": "BLOCKED_REQUEST",
+ "reason": "bundle is not a readable tar archive: ReadError(\"file could not be opened successfully:\\n- method gz: ReadError('not a gzip file')\\n- method bz2: ReadError('not a bzip2 file')\\n-",
+ "first_failing_step": null,
+ "checks": [],
+ "steps": []
+}

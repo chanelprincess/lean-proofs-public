@@ -1,0 +1,9 @@
+{
+ "job_id": "s437.nspkg.R2.t1.negsymlink",
+ "request_id": "s437.nspkg.R2.t1.negsymlink.request",
+ "outcome": "BLOCKED_REQUEST",
+ "reason": "archive rejected whole before extraction: link/device/special member: S412_ESTATE_PORT_v4.34.1__candidate_R2/link",
+ "first_failing_step": null,
+ "checks": [],
+ "steps": []
+}

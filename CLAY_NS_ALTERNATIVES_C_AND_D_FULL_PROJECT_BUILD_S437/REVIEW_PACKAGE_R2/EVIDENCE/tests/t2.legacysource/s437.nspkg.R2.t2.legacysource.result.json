@@ -1,0 +1,373 @@
+{
+ "kind": "LEAN_PINNED_BUILD_RESULT",
+ "schema": "LEAN_PINNED_BUILD_RESULT/1",
+ "job_id": "s437.nspkg.R2.t2.legacysource",
+ "request_id": "s437.nspkg.R2.t2.legacysource.request",
+ "originating_owner": "chaos.prime:ns_formal_theorem_delivery",
+ "realization": "S412_ESTATE_PORT_v4.34.1",
+ "run_until": "source",
+ "outcome": "PARTIAL_RUN_COMPLETED_THROUGH_SOURCE",
+ "rc": 0,
+ "reason": "run_until limit reached; theorem verification not performed",
+ "first_failing_step": null,
+ "complete_run": false,
+ "runner_determined": true,
+ "authoritative_verdict": "reserved_for_chaos_reconciler",
+ "elapsed_s": 4.7,
+ "workspace": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.t2.legacysource",
+ "source_binding": {
+  "repo_url": "https://github.com/openai/NavierStokesAndEuler",
+  "base_ref_declared": "f9e8bc5b38b6e212696e8a30e3e91517af887bbd",
+  "patch": "k:PORT.patch|46423|1791613725",
+  "expected_files_n": 24,
+  "bundle": "k:ns_port_v4_34_1.bundle.tar.gz|6674993|1791706162",
+  "payload": "k:s437.nspkg.R2.t2.legacysource.payload.json|1333|1791715399",
+  "whole_tree_comparison_informational": {
+   "tracked_files": 2669,
+   "reference_files": 2670,
+   "differ": [],
+   "differ_n": 0,
+   "only_in_built_tree_n": 0,
+   "only_in_built_tree": [],
+   "only_in_reference_n": 1,
+   "only_in_reference": [
+    "axiom_check_result.txt"
+   ]
+  },
+  "head_observed": "f9e8bc5b38b6e212696e8a30e3e91517af887bbd",
+  "changed_files": 24,
+  "patch_applied_once": true,
+  "challenge_config_kcoord": "k:NavierStokes.json|375|1791715405",
+  "solution_module": "NavierStokes.ComparatorSolution",
+  "challenge_module": "ComparatorChallenges.NavierStokes"
+ },
+ "environment": {
+  "node_platform": "Linux-7.0.0-34-generic-x86_64-with-glibc2.39"
+ },
+ "tools": [
+  {
+   "tool": "landrun",
+   "source_path": "/home/ktsadmin/chaos_comparator_S410/bin/landrun",
+   "source_kcoord": "k:landrun|7524064|1791519436",
+   "invoked_path": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.t2.legacysource/bin/landrun",
+   "invoked_kcoord": "k:landrun|7524064|1791519436"
+  },
+  {
+   "tool": "nanoda_bin",
+   "source_path": "/home/ktsadmin/chaos_comparator_S410/bin/nanoda_bin",
+   "source_kcoord": "k:nanoda_bin|1306592|1791519459",
+   "invoked_path": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.t2.legacysource/bin/nanoda_bin",
+   "invoked_kcoord": "k:nanoda_bin|1306592|1791519459"
+  }
+ ],
+ "dependency_closure": [],
+ "mathlib_cache": {},
+ "controls": {
+  "profiles": {
+   "retrieve": [
+    "PrivateTmp=yes",
+    "NoNewPrivileges=yes",
+    "ProtectSystem=strict",
+    "ProtectHome=tmpfs",
+    "BindReadOnlyPaths=/home/ktsadmin/.elan",
+    "BindPaths=/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.t2.legacysource /home/ktsadmin/.cache/mathlib",
+    "RestrictAddressFamilies=~AF_UNIX",
+    "LimitNOFILE=65536"
+   ],
+   "compile": [
+    "PrivateTmp=yes",
+    "NoNewPrivileges=yes",
+    "ProtectSystem=strict",
+    "ProtectHome=tmpfs",
+    "BindReadOnlyPaths=/home/ktsadmin/.elan",
+    "BindPaths=/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.t2.legacysource",
+    "RestrictAddressFamilies=~AF_UNIX",
+    "LimitNOFILE=65536",
+    "RestrictAddressFamilies=~AF_INET",
+    "RestrictAddressFamilies=~AF_INET6"
+   ]
+  },
+  "challenge_runtime_max_s": 10800,
+  "note": "effective controls are the C0_selftest checks below, not the property lists alone"
+ },
+ "trials": [],
+ "theorem_outcomes": {},
+ "checks": [
+  {
+   "check": "confinement_effective:retrieve",
+   "pass": true,
+   "observed": {
+    "observed": {
+     "home_entries": [
+      ".cache",
+      ".elan",
+      "chaos_node"
+     ],
+     "visible:.ssh": false,
+     "visible:.gnupg": false,
+     "visible:.config": false,
+     "visible:.aws": false,
+     "visible:chaos_node/spool": false,
+     "visible:chaos_node/NODE_IDENTITY.json": false,
+     "af_inet_socket": true,
+     "af_unix_socket": false,
+     "write_usr": false,
+     "write_elan": false
+    },
+    "mismatch": []
+   }
+  },
+  {
+   "check": "confinement_effective:compile",
+   "pass": true,
+   "observed": {
+    "observed": {
+     "home_entries": [
+      ".elan",
+      "chaos_node"
+     ],
+     "visible:.ssh": false,
+     "visible:.gnupg": false,
+     "visible:.config": false,
+     "visible:.aws": false,
+     "visible:chaos_node/spool": false,
+     "visible:chaos_node/NODE_IDENTITY.json": false,
+     "af_inet_socket": false,
+     "af_unix_socket": false,
+     "write_usr": false,
+     "write_elan": false
+    },
+    "mismatch": []
+   }
+  },
+  {
+   "check": "base_ref_checked_out",
+   "pass": true,
+   "observed": "f9e8bc5b38b6e212696e8a30e3e91517af887bbd"
+  },
+  {
+   "check": "changed_set_equals_expected",
+   "pass": true,
+   "observed": {
+    "changed_n": 24,
+    "expected_n": 24
+   }
+  },
+  {
+   "check": "exact_source_gate_lf_normalised",
+   "pass": true,
+   "observed": {
+    "files": 24,
+    "mismatch": []
+   }
+  },
+  {
+   "check": "toolchain_expected",
+   "pass": true,
+   "observed": "leanprover/lean4:v4.34.1"
+  },
+  {
+   "check": "manifest_pin:mathlib",
+   "pass": true,
+   "observed": "d13f23b723b8a846827a245b89c10fc7d3f11612"
+  },
+  {
+   "check": "manifest_pin:Comparator",
+   "pass": true,
+   "observed": "19e111e2141cf333c7daff0f64c5f24acc91dd2e"
+  },
+  {
+   "check": "manifest_pin:lean4export",
+   "pass": true,
+   "observed": "cacf989bd75f608700820f6afc595f32e7a99a4d"
+  },
+  {
+   "check": "challenge_config_matches_request",
+   "pass": true,
+   "observed": {
+    "theorem_names": [
+     "NavierStokes.Comparator.navier_stokes_breakdown_R3",
+     "NavierStokes.Comparator.navier_stokes_breakdown_periodic"
+    ],
+    "permitted_axioms": [
+     "propext",
+     "Quot.sound",
+     "Classical.choice"
+    ],
+    "enable_nanoda": true
+   }
+  }
+ ],
+ "steps": [
+  {
+   "step": "C0_selftest_retrieve",
+   "profile": "retrieve",
+   "argv": [
+    "/usr/bin/python3",
+    "-c",
+    "\nimport os, socket, json\nrh = os.environ[\"RH\"]; r = {}\ntry: r[\"home_entries\"] = sorted(os.listdir(rh))\nexcept Exception as e: r[\"home_entries\"] = \"ERR:\" + str(e)\nfor n in (\".ssh\", \".gnupg\", \".config\", \".aws\", \"chaos_node/spool\", \"chaos_node/NODE_IDENTITY.json\"):\n    r[\"visible:\" + n] = os.path.exists(os.path.join(rh, n))\ndef sock(f):\n    try:\n        s = socket.socket(f, socket.SOCK_STREAM); s.close(); return True\n    except Exception: return False\nr[\"af_inet_socket\"] = sock(socket.AF_INET); r[\"af_unix_socket\"] = sock(socket.AF_UNIX)\nfor tag, p in ((\"write_usr\", \"/usr/lpb_probe\"), (\"write_elan\", os.path.join(rh, \".elan\", \"lpb_probe\"))):\n    try: open(p, \"w\").close(); r[tag] = True\n    except Exception: r[tag] = False\nprint(json.dumps(r))\n"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.t2.legacysource",
+   "rc": 0,
+   "elapsed_s": 0.1,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.t2.legacysource_lpb_C0_selftest_retrieve.txt",
+   "log_kcoord": "k:s437.nspkg.R2.t2.legacysource_lpb_C0_selftest_retrieve.txt|322|1791715403"
+  },
+  {
+   "step": "C0_selftest_compile",
+   "profile": "compile",
+   "argv": [
+    "/usr/bin/python3",
+    "-c",
+    "\nimport os, socket, json\nrh = os.environ[\"RH\"]; r = {}\ntry: r[\"home_entries\"] = sorted(os.listdir(rh))\nexcept Exception as e: r[\"home_entries\"] = \"ERR:\" + str(e)\nfor n in (\".ssh\", \".gnupg\", \".config\", \".aws\", \"chaos_node/spool\", \"chaos_node/NODE_IDENTITY.json\"):\n    r[\"visible:\" + n] = os.path.exists(os.path.join(rh, n))\ndef sock(f):\n    try:\n        s = socket.socket(f, socket.SOCK_STREAM); s.close(); return True\n    except Exception: return False\nr[\"af_inet_socket\"] = sock(socket.AF_INET); r[\"af_unix_socket\"] = sock(socket.AF_UNIX)\nfor tag, p in ((\"write_usr\", \"/usr/lpb_probe\"), (\"write_elan\", os.path.join(rh, \".elan\", \"lpb_probe\"))):\n    try: open(p, \"w\").close(); r[tag] = True\n    except Exception: r[tag] = False\nprint(json.dumps(r))\n"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.t2.legacysource",
+   "rc": 0,
+   "elapsed_s": 0.1,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.t2.legacysource_lpb_C0_selftest_compile.txt",
+   "log_kcoord": "k:s437.nspkg.R2.t2.legacysource_lpb_C0_selftest_compile.txt|313|1791715403"
+  },
+  {
+   "step": "S1_clone",
+   "profile": "retrieve",
+   "argv": [
+    "git",
+    "clone",
+    "-q",
+    "https://github.com/openai/NavierStokesAndEuler",
+    "tree"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.t2.legacysource",
+   "rc": 0,
+   "elapsed_s": 1.9,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.t2.legacysource_lpb_S1_clone.txt",
+   "log_kcoord": "k:s437.nspkg.R2.t2.legacysource_lpb_S1_clone.txt|0|1791715403"
+  },
+  {
+   "step": "S1_checkout",
+   "profile": "retrieve",
+   "argv": [
+    "git",
+    "-C",
+    "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.t2.legacysource/tree",
+    "checkout",
+    "-q",
+    "f9e8bc5b38b6e212696e8a30e3e91517af887bbd"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.t2.legacysource",
+   "rc": 0,
+   "elapsed_s": 0.3,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.t2.legacysource_lpb_S1_checkout.txt",
+   "log_kcoord": "k:s437.nspkg.R2.t2.legacysource_lpb_S1_checkout.txt|0|1791715405"
+  },
+  {
+   "step": "S1_head",
+   "profile": "compile",
+   "argv": [
+    "git",
+    "-C",
+    "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.t2.legacysource/tree",
+    "rev-parse",
+    "HEAD"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.t2.legacysource",
+   "rc": 0,
+   "elapsed_s": 0.1,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.t2.legacysource_lpb_S1_head.txt",
+   "log_kcoord": "k:s437.nspkg.R2.t2.legacysource_lpb_S1_head.txt|41|1791715405"
+  },
+  {
+   "step": "S1_clean",
+   "profile": "compile",
+   "argv": [
+    "git",
+    "-C",
+    "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.t2.legacysource/tree",
+    "status",
+    "--porcelain"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.t2.legacysource",
+   "rc": 0,
+   "elapsed_s": 0.2,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.t2.legacysource_lpb_S1_clean.txt",
+   "log_kcoord": "k:s437.nspkg.R2.t2.legacysource_lpb_S1_clean.txt|0|1791715405"
+  },
+  {
+   "step": "S2_apply_check",
+   "profile": "compile",
+   "argv": [
+    "git",
+    "-C",
+    "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.t2.legacysource/tree",
+    "apply",
+    "--check",
+    "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.t2.legacysource/in/PORT.patch"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.t2.legacysource",
+   "rc": 0,
+   "elapsed_s": 0.1,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.t2.legacysource_lpb_S2_apply_check.txt",
+   "log_kcoord": "k:s437.nspkg.R2.t2.legacysource_lpb_S2_apply_check.txt|0|1791715405"
+  },
+  {
+   "step": "S2_apply",
+   "profile": "compile",
+   "argv": [
+    "git",
+    "-C",
+    "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.t2.legacysource/tree",
+    "apply",
+    "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.t2.legacysource/in/PORT.patch"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.t2.legacysource",
+   "rc": 0,
+   "elapsed_s": 0.1,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.t2.legacysource_lpb_S2_apply.txt",
+   "log_kcoord": "k:s437.nspkg.R2.t2.legacysource_lpb_S2_apply.txt|150|1791715406"
+  },
+  {
+   "step": "S2_changed",
+   "profile": "compile",
+   "argv": [
+    "git",
+    "-C",
+    "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.t2.legacysource/tree",
+    "diff",
+    "--name-only"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.t2.legacysource",
+   "rc": 0,
+   "elapsed_s": 0.2,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.t2.legacysource_lpb_S2_changed.txt",
+   "log_kcoord": "k:s437.nspkg.R2.t2.legacysource_lpb_S2_changed.txt|888|1791715406"
+  },
+  {
+   "step": "S2_ls_files",
+   "profile": "compile",
+   "argv": [
+    "git",
+    "-C",
+    "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.t2.legacysource/tree",
+    "ls-files",
+    "-z"
+   ],
+   "cwd": "/home/ktsadmin/chaos_node/workspace/s437.nspkg.R2.t2.legacysource",
+   "rc": 0,
+   "elapsed_s": 0.1,
+   "log": "/home/ktsadmin/chaos_node/spool/logs/s437.nspkg.R2.t2.legacysource_lpb_S2_ls_files.txt",
+   "log_kcoord": "k:s437.nspkg.R2.t2.legacysource_lpb_S2_ls_files.txt|96261|1791715406"
+  }
+ ],
+ "artifacts": [
+  {
+   "name": "s437.nspkg.R2.t2.legacysource.evidence.tar.gz",
+   "kind": "evidence_logs",
+   "size": 18436,
+   "kcoord": "k:s437.nspkg.R2.t2.legacysource.evidence.tar.gz|18436|1791715407"
+  }
+ ],
+ "package": null,
+ "source_mode": "git_base_plus_patch",
+ "bundle_binding": null,
+ "node_identity_kcoord": "k:NODE_IDENTITY.json.kid|493|1791568880"
+}

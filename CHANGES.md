@@ -30,3 +30,6 @@ Not carried over: .gitignore
 
 Unchanged: all other files, the Euler library, and ComparatorChallenges/NavierStokes.lean.
 Downstream estimate: about 418 NavierStokes modules depend on the edited ones (import-line scan, not a lake export).
+
+## Why the port was needed
+Upstream commit `f9e8bc5` builds on Lean 4.34.0-rc2 (and on 4.33.1 after `lake update`). Per [Reservoir](https://reservoir.lean-lang.org/@openai/NavierStokesAndEuler) it fails to build on Lean 4.34.1. This port makes it build on 4.34.1 (21 modules and 3 pin files changed), with statements unchanged and two-kernel verification (Lean default and nanoda).

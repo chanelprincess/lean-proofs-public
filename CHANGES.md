@@ -1,0 +1,32 @@
+# Changes relative to upstream (openai/NavierStokesAndEuler @ f9e8bc5b)
+
+Edited Lean modules (21), all under PROOFS/S412_ESTATE_PORT_v4.34.1/:
+
+- NavierStokes/ActualCandidateConstruction.lean
+- NavierStokes/EdgeWeightJets.lean
+- NavierStokes/PrimaryPulseBounds.lean
+- NavierStokes/R3/CompactComparisonBounds.lean
+- NavierStokes/R3/ComparatorBridge.lean
+- NavierStokes/R3/ComparisonCutoffs.lean
+- NavierStokes/R3/ComparisonFiniteEnergy.lean
+- NavierStokes/R3/ComparisonTimeAverages.lean
+- NavierStokes/R3/LocalizedFluxEstimates.lean
+- NavierStokes/R3/LocalizedTensorBounds.lean
+- NavierStokes/R3/LpNormTools.lean
+- NavierStokes/R3/PairedKernelBound.lean
+- NavierStokes/R3/PressureFlux.lean
+- NavierStokes/R3/PressureFluxTest.lean
+- NavierStokes/R3/PressureFunctionals.lean
+- NavierStokes/R3/RieszTestOperators.lean
+- NavierStokes/R3/SmoothSobolevL6.lean
+- NavierStokes/R3/WeightedInterpolation.lean
+- NavierStokes/R3/WeightedSobolev.lean
+- NavierStokes/R3FiniteEnergyComparison.lean
+- NavierStokes/WeightedRadialPrimitive.lean
+
+Pin files edited: lean-toolchain, lakefile.toml, lake-manifest.json
+Files added: DEPENDENCY_CLOSURE.json, RESTORE_AND_VERIFY.md, UPSTREAM_PROVENANCE.json
+Not carried over: .gitignore
+
+Unchanged: all other files, the Euler library, and ComparatorChallenges/NavierStokes.lean.
+Downstream estimate: about 418 NavierStokes modules depend on the edited ones (import-line scan, not a lake export).

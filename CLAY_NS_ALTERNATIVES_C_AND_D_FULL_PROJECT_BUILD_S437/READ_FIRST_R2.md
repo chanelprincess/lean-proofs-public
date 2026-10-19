@@ -1,3 +1,5 @@
+> Update 2026-10-19: this file describes the 11 Oct 2026 state. `release_state.json` now reads RELEASED (release `s437-v1`, 2026-10-18). Nothing below is a Clay acceptance.
+
 # Read first (added 11 Oct 2026, S437)
 
 The restore guide inside `PROOFS/S412_ESTATE_PORT_v4.34.1/RESTORE_AND_VERIFY.md` (the t6 tree, unchanged) is INCOMPLETE: it does not say where `nanoda_bin` and `landrun` come from.

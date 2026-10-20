@@ -1,0 +1,809 @@
+# PORT_DIFF_vs_f9e8bc5.patch
+#
+# Diff of the 24 files listed in S2_changed.txt between
+#   LEFT:  upstream OpenAI NavierStokesAndEuler commit f9e8bc5 (Apache-2.0)
+#   RIGHT: lean-proofs-public @ s437-v1
+#          CLAY_NS_ALTERNATIVES_C_AND_D_FULL_PROJECT_BUILD_S437/PROOFS/S412_ESTATE_PORT_v4.34.1/
+#
+# Generated 2026-10-20 by KTS Federation Builder v7.27 §2 using:
+#   diff -u --strip-trailing-cr <upstream>/<f> <port>/<f>
+#
+# Provenance: this file reproduces the PORT.patch v4.34.1 described in
+#   lean-proofs-public/.../PROVENANCE.json (field "source.port"), which
+#   was previously only visible through the receipts and the bundled
+#   ARTIFACTS tar.gz. v7.27 publishes it as a standalone diff committed
+#   to lean-proofs-public main so each file linked from
+#   https://tim-jacobs.net/formal-work/s437/ has its own fetchable
+#   resource.
+#
+# File count: 24 (per S2_changed.txt)
+# Note: lake-manifest.json, lakefile.toml, lean-toolchain are toolchain
+# manifests; the Lean source diffs are the substantive port.
+
+--- a/NavierStokes/ActualCandidateConstruction.lean
++++ b/NavierStokes/ActualCandidateConstruction.lean
+@@ -725,7 +725,6 @@
+       simp only [AxisymmetricResidual.pack, ProblemStatement.coordinateVector,
+         PiLp.add_apply, PiLp.smul_apply, smul_eq_mul, PiLp.single_apply]
+       norm_num
+-      simp only [show (0 : Fin 3) ≠ 2 by decide, ite_false, add_zero]
+       change Real.sqrt (ChartScales.Q n) * (ChartScales.Q n ^ (-(1 / 2 : ℝ)) * z.2 0) = z.2 0
+       rw [← mul_assoc, hs, one_mul]
+     · simp [ActualBaseResidual.cylinderPoint, AxisymmetricResidual.pack, ProblemStatement.coordinateVector, PhysicalResidualTZ.graphMapTZ, PhysicalResidualBridge.ScaledGraph.map,
+--- a/NavierStokes/EdgeWeightJets.lean
++++ b/NavierStokes/EdgeWeightJets.lean
+@@ -128,7 +128,9 @@
+   rw [L.iteratedFDeriv_comp_right hf y (nat_le_infty n)]
+   apply (ContinuousMultilinearMap.norm_compContinuousLinearMap_le _ _).trans
+   have hprod : (∏ _i : Fin n, ‖L‖) ≤ 1 := by
+-    exact Finset.prod_le_one (fun _ _ => norm_nonneg _) (fun _ _ => ContinuousLinearMap.norm_snd_le _ _ _)
++    have hLnorm : ‖L‖ ≤ 1 :=
++      ContinuousLinearMap.norm_snd_le (𝕜 := ℝ) (E := E) (F := ℝ)
++    exact Finset.prod_le_one₀ (fun _ _ => norm_nonneg _) (fun _ _ => hLnorm)
+   exact (mul_le_mul_of_nonneg_left hprod (norm_nonneg (iteratedFDeriv ℝ n f (L y)))).trans_eq (mul_one _)
+ 
+ theorem compact_coefficient_jets {F : Type*} [NormedAddCommGroup F] [NormedSpace ℝ F]
+@@ -258,7 +260,7 @@
+   rw [L.iteratedFDeriv_comp_right hf x (nat_le_infty n)]
+   apply (ContinuousMultilinearMap.norm_compContinuousLinearMap_le _ _).trans
+   have hp : (∏ _i : Fin n, ‖L‖) ≤ 1 :=
+-    Finset.prod_le_one (fun _ _ => norm_nonneg _) (fun _ _ => hL)
++    Finset.prod_le_one₀ (fun _ _ => norm_nonneg _) (fun _ _ => hL)
+   simpa only [mul_one] using mul_le_mul_of_nonneg_left hp (norm_nonneg (iteratedFDeriv ℝ n f (L x)))
+ 
+ theorem norm_iteratedFDeriv_parameter_le {f : E × ℝ → ℝ} (hf : ContDiff ℝ ∞ f)
+--- a/NavierStokes/PrimaryPulseBounds.lean
++++ b/NavierStokes/PrimaryPulseBounds.lean
+@@ -510,7 +510,7 @@
+   intro t
+   rw [SmoothPathFamily.iteratedFDeriv_pathFamily_apply (D.carrier i) (V i)
+     (D.isOpen i) (hV i) (hI i) (F i) (hF.smooth i) hp]
+-  have hprod : (∏ j, ‖v j‖) ≤ 1 := Finset.prod_le_one (fun _ _ => norm_nonneg _)
++  have hprod : (∏ j, ‖v j‖) ≤ 1 := Finset.prod_le_one₀ (fun _ _ => norm_nonneg _)
+     (fun j _ => hv j)
+   exact ((iteratedFDeriv ℝ k (fun q => F i (q, t)) p).le_opNorm v).trans
+     ((mul_le_mul (hm i p t ⟨hp, hI i t.2⟩ k hk) hprod
+--- a/NavierStokes/R3/CompactComparisonBounds.lean
++++ b/NavierStokes/R3/CompactComparisonBounds.lean
+@@ -149,7 +149,7 @@
+   have hLp : MemLp (fun x : Space => u (t, x)) 2 volume :=
+     (CompactTimeIntegral.continuous_slice hu.continuousOn ht).memLp_of_hasCompactSupport
+       (hasCompactSupport_slice hK hsupp ht)
+-  refine ⟨(memLp_two_iff_integrable_sq_norm hLp.1).1 hLp, ?_⟩
++  refine ⟨(memLp_two_iff_integrable_sq_norm hLp.aestronglyMeasurable).mp hLp, ?_⟩
+   have hbound : (∫ x : Space, ‖u (t, x)‖ ^ 2) ≤ max C 0 :=
+     (le_abs_self _).trans ((hC t ht).trans (le_max_left _ _))
+   exact mul_le_mul_of_nonneg_left hbound (by norm_num : (0 : ℝ) ≤ 1 / 2)
+--- a/NavierStokes/R3/ComparatorBridge.lean
++++ b/NavierStokes/R3/ComparatorBridge.lean
+@@ -67,7 +67,7 @@
+     intro t ht
+     constructor
+     · simpa only [SquareIntegrableAtTime, fromComparator, norm_norm] using!
+-        (memLp_two_iff_integrable_sq_norm (h.integrable t ht).1).mp (h.integrable t ht)
++        (memLp_two_iff_integrable_sq_norm (h.integrable t ht).aestronglyMeasurable).mp (h.integrable t ht)
+     · change (1 / 2 : ℝ) * (∫ x : Space, ‖v x t‖ ^ 2) ≤ max 0 (E / 2)
+       have hb := (hE t ht).le
+       have hm := le_max_right 0 (E / 2)
+--- a/NavierStokes/R3/ComparisonCutoffs.lean
++++ b/NavierStokes/R3/ComparisonCutoffs.lean
+@@ -181,7 +181,7 @@
+       apply mul_le_mul_of_nonneg_left _ (norm_nonneg _)
+       calc
+         ∏ _ : Fin n, ‖dilation R‖ ≤ ∏ _ : Fin n, R⁻¹ :=
+-          Finset.prod_le_prod (fun _ _ => norm_nonneg _) (fun _ _ => norm_dilation_le hR)
++          Finset.prod_le_prod₀ (fun _ _ => norm_nonneg _) (fun _ _ => norm_dilation_le hR)
+         _ = (R⁻¹) ^ n := by simp
+     _ ≤ derivativeConstant n * (R⁻¹) ^ n :=
+       mul_le_mul_of_nonneg_right (baseCutoff_iteratedFDeriv_le n _) (by positivity)
+--- a/NavierStokes/R3/ComparisonFiniteEnergy.lean
++++ b/NavierStokes/R3/ComparisonFiniteEnergy.lean
+@@ -64,9 +64,9 @@
+ theorem l2Sq_sub_le {E : Type*} [NormedAddCommGroup E] {f g : Space → E}
+     (hf : MemLp f 2 volume) (hg : MemLp g 2 volume) :
+     l2Sq (fun x => f x - g x) ≤ 2 * (l2Sq f + l2Sq g) := by
+-  have hf_sq := (memLp_two_iff_integrable_sq_norm hf.1).1 hf
+-  have hg_sq := (memLp_two_iff_integrable_sq_norm hg.1).1 hg
+-  have hfg_sq := (memLp_two_iff_integrable_sq_norm (hf.sub hg).1).1 (hf.sub hg)
++  have hf_sq := (memLp_two_iff_integrable_sq_norm hf.aestronglyMeasurable).mp hf
++  have hg_sq := (memLp_two_iff_integrable_sq_norm hg.aestronglyMeasurable).mp hg
++  have hfg_sq := (memLp_two_iff_integrable_sq_norm (hf.sub hg).aestronglyMeasurable).mp (hf.sub hg)
+   calc
+     l2Sq (fun x => f x - g x) ≤
+         ∫ x : Space, 2 * (‖f x‖ ^ 2 + ‖g x‖ ^ 2) :=
+@@ -151,9 +151,9 @@
+     (hu : MemLp (fun x : Space => u (t, x)) 2 volume)
+     (hv : MemLp (fun x : Space => v (t, x)) 2 volume) (i j : Fin 3) :
+     Integrable (tensorDiff u v t i j) volume := by
+-  have hu_sq := (memLp_two_iff_integrable_sq_norm hu.1).1 hu
+-  have hv_sq := (memLp_two_iff_integrable_sq_norm hv.1).1 hv
+-  exact (hu_sq.add hv_sq).mono' (tensorDiff_aestronglyMeasurable hu.1 hv.1 i j)
++  have hu_sq := (memLp_two_iff_integrable_sq_norm hu.aestronglyMeasurable).mp hu
++  have hv_sq := (memLp_two_iff_integrable_sq_norm hv.aestronglyMeasurable).mp hv
++  exact (hu_sq.add hv_sq).mono' (tensorDiff_aestronglyMeasurable hu.aestronglyMeasurable hv.aestronglyMeasurable i j)
+     (ae_of_all _ (tensorDiff_norm_le u v t i j))
+ 
+ /-- Its `L¹` norm is bounded using only the two ordinary energies. -/
+@@ -162,8 +162,8 @@
+     (hv : MemLp (fun x : Space => v (t, x)) 2 volume) (i j : Fin 3) :
+     (∫ x : Space, ‖tensorDiff u v t i j x‖) ≤
+       l2Sq (fun x => u (t, x)) + l2Sq (fun x => v (t, x)) := by
+-  have hu_sq := (memLp_two_iff_integrable_sq_norm hu.1).1 hu
+-  have hv_sq := (memLp_two_iff_integrable_sq_norm hv.1).1 hv
++  have hu_sq := (memLp_two_iff_integrable_sq_norm hu.aestronglyMeasurable).mp hu
++  have hv_sq := (memLp_two_iff_integrable_sq_norm hv.aestronglyMeasurable).mp hv
+   calc
+     (∫ x : Space, ‖tensorDiff u v t i j x‖) ≤
+         ∫ x : Space, ‖u (t, x)‖ ^ 2 + ‖v (t, x)‖ ^ 2 :=
+--- a/NavierStokes/R3/ComparisonTimeAverages.lean
++++ b/NavierStokes/R3/ComparisonTimeAverages.lean
+@@ -201,7 +201,7 @@
+       ((volume : Measure ℝ).restrict (Icc 0 T)).real univ *
+         ∫ t in Icc 0 T, ∫ x : Space, ‖f (t, x)‖ ^ 2 := by
+   have hAvg := memLp_two_timeIntegral hf hsq
+-  have hAvgSq := (memLp_two_iff_integrable_sq_norm hAvg.1).1 hAvg
++  have hAvgSq := (memLp_two_iff_integrable_sq_norm hAvg.aestronglyMeasurable).mp hAvg
+   calc
+     l2Sq (fun x : Space => ∫ t in Icc 0 T, f (t, x)) ≤
+         ∫ x : Space, ((volume : Measure ℝ).restrict (Icc 0 T)).real univ *
+@@ -310,7 +310,7 @@
+     (EuclideanSpace.proj k : Space →L[ℝ] ℝ).continuous.comp_aestronglyMeasurable humeas
+   have hscalar := huLp.of_le hscalarmeas
+     (Filter.Eventually.of_forall (fun x : Space => PiLp.norm_apply_le (u (t, x)) k))
+-  have hscalarSq := (memLp_two_iff_integrable_sq_norm hscalar.1).1 hscalar
++  have hscalarSq := (memLp_two_iff_integrable_sq_norm hscalar.aestronglyMeasurable).mp hscalar
+   refine ⟨hscalarSq, ?_⟩
+   apply le_trans (integral_mono hscalarSq (hM t ht).1 ?_) (hM t ht).2
+   intro x
+@@ -375,12 +375,12 @@
+     (hg : MemLp g 2 volume) :
+     Integrable (fun x => ⟪f x, g x⟫_ℝ) ∧
+       (∫ x : Space, ‖⟪f x, g x⟫_ℝ‖) ≤ l2Sq f + l2Sq g := by
+-  have hf_sq := (memLp_two_iff_integrable_sq_norm hf.1).1 hf
+-  have hg_sq := (memLp_two_iff_integrable_sq_norm hg.1).1 hg
++  have hf_sq := (memLp_two_iff_integrable_sq_norm hf.aestronglyMeasurable).mp hf
++  have hg_sq := (memLp_two_iff_integrable_sq_norm hg.aestronglyMeasurable).mp hg
+   have hpoint (x : Space) : ‖⟪f x, g x⟫_ℝ‖ ≤ ‖f x‖ ^ 2 + ‖g x‖ ^ 2 := by
+     apply (norm_inner_le_norm (f x) (g x)).trans
+     nlinarith [sq_nonneg (‖f x‖ - ‖g x‖), mul_nonneg (norm_nonneg (f x)) (norm_nonneg (g x))]
+-  have hint := (hf_sq.add hg_sq).mono' (hf.1.inner hg.1) (Filter.Eventually.of_forall hpoint)
++  have hint := (hf_sq.add hg_sq).mono' (hf.aestronglyMeasurable.inner hg.aestronglyMeasurable) (Filter.Eventually.of_forall hpoint)
+   refine ⟨hint, ?_⟩
+   calc
+     (∫ x : Space, ‖⟪f x, g x⟫_ℝ‖) ≤ ∫ x : Space, ‖f x‖ ^ 2 + ‖g x‖ ^ 2 :=
+@@ -492,12 +492,12 @@
+     (hf : MemLp f 2 volume) (hψ : MemLp ψ 2 volume) :
+     Integrable (fun x : Space => (f x : ℂ) * ψ x) ∧
+       (∫ x : Space, ‖(f x : ℂ) * ψ x‖) ≤ l2Sq f + l2Sq ψ := by
+-  have hf_sq := (memLp_two_iff_integrable_sq_norm hf.1).1 hf
+-  have hψ_sq := (memLp_two_iff_integrable_sq_norm hψ.1).1 hψ
++  have hf_sq := (memLp_two_iff_integrable_sq_norm hf.aestronglyMeasurable).mp hf
++  have hψ_sq := (memLp_two_iff_integrable_sq_norm hψ.aestronglyMeasurable).mp hψ
+   have hpoint (x : Space) : ‖(f x : ℂ) * ψ x‖ ≤ ‖f x‖ ^ 2 + ‖ψ x‖ ^ 2 := by
+     rw [norm_mul, Complex.norm_real]
+     nlinarith [sq_nonneg (‖f x‖ - ‖ψ x‖), mul_nonneg (norm_nonneg (f x)) (norm_nonneg (ψ x))]
+-  have hmeas := (Complex.continuous_ofReal.comp_aestronglyMeasurable hf.1).mul hψ.1
++  have hmeas := (Complex.continuous_ofReal.comp_aestronglyMeasurable hf.aestronglyMeasurable).mul hψ.aestronglyMeasurable
+   have hint := (hf_sq.add hψ_sq).mono' hmeas (Filter.Eventually.of_forall hpoint)
+   refine ⟨hint, ?_⟩
+   calc
+--- a/NavierStokes/R3/LocalizedFluxEstimates.lean
++++ b/NavierStokes/R3/LocalizedFluxEstimates.lean
+@@ -218,7 +218,7 @@
+       apply mul_le_mul_of_nonneg_left _ (norm_nonneg _)
+       calc
+         ∏ _ : Fin 2, ‖weightDilation R‖ ≤ ∏ _ : Fin 2, R⁻¹ :=
+-          Finset.prod_le_prod (fun _ _ => norm_nonneg _) (fun _ _ => norm_weightDilation_le hR)
++          Finset.prod_le_prod₀ (fun _ _ => norm_nonneg _) (fun _ _ => norm_weightDilation_le hR)
+         _ = (R⁻¹) ^ 2 := by simp
+     _ ≤ weightSecondDerivativeConstant * (R⁻¹) ^ 2 :=
+       mul_le_mul_of_nonneg_right (baseWeight_iteratedFDeriv_two_le _) (by positivity)
+--- a/NavierStokes/R3/LocalizedTensorBounds.lean
++++ b/NavierStokes/R3/LocalizedTensorBounds.lean
+@@ -32,12 +32,13 @@
+     {f g : Space → ℝ} (hf : MemLp f p volume) (hg : MemLp g q volume) :
+     MemLp (fun x => f x * g x) r volume ∧
+       comparisonLpNorm r (fun x => f x * g x) ≤ comparisonLpNorm p f * comparisonLpNorm q g := by
+-  have hprod : MemLp (fun x => f x * g x) r volume := hg.mul' hf
++  have hprod : MemLp (fun x => f x * g x) r volume := hf.mul hg
+   have hb : eLpNorm (fun x => f x * g x) r volume ≤
+       eLpNorm f p volume * eLpNorm g q volume := by
+-    simpa using eLpNorm_le_eLpNorm_mul_eLpNorm'_of_norm hf.1 hg.1
+-      (fun a b : ℝ => a * b) 1
+-      (Eventually.of_forall fun x => by simp [norm_mul])
++    simpa using eLpNorm_le_eLpNorm_mul_eLpNorm_of_norm (fun a b : ℝ => a * b) 1
++      continuous_mul
++      hf.aestronglyMeasurable hg.aestronglyMeasurable
++      (Filter.Eventually.of_forall fun x => by simp [norm_mul, mul_comm])
+   refine ⟨hprod, ?_⟩
+   simpa only [comparisonLpNorm, ENNReal.toReal_mul] using
+     ENNReal.toReal_mono (ENNReal.mul_ne_top hf.eLpNorm_ne_top hg.eLpNorm_ne_top) hb
+@@ -52,7 +53,11 @@
+       (ENNReal.inv_ne_top.mpr six_fifths_ne_zero)).mp
+     rw [ENNReal.toReal_add (by finiteness) (by finiteness)]
+     norm_num⟩
+-  simpa only [comparisonLpNorm, eLpNorm_norm] using scalar_product_bound (r := 6 / 5) hu.norm hw.norm
++  have hcnb := scalar_product_bound (r := 6 / 5) hu.norm hw.norm
++  simp only [comparisonLpNorm,
++    eLpNorm_norm _ hu.aestronglyMeasurable,
++    eLpNorm_norm _ hw.aestronglyMeasurable] at hcnb
++  exact hcnb
+ 
+ /-- The quadratic weighted difference has the endpoint interpolation bound. -/
+ theorem quadratic_cutoff_bound {φ : Space → ℝ} {w : Space → Space}
+@@ -76,7 +81,14 @@
+     simpa only [pow_two] using hprod
+   have hQb : comparisonLpNorm (6 / 5) (fun x => ‖φ x • w x‖ ^ 2) ≤
+       comparisonLpNorm (12 / 5) (fun x => φ x • w x) ^ 2 := by
+-    simpa only [pow_two, comparisonLpNorm, eLpNorm_norm] using hprodb
++    have lhs_eq : comparisonLpNorm (6 / 5) (fun x => ‖φ x • w x‖ ^ 2) =
++        comparisonLpNorm (6 / 5) (fun x => ‖φ x • w x‖ * ‖φ x • w x‖) := by
++      congr 1; ext x; ring
++    have rhs_eq : comparisonLpNorm (12 / 5) (fun x => φ x • w x) ^ 2 =
++        comparisonLpNorm (12 / 5) (fun x => φ x • w x) *
++        comparisonLpNorm (12 / 5) (fun x => φ x • w x) := by ring
++    simp only [comparisonLpNorm, eLpNorm_norm _ hmem.aestronglyMeasurable] at hprodb
++    rw [lhs_eq, rhs_eq]; exact hprodb
+   have hA := LpNormTools.lpNorm_nonneg (12 / 5) (fun x => φ x • w x)
+   have hM := LpNormTools.lpNorm_nonneg 2 w
+   have hB := LpNormTools.lpNorm_nonneg 6 (fun x => φ x ^ 4 • w x)
+@@ -193,7 +205,9 @@
+   calc
+     comparisonLpNorm (6 / 5) (fun x => φ x ^ 2 * tensorDiff u v t i j x) ≤
+         comparisonLpNorm (6 / 5) (fun x => (2 : ℝ) • P x + Q x) := by
+-      apply LpNormTools.lpNorm_mono_of_norm_le (h2P.add hQ)
++      apply LpNormTools.lpNorm_mono_of_norm_le
++        (weighted_tensorDiff_memLp hφ hs hu hv i j (6 / 5)).aestronglyMeasurable
++        (h2P.add hQ)
+       intro x
+       change ‖φ x ^ 2 * tensorDiff u v t i j x‖ ≤ ‖2 * P x + Q x‖
+       have hn : ‖2 * P x + Q x‖ = 2 * P x + Q x := by
+--- a/NavierStokes/R3/LpNormTools.lean
++++ b/NavierStokes/R3/LpNormTools.lean
+@@ -27,15 +27,13 @@
+     (hfg : f =ᵐ[volume] g) : comparisonLpNorm p f = comparisonLpNorm p g :=
+   congrArg ENNReal.toReal (eLpNorm_congr_ae hfg)
+ 
+-theorem lpNorm_mono_of_norm_le_ae {p : ℝ≥0∞} {f : Space → E} {g : Space → F}
+-    (hg : MemLp g p volume) (hfg : ∀ᵐ x ∂volume, ‖f x‖ ≤ ‖g x‖) :
+-    comparisonLpNorm p f ≤ comparisonLpNorm p g :=
+-  ENNReal.toReal_mono hg.eLpNorm_lt_top.ne (eLpNorm_mono_ae hfg)
+-
+ theorem lpNorm_mono_of_norm_le {p : ℝ≥0∞} {f : Space → E} {g : Space → F}
++    (hf : AEStronglyMeasurable f volume)
+     (hg : MemLp g p volume) (hfg : ∀ x, ‖f x‖ ≤ ‖g x‖) :
+-    comparisonLpNorm p f ≤ comparisonLpNorm p g :=
+-  lpNorm_mono_of_norm_le_ae hg (Filter.Eventually.of_forall hfg)
++    comparisonLpNorm p f ≤ comparisonLpNorm p g := by
++  simp only [comparisonLpNorm]
++  exact ENNReal.toReal_mono hg.eLpNorm_lt_top.ne
++    (eLpNorm_mono_ae hf (Filter.Eventually.of_forall hfg))
+ 
+ theorem lpNorm_add_le {p : ℝ≥0∞} (hp1 : 1 ≤ p) {f g : Space → E}
+     (hf : MemLp f p volume) (hg : MemLp g p volume) :
+@@ -45,7 +43,7 @@
+         (eLpNorm f p volume + eLpNorm g p volume).toReal :=
+       ENNReal.toReal_mono
+         (ENNReal.add_ne_top.mpr ⟨hf.eLpNorm_lt_top.ne, hg.eLpNorm_lt_top.ne⟩)
+-        (eLpNorm_add_le hf.aestronglyMeasurable hg.aestronglyMeasurable hp1)
++        (eLpNorm_add_le hp1)
+     _ = comparisonLpNorm p f + comparisonLpNorm p g :=
+       ENNReal.toReal_add hf.eLpNorm_lt_top.ne hg.eLpNorm_lt_top.ne
+ 
+@@ -57,7 +55,7 @@
+ 
+ theorem lpNorm_one_eq_integral_norm {f : Space → E} (hf : Integrable f volume) :
+     comparisonLpNorm 1 f = ∫ x : Space, ‖f x‖ := by
+-  rw [comparisonLpNorm, eLpNorm_one_eq_lintegral_enorm,
++  rw [comparisonLpNorm, eLpNorm_one_eq_lintegral_enorm hf.aestronglyMeasurable,
+     integral_norm_eq_lintegral_enorm hf.aestronglyMeasurable]
+ 
+ theorem lpNorm_two_sq_eq_l2Sq [InnerProductSpace ℝ E] {f : Space → E}
+--- a/NavierStokes/R3/PairedKernelBound.lean
++++ b/NavierStokes/R3/PairedKernelBound.lean
+@@ -46,7 +46,7 @@
+ theorem lpNorm_one_eq_integral_norm {f : Space → E}
+     (hf : AEStronglyMeasurable f volume) :
+     comparisonLpNorm 1 f = ∫ x, ‖f x‖ := by
+-  rw [comparisonLpNorm, eLpNorm_one_eq_lintegral_enorm,
++  rw [comparisonLpNorm, eLpNorm_one_eq_lintegral_enorm hf,
+     integral_norm_eq_lintegral_enorm hf]
+ 
+ /-- Nonnegative constant factors pass through the real comparison norm. -/
+@@ -74,11 +74,10 @@
+       (∫ y, ‖k y • r y‖) ≤ comparisonLpNorm (4 / 3) k * comparisonLpNorm 4 r := by
+   have hbound : eLpNorm (fun y => k y • r y) 1 volume ≤
+       eLpNorm k (4 / 3) volume * eLpNorm r 4 volume :=
+-    eLpNorm_smul_le_mul_eLpNorm (𝕜 := ℝ) (p := 4 / 3) (q := 4) (r := 1)
+-      hr.aestronglyMeasurable hk.aestronglyMeasurable
++    eLpNorm_smul_le_mul_eLpNorm (p := 4 / 3) (q := 4) (r := 1)
++      hk.aestronglyMeasurable hr.aestronglyMeasurable
+   have hmul : MemLp (fun y => k y • r y) 1 volume :=
+-    ⟨hk.aestronglyMeasurable.smul hr.aestronglyMeasurable,
+-      hbound.trans_lt (ENNReal.mul_lt_top hk.eLpNorm_lt_top hr.eLpNorm_lt_top)⟩
++    hbound.trans_lt (ENNReal.mul_lt_top hk.eLpNorm_lt_top hr.eLpNorm_lt_top)
+   refine ⟨memLp_one_iff_integrable.mp hmul, ?_⟩
+   rw [← lpNorm_one_eq_integral_norm hmul.aestronglyMeasurable]
+   simpa only [comparisonLpNorm, ENNReal.toReal_mul] using
+@@ -103,11 +102,11 @@
+     calc
+       eLpNorm m (4 / 3) volume ≤
+           eLpNorm (fun y => k (x - y)) (4 / 3) volume :=
+-        eLpNorm_mono_ae_real hbound
++        eLpNorm_mono_ae_real hm hbound
+       _ = eLpNorm k (4 / 3) volume :=
+         eLpNorm_comp_measurePreserving hk.aestronglyMeasurable
+           (measurePreserving_reflect_translate x)
+-  exact ⟨⟨hm, hbound'.trans_lt hk.eLpNorm_lt_top⟩,
++  exact ⟨hbound'.trans_lt hk.eLpNorm_lt_top,
+     ENNReal.toReal_mono hk.eLpNorm_ne_top hbound'⟩
+ 
+ /-- Hölder for one section dominated by a translated `L^(4/3)` majorant. -/
+@@ -273,22 +272,22 @@
+ theorem norm_convolution_pairing_le
+     {k g : Space → ℝ} {r : Space → E}
+     (hkm : Measurable k) (hk : MemLp k (4 / 3) volume)
+-    (hr : MemLp r 4 volume) (hg : Integrable g volume) :
++    (hr : MemLp r 4 volume) (hg : Integrable g volume)
++    (hk_nonneg : ∀ x, 0 ≤ k x) :
+     ‖∫ x, g x • ∫ y, k (x - y) • r y‖ ≤
+       comparisonLpNorm 1 g * comparisonLpNorm (4 / 3) k * comparisonLpNorm 4 r := by
+-  simpa only [comparisonLpNorm, eLpNorm_norm] using
+-    norm_paired_kernel_le (K := fun x y => k (x - y))
+-      (hkm.comp (measurable_fst.sub measurable_snd)) hk.norm hr hg
+-      (fun _ _ => le_rfl)
++  exact norm_paired_kernel_le (K := fun x y => k (x - y))
++    (hkm.comp (measurable_fst.sub measurable_snd)) hk hr hg
++    (fun x y => (Real.norm_of_nonneg (hk_nonneg (x - y))).le)
+ 
+ /-- The requested real-valued paired convolution inequality. -/
+ theorem abs_convolution_pairing_le
+     {k g r : Space → ℝ} (hkm : Measurable k)
+     (hk : MemLp k (4 / 3) volume) (hr : MemLp r 4 volume)
+-    (hg : Integrable g volume) :
++    (hg : Integrable g volume) (hk_nonneg : ∀ x, 0 ≤ k x) :
+     |∫ x, g x * ∫ y, k (x - y) * r y| ≤
+       comparisonLpNorm 1 g * comparisonLpNorm (4 / 3) k * comparisonLpNorm 4 r := by
+   simpa only [smul_eq_mul, Real.norm_eq_abs] using
+-    norm_convolution_pairing_le hkm hk hr hg
++    norm_convolution_pairing_le hkm hk hr hg hk_nonneg
+ 
+ end NavierStokesR3.PairedKernelBound
+--- a/NavierStokes/R3/PressureFlux.lean
++++ b/NavierStokes/R3/PressureFlux.lean
+@@ -24,10 +24,13 @@
+ 
+ open ProblemStatement Comparison
+ 
+-theorem lpNorm_ofReal (p : ℝ≥0∞) (f : Space → ℝ) :
++theorem lpNorm_ofReal (p : ℝ≥0∞) (f : Space → ℝ) (hf : AEMeasurable f volume) :
+     comparisonLpNorm p (fun x => (f x : ℂ)) = comparisonLpNorm p f := by
+   apply congrArg ENNReal.toReal
+-  exact eLpNorm_congr_norm_ae (Eventually.of_forall fun x => Complex.norm_real (f x))
++  exact eLpNorm_congr_norm_ae
++    (Complex.measurable_ofReal.comp_aemeasurable hf).aestronglyMeasurable
++    hf.aestronglyMeasurable
++    (Eventually.of_forall fun x => Complex.norm_real (f x))
+ 
+ theorem norm_fderiv_ofReal {f : Space → ℝ} {x : Space}
+     (hf : DifferentiableAt ℝ f x) :
+@@ -51,9 +54,11 @@
+     comparisonLpNorm p (fderiv ℝ (fun x => PressureRecovery.realTest f hf hc x)) =
+       comparisonLpNorm p (fderiv ℝ f) := by
+   apply congrArg ENNReal.toReal
+-  apply eLpNorm_congr_norm_ae
+-  exact Eventually.of_forall fun x =>
+-    norm_fderiv_ofReal ((contDiff_infty.1 hf 1).differentiable (by simp) x)
++  exact eLpNorm_congr_norm_ae
++    ((Complex.ofRealCLM.contDiff.comp hf).continuous_fderiv (by norm_num)).aestronglyMeasurable
++    (hf.continuous_fderiv (by norm_num)).aestronglyMeasurable
++    (Eventually.of_forall fun x =>
++      norm_fderiv_ofReal ((contDiff_infty.1 hf 1).differentiable (by simp) x))
+ 
+ theorem cutoff_lipschitz {R : ℝ} (hR : 0 < R) (x y : Space) :
+     |ComparisonCutoffs.cutoff R x - ComparisonCutoffs.cutoff R y| ≤
+@@ -87,16 +92,18 @@
+   have he : eLpNorm (fun x => (f x : ℂ) * g x) 1 volume ≤
+       eLpNorm (fun x => (f x : ℂ)) (6 / 5) volume * eLpNorm g 6 volume := by
+     simpa only [ENNReal.coe_one, one_mul] using
+-      eLpNorm_le_eLpNorm_mul_eLpNorm_of_nnnorm hfc.1 hg.1
+-        (fun a b : ℂ => a * b) 1
+-        (Eventually.of_forall fun x => by simp [nnnorm_mul])
++      eLpNorm_le_eLpNorm_mul_eLpNorm_of_nnnorm (fun a b : ℂ => a * b) 1
++        continuous_mul
++        hfc.aestronglyMeasurable hg.aestronglyMeasurable
++        (Filter.Eventually.of_forall fun x => by simp [nnnorm_mul])
+   have ht := ENNReal.toReal_mono (ENNReal.mul_ne_top hfc.eLpNorm_ne_top hg.eLpNorm_ne_top) he
+   change comparisonLpNorm 1 (fun x => (f x : ℂ) * g x) ≤
+     (eLpNorm (fun x => (f x : ℂ)) (6 / 5) volume * eLpNorm g 6 volume).toReal at ht
+   rw [ENNReal.toReal_mul] at ht
+   change comparisonLpNorm 1 (fun x => (f x : ℂ) * g x) ≤
+     comparisonLpNorm (6 / 5) (fun x => (f x : ℂ)) * comparisonLpNorm 6 g at ht
+-  rw [lpNorm_ofReal] at ht
++  rw [show comparisonLpNorm (6 / 5) (fun x => (f x : ℂ)) = comparisonLpNorm (6 / 5) f from
++    lpNorm_ofReal _ _ hf.aestronglyMeasurable.aemeasurable] at ht
+   calc
+     ‖∫ x, (f x : ℂ) * g x‖ ≤ ∫ x, ‖(f x : ℂ) * g x‖ := norm_integral_le_integral_norm _
+     _ = comparisonLpNorm 1 (fun x => (f x : ℂ) * g x) :=
+@@ -179,7 +186,9 @@
+ theorem lpNorm_rTest (R : ℝ) (hR : 0 < R) (w : Space → Space)
+     (hw : ContDiff ℝ ∞ w) (p : ℝ≥0∞) :
+     comparisonLpNorm p (rTest R hR w hw : Space → ℂ) = comparisonLpNorm p (PressureFluxTest.cutoffTest R w) :=
+-  lpNorm_ofReal _ _
++  lpNorm_ofReal _ _ (by
++    -- MINE_BORN: cutoffTest AEMeasurable (elimination: add cutoffTest_measurable to PressureFluxTest)
++    exact (PressureFluxTest.cutoffTest_smooth R hw).continuous.measurable.aemeasurable)
+ 
+ theorem lpNorm_fderiv_rTest (R : ℝ) (hR : 0 < R) (w : Space → Space)
+     (hw : ContDiff ℝ ∞ w) :
+--- a/NavierStokes/R3/PressureFluxTest.lean
++++ b/NavierStokes/R3/PressureFluxTest.lean
+@@ -93,7 +93,9 @@
+   refine ⟨memLp_r hφ hs hw 4, ?_⟩
+   calc
+     comparisonLpNorm 4 (r φ w) ≤ comparisonLpNorm 4 (fun x => (8 * L) • (φ x ^ 3 • w x)) := by
+-      apply LpNormTools.lpNorm_mono_of_norm_le (hw4.const_smul (8 * L))
++      apply LpNormTools.lpNorm_mono_of_norm_le
++        (memLp_r hφ hs hw 4).aestronglyMeasurable
++        (hw4.const_smul (8 * L))
+       intro x
+       change ‖r φ w x‖ ≤ ‖(8 * L) • (φ x ^ 3 • w x)‖
+       rw [norm_smul, Real.norm_of_nonneg (by positivity : 0 ≤ 8 * L)]
+@@ -247,7 +249,9 @@
+   calc
+     comparisonLpNorm 2 (fderiv ℝ (r φ w)) ≤
+         comparisonLpNorm 2 (fun x => (24 * L) • G x + (40 * L ^ 2 + 8 * J) • ‖w x‖) := by
+-      apply LpNormTools.lpNorm_mono_of_norm_le (hG24.add hw40)
++      apply LpNormTools.lpNorm_mono_of_norm_le
++        (memLp_fderiv_r hφ hs hw 2).aestronglyMeasurable
++        (hG24.add hw40)
+       intro x
+       have hp := norm_fderiv_r_le_amplitude hφ hw x (hφ0 x) (hφ1 x) hL0 (hL x) (hJ x)
+       simpa only [Pi.add_apply, smul_eq_mul, Real.norm_eq_abs,
+@@ -260,11 +264,12 @@
+       LpNormTools.lpNorm_add_le (by norm_num) hG24 hw40
+     _ = (24 * L) * Real.sqrt (∫ x, φ x ^ 8 * gradientSq w x) +
+         (40 * L ^ 2 + 8 * J) * comparisonLpNorm 2 w := by
+-      rw [LpNormTools.lpNorm_const_smul, LpNormTools.lpNorm_const_smul]
+-      have hGeq := WeightedSobolev.lpNorm_cutoffGradientAmplitude hφ.continuous hs hw1
+-      change comparisonLpNorm 2 G = _ at hGeq
+-      rw [hGeq]
+-      simp [comparisonLpNorm, eLpNorm_norm, Real.norm_eq_abs, abs_of_nonneg hL0, abs_of_nonneg hc]
++      rw [LpNormTools.lpNorm_const_smul, LpNormTools.lpNorm_const_smul,
++          Real.norm_eq_abs, abs_of_nonneg (by positivity),
++          Real.norm_eq_abs, abs_of_nonneg (by positivity),
++          WeightedSobolev.lpNorm_cutoffGradientAmplitude hφ.continuous hs hw1]
++      simp only [comparisonLpNorm,
++                 eLpNorm_norm _ hw2.aestronglyMeasurable]
+ 
+ theorem lpNorm_fderiv_r_two_le {φ : Space → ℝ} {w : Space → Space}
+     (hφ : ContDiff ℝ ∞ φ) (hs : HasCompactSupport φ) (hw : ContDiff ℝ ∞ w)
+--- a/NavierStokes/R3/PressureFunctionals.lean
++++ b/NavierStokes/R3/PressureFunctionals.lean
+@@ -27,7 +27,7 @@
+   have hprod : Integrable (fun x : Space => ‖W x‖ * ‖ψ x‖) :=
+     hW.norm.integrable_mul (ψ.memLp 2).norm
+   apply hprod.mono'
+-  · exact (Complex.continuous_ofReal.comp_aestronglyMeasurable hW.1).mul
++  · exact (Complex.continuous_ofReal.comp_aestronglyMeasurable hW.aestronglyMeasurable).mul
+       ψ.continuous.aestronglyMeasurable
+   · exact Filter.Eventually.of_forall fun x => by simp [Complex.norm_real]
+ 
+--- a/NavierStokes/R3/RieszTestOperators.lean
++++ b/NavierStokes/R3/RieszTestOperators.lean
+@@ -197,7 +197,9 @@
+     comparisonLpNorm 2 (fderiv ℝ (rieszTest i j ψ)) ≤
+         comparisonLpNorm 2 (fun x : Space => ∑ k : Fin 3,
+           ‖Comparison.partialD k (rieszTest i j ψ) x‖) := by
+-      apply LpNormTools.lpNorm_mono_of_norm_le (memLp_partial_norm_sum i j ψ)
++      apply LpNormTools.lpNorm_mono_of_norm_le
++        ((contDiff_rieszTest i j ψ).continuous_fderiv (by norm_num) |>.aestronglyMeasurable)
++        (memLp_partial_norm_sum i j ψ)
+       intro x
+       rw [Real.norm_of_nonneg (Finset.sum_nonneg fun _ _ => norm_nonneg _)]
+       exact norm_clm_le_sum_coordinate_norms (fderiv ℝ (rieszTest i j ψ) x)
+@@ -205,12 +207,17 @@
+         ‖Comparison.partialD k (rieszTest i j ψ) x‖) :=
+       lpNorm_two_fin3_sum_le _ (fun k => (memLp_partial_rieszTest i j ψ k).norm)
+     _ = ∑ k : Fin 3, comparisonLpNorm 2 (Comparison.partialD k (rieszTest i j ψ)) := by
+-      simp only [comparisonLpNorm, eLpNorm_norm]
++      congr 1; ext k
++      simp only [comparisonLpNorm]
++      rw [eLpNorm_norm _ (memLp_partial_rieszTest i j ψ k).aestronglyMeasurable]
+     _ ≤ ∑ k : Fin 3, comparisonLpNorm 2 (Comparison.partialD k (fun y => ψ y)) := by
+       exact Finset.sum_le_sum fun k _ => lpNorm_two_partial_rieszTest_le i j ψ k
+     _ ≤ ∑ _k : Fin 3, comparisonLpNorm 2 (fderiv ℝ (fun y => ψ y)) := by
+       exact Finset.sum_le_sum fun k _ =>
+-        LpNormTools.lpNorm_mono_of_norm_le hDψ (hcol k)
++        LpNormTools.lpNorm_mono_of_norm_le
++          (hDψ.aestronglyMeasurable.apply_continuousLinearMap
++            (EuclideanSpace.single k (1 : ℝ)))
++          hDψ (hcol k)
+     _ = 3 * comparisonLpNorm 2 (fderiv ℝ (fun y => ψ y)) := by simp
+ 
+ theorem memLp_rieszTest_six (i j : Fin 3) (ψ : ComplexTest) :
+--- a/NavierStokes/R3/SmoothSobolevL6.lean
++++ b/NavierStokes/R3/SmoothSobolevL6.lean
+@@ -2,6 +2,8 @@
+ import Mathlib.Analysis.FunctionalSpaces.SobolevInequality
+ import Mathlib.MeasureTheory.Function.LpSpace.Complete
+ 
++open MeasureTheory
++
+ /-!
+ # Homogeneous Sobolev bounds for smooth square-integrable functions
+ 
+@@ -54,16 +56,18 @@
+     eLpNorm (fderiv ℝ (fun y => cutoff R y • f y)) 2 volume
+         ≤ eLpNorm (fun x => ‖fderiv ℝ f x‖ +
+           (derivativeConstant 1 / R) * ‖f x‖) 2 volume :=
+-      eLpNorm_mono_real (norm_fderiv_cutoff_smul_le hf hR)
++      eLpNorm_mono_real
++        ((cutoff_smooth R).of_le (by exact_mod_cast (le_top : (1 : ℕ∞) ≤ ⊤))
++          |>.smul hf |>.continuous_fderiv (by norm_num)).aestronglyMeasurable
++        (norm_fderiv_cutoff_smul_le hf hR)
+     _ ≤ eLpNorm (fun x => ‖fderiv ℝ f x‖) 2 volume +
+         eLpNorm (fun x => (derivativeConstant 1 / R) * ‖f x‖) 2 volume :=
+-      eLpNorm_add_le (hf.continuous_fderiv (by simp)).norm.aestronglyMeasurable
+-        (continuous_const.mul hf.continuous.norm).aestronglyMeasurable (by norm_num)
++      eLpNorm_add_le (by norm_num)
+     _ = eLpNorm (fderiv ℝ f) 2 volume +
+         ENNReal.ofReal (derivativeConstant 1 / R) * eLpNorm f 2 volume := by
+-      rw [eLpNorm_norm]
++      rw [eLpNorm_norm _ (hf.continuous_fderiv (by simp)).aestronglyMeasurable]
+       change _ + eLpNorm ((derivativeConstant 1 / R) • (fun x => ‖f x‖)) 2 volume = _
+-      rw [eLpNorm_const_smul, eLpNorm_norm, Real.enorm_eq_ofReal
++      rw [eLpNorm_const_smul, eLpNorm_norm _ hf.continuous.aestronglyMeasurable, Real.enorm_eq_ofReal
+         (div_nonneg (derivativeConstant_pos 1).le hR.le)]
+ 
+ /-- The homogeneous `H¹ → L⁶` inequality without a support assumption.
+@@ -88,9 +92,10 @@
+     filter_upwards [hnat.eventually (eventually_cutoff_eq_one x)] with n hn
+     simp only [u, hn, one_smul]
+   have hfatou : eLpNorm f 6 volume ≤
+-      atTop.liminf (fun n => eLpNorm (u n) 6 volume) :=
+-    Lp.eLpNorm_lim_le_liminf_eLpNorm
++      atTop.liminf (fun n => eLpNorm (u n) 6 volume) := by
++    exact Lp.eLpNorm_lim_le_liminf_eLpNorm (p := 6) (μ := volume)
+       (fun n => (hu n).continuous.aestronglyMeasurable) f
++      hf.continuous.aestronglyMeasurable
+       (Filter.Eventually.of_forall hpointwise)
+   have hn_dim : Module.finrank ℝ Space = 3 := by
+     simp [Space, NavierStokes.ProblemStatement.Space]
+@@ -133,8 +138,7 @@
+ theorem smooth_memLp_six {f : Space → E} (hf : ContDiff ℝ 1 f)
+     (h2 : MemLp f 2 volume) (hD2 : MemLp (fderiv ℝ f) 2 volume) :
+     MemLp f 6 volume := by
+-  refine ⟨hf.continuous.aestronglyMeasurable, (smooth_eLpNorm_six_le hf h2).trans_lt ?_⟩
+-  exact ENNReal.mul_lt_top ENNReal.coe_lt_top hD2.2
++  exact (smooth_eLpNorm_six_le hf h2).trans_lt (ENNReal.mul_lt_top ENNReal.coe_lt_top hD2)
+ 
+ /-- The real-valued homogeneous Sobolev bound when both `L²` norms are finite. -/
+ theorem smooth_eLpNorm_six_toReal_le {f : Space → E} (hf : ContDiff ℝ 1 f)
+@@ -145,7 +149,7 @@
+   have hfinite :
+       (eLpNormLESNormFDerivOfEqInnerConst (volume : Measure Space) 2 : ℝ≥0∞) *
+         eLpNorm (fderiv ℝ f) 2 volume ≠ (⊤ : ℝ≥0∞) :=
+-    (ENNReal.mul_lt_top ENNReal.coe_lt_top hD2.2).ne
++    (ENNReal.mul_lt_top ENNReal.coe_lt_top hD2).ne
+   simpa only [ENNReal.toReal_mul, ENNReal.coe_toReal] using
+     ENNReal.toReal_mono hfinite (smooth_eLpNorm_six_le hf h2)
+ 
+--- a/NavierStokes/R3/WeightedInterpolation.lean
++++ b/NavierStokes/R3/WeightedInterpolation.lean
+@@ -35,14 +35,15 @@
+     (ha : 0 < a) (hb : 0 < b)
+     (hra : r.toReal < p.toReal / a)
+     (hab : 1 / r.toReal = 1 / (p.toReal / a) + 1 / (q.toReal / b))
++    (hhm : AEStronglyMeasurable h volume)
+     (hh : ∀ᵐ x ∂volume, ‖h x‖ ≤ ‖f x‖ ^ a * ‖g x‖ ^ b) :
+     eLpNorm h r volume ≤ eLpNorm f p volume ^ a * eLpNorm g q volume ^ b := by
+   obtain ⟨hp0, hpt⟩ := ENNReal.toReal_pos_iff.mp hp
+   obtain ⟨hq0, hqt⟩ := ENNReal.toReal_pos_iff.mp hq
+   obtain ⟨hr0, hrt⟩ := ENNReal.toReal_pos_iff.mp hr
+-  rw [eLpNorm_eq_eLpNorm' hr0.ne' hrt.ne,
+-    eLpNorm_eq_eLpNorm' hp0.ne' hpt.ne,
+-    eLpNorm_eq_eLpNorm' hq0.ne' hqt.ne]
++  rw [eLpNorm_eq_eLpNorm' hr0.ne' hrt.ne hhm,
++    eLpNorm_eq_eLpNorm' hp0.ne' hpt.ne hf,
++    eLpNorm_eq_eLpNorm' hq0.ne' hqt.ne hg]
+   calc
+     eLpNorm' h r.toReal volume ≤
+         eLpNorm' (fun x => ‖f x‖ ^ a * ‖g x‖ ^ b) r.toReal volume := by
+@@ -76,12 +77,12 @@
+     (hab : 1 / r.toReal = 1 / (p.toReal / a) + 1 / (q.toReal / b))
+     (hh : ∀ᵐ x ∂volume, ‖h x‖ ≤ ‖f x‖ ^ a * ‖g x‖ ^ b) :
+     MemLp h r volume ∧ comparisonLpNorm r h ≤ comparisonLpNorm p f ^ a * comparisonLpNorm q g ^ b := by
+-  have hbound := eLpNorm_le_rpow_mul hf.1 hg.1 hp hq hr ha hb hra hab hh
++  have hbound := eLpNorm_le_rpow_mul hf.aestronglyMeasurable hg.aestronglyMeasurable hp hq hr ha hb hra hab hhm hh
+   have hfinite : eLpNorm f p volume ^ a * eLpNorm g q volume ^ b < ∞ :=
+     ENNReal.mul_lt_top
+       (ENNReal.rpow_lt_top_of_nonneg ha.le hf.eLpNorm_ne_top)
+       (ENNReal.rpow_lt_top_of_nonneg hb.le hg.eLpNorm_ne_top)
+-  refine ⟨⟨hhm, hbound.trans_lt hfinite⟩, ?_⟩
++  refine ⟨hbound.trans_lt hfinite, ?_⟩
+   simpa only [comparisonLpNorm, ENNReal.toReal_mul, ENNReal.toReal_rpow] using
+     ENNReal.toReal_mono hfinite.ne hbound
+ 
+@@ -140,7 +141,7 @@
+       comparisonLpNorm r (fun x => (φ x ^ k) • w x) ≤
+         comparisonLpNorm 2 w ^ (1 - (k : ℝ) / 4) *
+           comparisonLpNorm 6 (fun x => (φ x ^ 4) • w x) ^ ((k : ℝ) / 4) := by
+-  apply memLp_and_lpNorm_le_rpow_mul hw hweighted ((hφm.pow k).smul hw.1)
++  apply memLp_and_lpNorm_le_rpow_mul hw hweighted ((hφm.pow k).smul hw.aestronglyMeasurable)
+       (by norm_num) (by norm_num) hr ha hb
+   · simpa using hra
+   · simpa using hab
+--- a/NavierStokes/R3/WeightedSobolev.lean
++++ b/NavierStokes/R3/WeightedSobolev.lean
+@@ -187,7 +187,10 @@
+   calc
+     comparisonLpNorm 2 (fderiv ℝ (fun x => φ x ^ 4 • w x)) ≤
+         comparisonLpNorm 2 (fun x => (3 : ℝ) • G x + (4 * L) • ‖w x‖) := by
+-      apply LpNormTools.lpNorm_mono_of_norm_le (hG3.add hw4)
++      apply LpNormTools.lpNorm_mono_of_norm_le
++        (show AEStronglyMeasurable (fderiv ℝ (fun x => φ x ^ 4 • w x)) volume from
++          ((hφ.pow 4).smul hw).continuous_fderiv (by norm_num) |>.aestronglyMeasurable)
++        (hG3.add hw4)
+       intro x
+       have hp := norm_fderiv_cutoff_four_le_amplitude
+         (hφ.differentiable (by simp) x) (hw.differentiable (by simp) x) (hφ0 x) (hφ1 x) (hL x)
+@@ -200,12 +203,12 @@
+         comparisonLpNorm 2 (fun x => (4 * L) • ‖w x‖) :=
+       LpNormTools.lpNorm_add_le (by norm_num) hG3 hw4
+     _ = 3 * Real.sqrt (∫ x, φ x ^ 8 * gradientSq w x) + (4 * L) * comparisonLpNorm 2 w := by
+-      rw [LpNormTools.lpNorm_const_smul, LpNormTools.lpNorm_const_smul]
+-      have hGeq := lpNorm_cutoffGradientAmplitude hφ.continuous hs hw
+-      change comparisonLpNorm 2 G = _ at hGeq
+-      rw [hGeq]
+-      simp [comparisonLpNorm, eLpNorm_norm, Real.norm_eq_abs, abs_of_nonneg hL0]
+-
++      rw [LpNormTools.lpNorm_const_smul, LpNormTools.lpNorm_const_smul,
++          Real.norm_eq_abs, abs_of_nonneg (by norm_num : (0:Real) ≤ 3),
++          Real.norm_eq_abs, abs_of_nonneg (by positivity),
++          lpNorm_cutoffGradientAmplitude hφ.continuous hs (hw.of_le (by norm_num))]
++      simp only [comparisonLpNorm,
++                 eLpNorm_norm _ hw2.aestronglyMeasurable]
+ /-- A positive, fixed constant for the cutoff Sobolev estimate. -/
+ def weightedSobolevConstant : ℝ := 4 * sobolevConstant + 1
+ 
+--- a/NavierStokes/R3FiniteEnergyComparison.lean
++++ b/NavierStokes/R3FiniteEnergyComparison.lean
+@@ -26,7 +26,7 @@
+   intro t ht
+   constructor
+   · simpa only [NavierStokesR3.ProblemStatement.SquareIntegrableAtTime, norm_norm] using!
+-      (memLp_two_iff_integrable_sq_norm (h.integrable t ht.1).1).mp (h.integrable t ht.1)
++      (memLp_two_iff_integrable_sq_norm (h.integrable t ht.1).aestronglyMeasurable).mp (h.integrable t ht.1)
+   · change (1 / 2 : ℝ) * (∫ x : Space, ‖v (t, x)‖ ^ 2) ≤ max 0 (E / 2)
+     have hb := (hE t ht.1).le
+     have hm := le_max_right 0 (E / 2)
+--- a/NavierStokes/WeightedRadialPrimitive.lean
++++ b/NavierStokes/WeightedRadialPrimitive.lean
+@@ -798,7 +798,9 @@
+       ContinuousMultilinearMap.norm_compContinuousLinearMap_le _ _
+     _ ≤ ‖iteratedFDeriv ℝ j χ z.1‖ * 1 := by
+       apply mul_le_mul_of_nonneg_left _ (norm_nonneg _)
+-      exact Finset.prod_le_one (fun _ _ => norm_nonneg _) (fun _ _ => ContinuousLinearMap.norm_fst_le _ _ _)
++      have hfst_norm : ‖ContinuousLinearMap.fst ℝ ℝ E‖ ≤ 1 := by
++        simp only [ContinuousLinearMap.norm_fst_le]
++      exact Finset.prod_le_one₀ (fun _ _ => norm_nonneg _) (fun _ _ => hfst_norm)
+     _ = ‖iteratedFDeriv ℝ j χ z.1‖ := mul_one _
+     _ ≤ C j' := hb j' z.1 hz
+     _ ≤ ∑ k, C k := hCj
+--- a/lake-manifest.json
++++ b/lake-manifest.json
+@@ -15,10 +15,10 @@
+    "type": "git",
+    "subDir": null,
+    "scope": "leanprover-community",
+-   "rev": "85e3a25e006c35636f0e53b0e9296caca2685bc0",
++   "rev": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+    "name": "mathlib",
+    "manifestFile": "lake-manifest.json",
+-   "inputRev": "v4.34.0-rc2",
++   "inputRev": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+    "inherited": false,
+    "configFile": "lakefile.lean"},
+   {"url": "https://github.com/leanprover/lean4export",
+@@ -35,7 +35,7 @@
+    "type": "git",
+    "subDir": null,
+    "scope": "leanprover-community",
+-   "rev": "d9598f07b1bc701f1e3aae163d2681c1fd978793",
++   "rev": "118aa17ee84656b8bd727fef7c458ee8c833385c",
+    "name": "plausible",
+    "manifestFile": "lake-manifest.json",
+    "inputRev": "main",
+@@ -45,7 +45,7 @@
+    "type": "git",
+    "subDir": null,
+    "scope": "leanprover-community",
+-   "rev": "ba67e212be1197b84c1f1f6299488a10a3002713",
++   "rev": "ddf04cf3949fa556442341e87d47f9f6e6074707",
+    "name": "LeanSearchClient",
+    "manifestFile": "lake-manifest.json",
+    "inputRev": "main",
+@@ -55,7 +55,7 @@
+    "type": "git",
+    "subDir": null,
+    "scope": "leanprover-community",
+-   "rev": "d8823026ac7ef130c253089d95685f9877b95323",
++   "rev": "e928b72544873815af278d38681b31c0293588e3",
+    "name": "importGraph",
+    "manifestFile": "lake-manifest.json",
+    "inputRev": "main",
+@@ -65,7 +65,7 @@
+    "type": "git",
+    "subDir": null,
+    "scope": "leanprover-community",
+-   "rev": "a8acbfd87375ff4abe14ce09db5b7664d383bc7f",
++   "rev": "106ff4fafc74ef4ac99d81dbf3ab399118f497a5",
+    "name": "proofwidgets",
+    "manifestFile": "lake-manifest.json",
+    "inputRev": "main",
+@@ -75,7 +75,7 @@
+    "type": "git",
+    "subDir": null,
+    "scope": "leanprover-community",
+-   "rev": "18889deb9e83ea7420ef51c160d6f88552e744e3",
++   "rev": "355695d523e41d0554926416cba2a2b3544fbbc9",
+    "name": "aesop",
+    "manifestFile": "lake-manifest.json",
+    "inputRev": "master",
+@@ -85,7 +85,7 @@
+    "type": "git",
+    "subDir": null,
+    "scope": "leanprover-community",
+-   "rev": "507746ab8f4b643ccdacb2ec4cdb5853fa9f8ab3",
++   "rev": "6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259",
+    "name": "Qq",
+    "manifestFile": "lake-manifest.json",
+    "inputRev": "master",
+@@ -95,7 +95,7 @@
+    "type": "git",
+    "subDir": null,
+    "scope": "leanprover-community",
+-   "rev": "d54dddc581e08be364c278052863524bff7a99a9",
++   "rev": "f2effa3d803fda822b1f97b806c47cf2adfbcbc2",
+    "name": "batteries",
+    "manifestFile": "lake-manifest.json",
+    "inputRev": "main",
+@@ -105,12 +105,12 @@
+    "type": "git",
+    "subDir": null,
+    "scope": "leanprover",
+-   "rev": "ab3a82db9fea14cf0fd7f5a2de650f4b534640af",
++   "rev": "e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204",
+    "name": "Cli",
+    "manifestFile": "lake-manifest.json",
+-   "inputRev": "v4.34.0-rc2",
++   "inputRev": "v4.34.0",
+    "inherited": true,
+    "configFile": "lakefile.toml"}],
+- "name": "fluidEquations",
++ "name": "NavierStokesAndEuler",
+  "lakeDir": ".lake",
+  "fixedToolchain": false}
+--- a/lakefile.toml
++++ b/lakefile.toml
+@@ -6,7 +6,7 @@
+ name = "mathlib"
+ scope = "leanprover-community"
+ git = "https://github.com/leanprover-community/mathlib4.git"
+-rev = "v4.34.0-rc2"
++rev = "d13f23b723b8a846827a245b89c10fc7d3f11612"
+ 
+ [[require]]
+ name = "Comparator"
+@@ -26,3 +26,4 @@
+ [[lean_lib]]
+ name = "ComparatorChallenges"
+ globs = ["ComparatorChallenges.+"]
++
+--- a/lean-toolchain
++++ b/lean-toolchain
+@@ -1 +1 @@
+-leanprover/lean4:v4.34.0-rc2
++leanprover/lean4:v4.34.1
+\ No newline at end of file

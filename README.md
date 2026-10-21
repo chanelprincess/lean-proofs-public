@@ -7,9 +7,9 @@ Research packages published by KTS Global. None is a claimed solution of a Clay 
 | Release | Package | Identifiers |
 |---|---|---|
 | [`s437-v1`](https://github.com/kts-global/lean-proofs-public/releases/tag/s437-v1) | S437: Lean 4.34.1 port and rebuild of OpenAI's NavierStokesAndEuler formalization (Clay alternatives C and D) | DOI 10.5281/zenodo.23448690 · Wikidata Q141761720 |
-| [`r2-r3-v1`](https://github.com/kts-global/lean-proofs-public/releases/tag/r2-r3-v1) | R2/R3 community verification package: Fefferman-style statement and bridge layer, per-alternative packages, public verification script and receipts | No DOI issued yet |
+| [`r2-r3-v1`](https://github.com/kts-global/lean-proofs-public/releases/tag/r2-r3-v1) | Navier–Stokes R2/R3 community verification package, V1 (release r2-r3-v1): Fefferman-style statement and bridge layer, per-alternative packages, public verification script and receipts | DOI [10.5281/zenodo.23535805](https://doi.org/10.5281/zenodo.23535805) · Wikidata [Q141803373](https://www.wikidata.org/wiki/Q141803373) |
 
-Each release is a separate, citable artifact. Cite the release tag you used. Do not use the S437 DOI for R2/R3.
+Each release is a separate, citable artifact. Cite the release tag you used. Do not use the S437 DOI for R2/R3, or the R2/R3 DOI for S437.
 
 ## Inherited mathematics
 
@@ -23,7 +23,7 @@ The mathematics and the Lean formalization are OpenAI's: [`openai/NavierStokesAn
 - Full change list: `CHANGES.md`. Receipts: `RECEIPTS/`. Statement: `STATEMENT.md`. Provenance: `PROVENANCE.json`.
 - Review packages (`REVIEW_PACKAGE_R1`, `REVIEW_PACKAGE_R2`, `CANDIDATE_R2`, `COMMUNITY_TEST_PACKAGE`, `COMMUNITY_TEST_PACKAGE_V3`) are the authors' own analysis.
 
-## R2/R3: statement, bridge and community verification
+## Navier–Stokes R2/R3: statement, bridge and community verification
 
 Folder: `R2_FINAL_S524_COMMUNITY_V1/`. Contribution: Tim Jacobs, KTS Global (ORCID [0009-0008-7130-1448](https://orcid.org/0009-0008-7130-1448)).
 
@@ -41,3 +41,4 @@ Folder: `R2_FINAL_S524_COMMUNITY_V1/`. Contribution: Tim Jacobs, KTS Global (ORC
 ## Licence
 
 Upstream material remains under its Apache-2.0 licence. Files added by KTS Global are published under the Apache-2.0 `LICENSE` at the root of this repository. The CHAOS implementation is not distributed or licensed by these packages.
+

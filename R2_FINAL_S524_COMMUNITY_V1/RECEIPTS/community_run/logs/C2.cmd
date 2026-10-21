@@ -1,0 +1,1 @@
+python3 <PACKAGE>/TOOLS/source_binding_check.py selftest --project <PACKAGE>/project --upstream <WORKDIR>/upstream --patch <PACKAGE>/SOURCE_PATCH/R2_over_upstream.patch --extra <PACKAGE>/SOURCE_PATCH/R3_additions.txt --out <WORKDIR>/source_binding_selftest.json

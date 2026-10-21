@@ -1,0 +1,1 @@
+closure modules=620 enumerated=620 failed=0 | theorems=40986 in 619 modules | exactly-three=35970 strict-subset=5016 outside=0 | named exact 26 checked, 0 failed | 332s | PASS

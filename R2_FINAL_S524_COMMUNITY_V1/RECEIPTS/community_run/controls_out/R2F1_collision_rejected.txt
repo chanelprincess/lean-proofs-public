@@ -1,0 +1,39 @@
+⚠ [9078/9127] Replayed NavierStokes.AxisWeightEstimates
+warning: NavierStokes/AxisWeightEstimates.lean:5:0: 'Mathlib.Data.Real.Basic' has been deprecated: please replace this import by
+
+import Mathlib.Basic.Real.Basic
+⚠ [9110/9127] Replayed NavierStokes.TangentProjection
+warning: NavierStokes/TangentProjection.lean:4:0: 'Mathlib.Data.Complex.Basic' has been deprecated: please replace this import by
+
+import Mathlib.Basic.Complex.Basic
+⚠ [9120/9178] Replayed NavierStokes.CurlGeometry
+warning: NavierStokes/CurlGeometry.lean:1:0: 'Mathlib.Data.Complex.Basic' has been deprecated: please replace this import by
+
+import Mathlib.Basic.Complex.Basic
+⚠ [9156/9178] Replayed NavierStokes.UniformPrimaryWeights
+warning: NavierStokes/UniformPrimaryWeights.lean:3:0: 'Mathlib.Data.Countable.Defs' has been deprecated: please replace this import by
+
+import Mathlib.Basic.Countable.Defs
+⚠ [9256/9316] Replayed NavierStokes.BasePrefixIdentity
+warning: NavierStokes/BasePrefixIdentity.lean:185:4: Unused tactic linter: `norm_num [Fin.ext_iff]` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: NavierStokes/BasePrefixIdentity.lean:192:4: Unused tactic linter: `norm_num [Fin.ext_iff]` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+⚠ [9326/9401] Replayed NavierStokes.ExponentLedger
+warning: NavierStokes/ExponentLedger.lean:1:0: 'Mathlib.Data.Real.Basic' has been deprecated: please replace this import by
+
+import Mathlib.Basic.Real.Basic
+ℹ [9532/9534] Replayed NavierStokes.ComparatorSolution
+info: NavierStokes/ComparatorSolution.lean:31:0: 'NavierStokes.Comparator.navier_stokes_breakdown_R3' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: NavierStokes/ComparatorSolution.lean:32:0: 'NavierStokes.Comparator.navier_stokes_breakdown_periodic' depends on axioms: [propext, Classical.choice, Quot.sound]
+⚠ [9533/9534] Built ComparatorChallenges.NavierStokesComplete (35s)
+warning: ComparatorChallenges/NavierStokesComplete.lean:304:8: declaration uses `sorry`
+warning: ComparatorChallenges/NavierStokesComplete.lean:308:8: declaration uses `sorry`
+✖ [9534/9534] Building R2Controls.F1_Collision (3.6s)
+trace: .> LEAN_PATH=<WORKDIR>/ctl_tree/.lake/packages/Cli/.lake/build/lib/lean:<WORKDIR>/ctl_tree/.lake/packages/batteries/.lake/build/lib/lean:<WORKDIR>/ctl_tree/.lake/packages/Qq/.lake/build/lib/lean:<WORKDIR>/ctl_tree/.lake/packages/aesop/.lake/build/lib/lean:<WORKDIR>/ctl_tree/.lake/packages/proofwidgets/.lake/build/lib/lean:<WORKDIR>/ctl_tree/.lake/packages/importGraph/.lake/build/lib/lean:<WORKDIR>/ctl_tree/.lake/packages/LeanSearchClient/.lake/build/lib/lean:<WORKDIR>/ctl_tree/.lake/packages/plausible/.lake/build/lib/lean:<WORKDIR>/ctl_tree/.lake/packages/lean4export/.lake/build/lib/lean:<WORKDIR>/ctl_tree/.lake/packages/mathlib/.lake/build/lib/lean:<WORKDIR>/ctl_tree/.lake/packages/Comparator/.lake/build/lib/lean:<WORKDIR>/ctl_tree/.lake/build/lib/lean <HOME>/.elan/toolchains/leanprover--lean4---v4.34.1/bin/lean <WORKDIR>/ctl_tree/R2Controls/F1_Collision.lean -o <WORKDIR>/ctl_tree/.lake/build/lib/lean/R2Controls/F1_Collision.olean -i <WORKDIR>/ctl_tree/.lake/build/lib/lean/R2Controls/F1_Collision.ilean -c <WORKDIR>/ctl_tree/.lake/build/ir/R2Controls/F1_Collision.c --setup <WORKDIR>/ctl_tree/.lake/build/ir/R2Controls/F1_Collision.setup.json --json
+error: R2Controls/F1_Collision.lean:1:0: import NavierStokes.ComparatorDefinitions failed, environment already contains 'NavierStokes.Comparator.ForceCondition.recOn' from ComparatorChallenges.NavierStokesComplete
+Some required targets logged failures:
+- R2Controls.F1_Collision
+error: build failed

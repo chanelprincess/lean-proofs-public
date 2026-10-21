@@ -1,0 +1,221 @@
+{
+ "files_scanned": 2677,
+ "hits": [
+  {
+   "file": "ComparatorChallenges/ClayA.lean",
+   "line": 7,
+   "construct": "sorry",
+   "inside_ComparatorChallenges": true
+  },
+  {
+   "file": "ComparatorChallenges/ClayB.lean",
+   "line": 7,
+   "construct": "sorry",
+   "inside_ComparatorChallenges": true
+  },
+  {
+   "file": "ComparatorChallenges/ClayC.lean",
+   "line": 7,
+   "construct": "sorry",
+   "inside_ComparatorChallenges": true
+  },
+  {
+   "file": "ComparatorChallenges/ClayD.lean",
+   "line": 7,
+   "construct": "sorry",
+   "inside_ComparatorChallenges": true
+  },
+  {
+   "file": "ComparatorChallenges/ClayFefferman.lean",
+   "line": 13,
+   "construct": "sorry",
+   "inside_ComparatorChallenges": true
+  },
+  {
+   "file": "ComparatorChallenges/ClayFeffermanViaD.lean",
+   "line": 14,
+   "construct": "sorry",
+   "inside_ComparatorChallenges": true
+  },
+  {
+   "file": "ComparatorChallenges/Euler.lean",
+   "line": 88,
+   "construct": "sorry",
+   "inside_ComparatorChallenges": true
+  },
+  {
+   "file": "ComparatorChallenges/Euler.lean",
+   "line": 184,
+   "construct": "sorry",
+   "inside_ComparatorChallenges": true
+  },
+  {
+   "file": "ComparatorChallenges/NavierStokes.lean",
+   "line": 277,
+   "construct": "sorry",
+   "inside_ComparatorChallenges": true
+  },
+  {
+   "file": "ComparatorChallenges/NavierStokes.lean",
+   "line": 284,
+   "construct": "sorry",
+   "inside_ComparatorChallenges": true
+  },
+  {
+   "file": "ComparatorChallenges/NavierStokesComplete.lean",
+   "line": 305,
+   "construct": "sorry",
+   "inside_ComparatorChallenges": true
+  },
+  {
+   "file": "ComparatorChallenges/NavierStokesComplete.lean",
+   "line": 309,
+   "construct": "sorry",
+   "inside_ComparatorChallenges": true
+  }
+ ],
+ "challenge_files": {
+  "ComparatorChallenges/ClayA.lean": {
+   "theorems": 1,
+   "sorry": 1
+  },
+  "ComparatorChallenges/ClayB.lean": {
+   "theorems": 1,
+   "sorry": 1
+  },
+  "ComparatorChallenges/ClayC.lean": {
+   "theorems": 1,
+   "sorry": 1
+  },
+  "ComparatorChallenges/ClayD.lean": {
+   "theorems": 1,
+   "sorry": 1
+  },
+  "ComparatorChallenges/ClayFefferman.lean": {
+   "theorems": 1,
+   "sorry": 1
+  },
+  "ComparatorChallenges/ClayFeffermanViaD.lean": {
+   "theorems": 1,
+   "sorry": 1
+  },
+  "ComparatorChallenges/Euler.lean": {
+   "theorems": 2,
+   "sorry": 2
+  },
+  "ComparatorChallenges/NavierStokes.lean": {
+   "theorems": 7,
+   "sorry": 2
+  },
+  "ComparatorChallenges/NavierStokesComplete.lean": {
+   "theorems": 7,
+   "sorry": 2
+  }
+ },
+ "challenge_configs": {
+  "ComparatorChallenges/ClayC.json": {
+   "module_file": "ComparatorChallenges/ClayC.lean",
+   "theorems": [
+    {
+     "theorem": "NavierStokes.ClayC.clay_C",
+     "found": true,
+     "sorry_in_its_body": 1
+    }
+   ],
+   "sorry_lines_outside_the_named_theorems": []
+  },
+  "ComparatorChallenges/ClayD.json": {
+   "module_file": "ComparatorChallenges/ClayD.lean",
+   "theorems": [
+    {
+     "theorem": "NavierStokes.ClayD.clay_D",
+     "found": true,
+     "sorry_in_its_body": 1
+    }
+   ],
+   "sorry_lines_outside_the_named_theorems": []
+  },
+  "ComparatorChallenges/ClayFefferman.json": {
+   "module_file": "ComparatorChallenges/ClayFefferman.lean",
+   "theorems": [
+    {
+     "theorem": "NavierStokes.ClayChallenge.clay_navier_stokes_fefferman",
+     "found": true,
+     "sorry_in_its_body": 1
+    }
+   ],
+   "sorry_lines_outside_the_named_theorems": []
+  },
+  "ComparatorChallenges/ClayFeffermanViaD.json": {
+   "module_file": "ComparatorChallenges/ClayFeffermanViaD.lean",
+   "theorems": [
+    {
+     "theorem": "NavierStokes.ClayChallenge.clay_navier_stokes_fefferman_via_D",
+     "found": true,
+     "sorry_in_its_body": 1
+    }
+   ],
+   "sorry_lines_outside_the_named_theorems": []
+  },
+  "ComparatorChallenges/Euler.json": {
+   "module_file": "ComparatorChallenges/Euler.lean",
+   "theorems": [
+    {
+     "theorem": "Euler.euler_breakdown_R3",
+     "found": true,
+     "sorry_in_its_body": 1
+    },
+    {
+     "theorem": "Euler.exists_compact_smooth_euler_singularity",
+     "found": true,
+     "sorry_in_its_body": 1
+    }
+   ],
+   "sorry_lines_outside_the_named_theorems": []
+  },
+  "ComparatorChallenges/NavierStokes.json": {
+   "module_file": "ComparatorChallenges/NavierStokes.lean",
+   "theorems": [
+    {
+     "theorem": "NavierStokes.Comparator.navier_stokes_breakdown_R3",
+     "found": true,
+     "sorry_in_its_body": 1
+    },
+    {
+     "theorem": "NavierStokes.Comparator.navier_stokes_breakdown_periodic",
+     "found": true,
+     "sorry_in_its_body": 1
+    }
+   ],
+   "sorry_lines_outside_the_named_theorems": []
+  },
+  "ComparatorChallenges/NavierStokesComplete.json": {
+   "module_file": "ComparatorChallenges/NavierStokesComplete.lean",
+   "theorems": [
+    {
+     "theorem": "NavierStokes.Comparator.navier_stokes_clay_via_C",
+     "found": true,
+     "sorry_in_its_body": 1
+    },
+    {
+     "theorem": "NavierStokes.Comparator.navier_stokes_clay_via_D",
+     "found": true,
+     "sorry_in_its_body": 1
+    }
+   ],
+   "sorry_lines_outside_the_named_theorems": []
+  }
+ },
+ "eliminator_available": false,
+ "eliminator_disagreements": [],
+ "verdict": {
+  "hits_outside_ComparatorChallenges": 0,
+  "non_sorry_constructs_inside_ComparatorChallenges": 0,
+  "challenge_configs_violating_one_sorry_per_named_theorem": {},
+  "files_in_ComparatorChallenges_with_sorry_but_no_comparator_config": [
+   "ComparatorChallenges/ClayA.lean",
+   "ComparatorChallenges/ClayB.lean"
+  ],
+  "PASS": true
+ }
+}

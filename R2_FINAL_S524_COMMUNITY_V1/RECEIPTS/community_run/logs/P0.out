@@ -1,0 +1,32 @@
+found   git
+found   gcc
+found   cargo
+found   rustc
+found   go
+found   python3
+found   curl
+found   tar
+found   sha256sum
+found   awk
+found   lake
+found   lean
+found   elan
+found   /usr/bin/time
+open-file limit: 1048576 (need >= 8192)
+free disk at WORKDIR: 54 GB (need >= 30)
+network ok: https://github.com/openai/NavierStokesAndEuler
+network ok: https://github.com/robsimmons/nanoda_lib
+network ok: https://github.com/zouuup/landrun
+network ok: https://github.com/leanprover-community/mathlib4
+--- environment
+Linux 7.0.0-34-generic x86_64
+PRETTY_NAME="Ubuntu 24.04.5 LTS"
+cores: 88 (jobs for parallel stages: 32)
+MemTotal:       396127476 kB
+git version 2.43.0
+gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
+cargo 1.99.0 (5f94df478 2026-08-27)
+rustc 1.99.0 (b940084d7 2026-09-28)
+go version go1.27.2 linux/amd64
+Python 3.12.3
+Landlock in the kernel LSM list: landlock

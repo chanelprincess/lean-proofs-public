@@ -1,0 +1,8 @@
+import ClayStatement.Bridge
+import NavierStokes.ComparatorCompleteSolution
+import NavierStokes.ComparatorSolution
+
+namespace NavierStokes.ClayC
+theorem clay_C : Clay.NavierStokes.StatementC :=
+  Clay.NavierStokes.Bridge.optionC_imp_statementC NavierStokes.Comparator.navier_stokes_breakdown_R3
+end NavierStokes.ClayC

@@ -1,0 +1,14 @@
+{
+  "challenge_module": "ComparatorChallenges.NavierStokesComplete",
+  "solution_module": "NavierStokes.ComparatorCompleteSolution",
+  "enable_nanoda": true,
+  "theorem_names": [
+    "NavierStokes.Comparator.navier_stokes_clay_via_C",
+    "NavierStokes.Comparator.navier_stokes_clay_via_D"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ]
+}

@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this package, please cite it, and cite the upstream work it builds on."
+title: "Navier-Stokes, Fefferman's A or B or C or D: community verification package (R2 final, with R3 alternative packages)"
+type: software
+authors:
+  - name: "kts-global"
+version: "V1"
+abstract: "Lean 4.34.1 verification package for the encoded forms of Fefferman's alternatives (C) and (D) of the Navier-Stokes problem and the disjunction through them. Alternatives (A) and (B) are open and are shipped as statement files only. Not independently reviewed."
+keywords:
+  - Lean 4
+  - Navier-Stokes
+  - formal verification
+references:
+  - type: report
+    title: "Finite time blowup for Navier-Stokes"
+    authors:
+      - name: "OpenAI"
+    url: "https://cdn.openai.com/pdf/32d9f210-8b73-45e0-91bc-82a30aef8a9a/navier-stokes.pdf"
+  - type: software
+    title: "NavierStokesAndEuler"
+    authors:
+      - name: "OpenAI"
+    url: "https://github.com/openai/NavierStokesAndEuler"
+    commit: "f9e8bc5b38b6e212696e8a30e3e91517af887bbd"
+    license: Apache-2.0

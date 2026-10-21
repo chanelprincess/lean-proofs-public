@@ -1,0 +1,33 @@
+⚠ [9078/9141] Replayed NavierStokes.AxisWeightEstimates
+warning: NavierStokes/AxisWeightEstimates.lean:5:0: 'Mathlib.Data.Real.Basic' has been deprecated: please replace this import by
+
+import Mathlib.Basic.Real.Basic
+⚠ [9110/9141] Replayed NavierStokes.TangentProjection
+warning: NavierStokes/TangentProjection.lean:4:0: 'Mathlib.Data.Complex.Basic' has been deprecated: please replace this import by
+
+import Mathlib.Basic.Complex.Basic
+⚠ [9120/9141] Replayed NavierStokes.CurlGeometry
+warning: NavierStokes/CurlGeometry.lean:1:0: 'Mathlib.Data.Complex.Basic' has been deprecated: please replace this import by
+
+import Mathlib.Basic.Complex.Basic
+⚠ [9156/9197] Replayed NavierStokes.UniformPrimaryWeights
+warning: NavierStokes/UniformPrimaryWeights.lean:3:0: 'Mathlib.Data.Countable.Defs' has been deprecated: please replace this import by
+
+import Mathlib.Basic.Countable.Defs
+⚠ [9256/9328] Replayed NavierStokes.BasePrefixIdentity
+warning: NavierStokes/BasePrefixIdentity.lean:185:4: Unused tactic linter: `norm_num [Fin.ext_iff]` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: NavierStokes/BasePrefixIdentity.lean:192:4: Unused tactic linter: `norm_num [Fin.ext_iff]` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+⚠ [9326/9410] Replayed NavierStokes.ExponentLedger
+warning: NavierStokes/ExponentLedger.lean:1:0: 'Mathlib.Data.Real.Basic' has been deprecated: please replace this import by
+
+import Mathlib.Basic.Real.Basic
+ℹ [9533/9537] Replayed NavierStokes.ComparatorCompleteSolution
+info: NavierStokes/ComparatorCompleteSolution.lean:53:0: 'NavierStokes.Comparator.navier_stokes_clay_via_C' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: NavierStokes/ComparatorCompleteSolution.lean:54:0: 'NavierStokes.Comparator.navier_stokes_clay_via_D' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: NavierStokes/ComparatorCompleteSolution.lean:55:0: 'NavierStokes.Comparator.OptionA' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: NavierStokes/ComparatorCompleteSolution.lean:56:0: 'NavierStokes.Comparator.OptionB' depends on axioms: [propext, Classical.choice, Quot.sound]
+Build completed successfully (9537 jobs).

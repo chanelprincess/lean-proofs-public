@@ -1,0 +1,27 @@
+import ClayStatementCtl3.BridgeSwap
+
+/-!
+# CONTROL R2-F4, part 2: the CONVERSE direction rejects the weakened target
+
+The converse (Fefferman's `ForceTorus` → the authors' `ForceConditionPeriodic`) is the step that carries the decay bound back.
+Against the weakened target the hypothesis only gives `‖…‖ ≤ C`, which does not give `‖…‖ ≤ C' / (1 + t) ^ K`. This file is the
+converse written exactly as in the real bridge (`BridgeEquiv.forceTorus_iff`, direction ←); Lean must reject it.
+Reading: this records that the converse *as written* does not typecheck on the weakened target. It is not a Lean proof that
+no other proof exists.
+-/
+
+namespace Clay.NavierStokes.Ctl3Converse
+open Clay.NavierStokes Clay.NavierStokes.BridgeSwap
+
+theorem forceTorus_converse (f' : E3 → ℝ → E3) :
+    ForceTorus (fun t x => f' x t) → NavierStokes.Comparator.ForceConditionPeriodic f' := by
+  rintro ⟨hs, hp, hd⟩
+  refine { smooth := contDiffOn_to_strip (fun z : ℝ × E3 => f' z.2 z.1) hs, isOnePeriodic := fun t ht x j => hp t ht j x, decay := fun n K => ?_ }
+  obtain ⟨C, hC⟩ := hd n K
+  refine ⟨C, fun x t ht => ?_⟩
+  have e : ‖iteratedFDerivWithin ℝ n (fun z : E3 × ℝ => f' z.1 z.2) (Set.univ ×ˢ Set.Ici (0 : ℝ)) (x, t)‖
+      = ‖iteratedFDerivWithin ℝ n (fun z : ℝ × E3 => f' z.2 z.1) halfSpace (t, x)‖ :=
+    norm_iter_swap (fun z : ℝ × E3 => f' z.2 z.1) n x ht
+  exact e.le.trans (hC t ht x)
+
+end Clay.NavierStokes.Ctl3Converse

@@ -1,0 +1,6 @@
+import ComparatorChallenges.NavierStokesComplete
+import NavierStokes.ComparatorSolution
+
+/-! CONTROL R2-F1, the failing half. The delivered Bridge imported the S456 CHALLENGE module while the solution also imports
+`NavierStokes.ComparatorSolution`. Both declare the same `NavierStokes.Comparator.*` names, so the two imports cannot be loaded together:
+Lean must reject this file with `environment already contains ...`. -/

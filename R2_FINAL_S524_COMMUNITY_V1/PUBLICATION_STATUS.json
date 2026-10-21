@@ -1,0 +1,19 @@
+{
+ "schema": "PUBLICATION_STATUS/2",
+ "package": "R2_FINAL_S524_COMMUNITY_V1",
+ "release_state": "RELEASED",
+ "released": true,
+ "tag": "r2-r3-v1",
+ "repository": "kts-global/lean-proofs-public",
+ "released_under": "the publisher's standing release decision of 21 Oct; the automatic release gate passed",
+ "verification": {
+  "state": "COMPLETED_PASS",
+  "kind": "publisher-executed (not independent)",
+  "platform": "native Ubuntu 24.04 x86_64",
+  "wall_seconds": 5678,
+  "evidence": "RECEIPTS/community_run/"
+ },
+ "licence": "files added by the publisher: the repository's Apache-2.0 LICENSE; upstream files keep their own",
+ "author_identity": "organisation name only (kts-global); no ORCID iD is asserted anywhere in this package",
+ "tag_time_and_doi": "recorded in the GitHub release and the archive record, not in this tree (a tree cannot contain its own tag time)"
+}

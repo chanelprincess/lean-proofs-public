@@ -1,0 +1,6 @@
+  unaltered copy                                             expected PASS                               got PASS | ok
+  tampered ADDED file (ClayStatement/Bridge.lean)            expected FAIL naming ClayStatement/Bridge.l got FAIL naming ['ClayStatement/Bridge.lean'] | ok
+  tampered MODIFIED file (NavierStokes/ActualCandidateConstr expected FAIL naming NavierStokes/ActualCan got FAIL naming ['NavierStokes/ActualCandidateConstruction.lean' | ok
+  deleted ADDED file (ClayStatement/Bridge.lean)             expected FAIL naming ClayStatement/Bridge.l got FAIL naming ['ClayStatement/Bridge.lean'] | ok
+  unlisted extra file (Sneaky.lean)                          expected FAIL naming Sneaky.lean            got FAIL naming ['Sneaky.lean'] | ok
+SOURCE_BINDING_SELFTEST PASS

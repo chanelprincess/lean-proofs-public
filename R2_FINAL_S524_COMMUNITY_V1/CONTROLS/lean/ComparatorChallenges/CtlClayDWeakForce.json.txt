@@ -1,0 +1,13 @@
+{
+  "challenge_module": "ComparatorChallenges.CtlClayDWeakForce",
+  "solution_module": "NavierStokes.ClayDSolution",
+  "theorem_names": [
+    "NavierStokes.ClayD.clay_D"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "enable_nanoda": true
+}

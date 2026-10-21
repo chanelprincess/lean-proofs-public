@@ -1,0 +1,9 @@
+import ClayStatementCtl.FeffermanNoF5
+
+/-! CONTROL: challenge states StatementC/SolR3 without F5's integrability. A sorry here is expected, as in any Comparator challenge. -/
+
+namespace NavierStokes.ClayChallenge
+
+theorem clay_navier_stokes_fefferman : Clay.NavierStokes.ClayNavierStokes := by sorry
+
+end NavierStokes.ClayChallenge

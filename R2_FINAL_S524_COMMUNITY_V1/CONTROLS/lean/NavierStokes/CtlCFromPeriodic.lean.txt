@@ -1,0 +1,13 @@
+import ClayStatement.Bridge
+import NavierStokes.ComparatorSolution
+
+/-! CONTROL: (C) 'proved' from the PERIODIC theorem. Lean must reject this: OptionD is not OptionC. -/
+
+namespace NavierStokes.ClayChallenge
+open Clay.NavierStokes
+
+theorem clay_navier_stokes_fefferman : ClayNavierStokes :=
+  Or.inr (Or.inr (Or.inl
+    (Bridge.optionC_imp_statementC NavierStokes.Comparator.navier_stokes_breakdown_periodic)))
+
+end NavierStokes.ClayChallenge

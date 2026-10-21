@@ -1,0 +1,749 @@
+{
+ "schema": "R2_COMMUNITY_VERIFY_RESULT/1",
+ "kind": "publisher-executed community-package verification (not an independent replication)",
+ "started_utc": "2026-10-21T10:20:55Z",
+ "wall_seconds": 5678,
+ "PASS": true,
+ "stages": {
+  "C0": {
+   "required": true,
+   "rc": 0,
+   "seconds": 16.1,
+   "description": "disposable copy of the built tree for the controls"
+  },
+  "C1": {
+   "required": true,
+   "rc": 0,
+   "seconds": 1228.8,
+   "description": "Lean-level controls and comparator mutation controls (disposable copy)"
+  },
+  "C2": {
+   "required": true,
+   "rc": 0,
+   "seconds": 8.3,
+   "description": "source-binding self-test (tampered added/modified file, deleted file, unlisted extra file)"
+  },
+  "K_ClayC": {
+   "required": true,
+   "rc": 0,
+   "seconds": 878.8,
+   "description": "Comparator: ComparatorChallenges/ClayC.json (Lean default kernel and nanoda)"
+  },
+  "K_ClayD": {
+   "required": true,
+   "rc": 0,
+   "seconds": 835.1,
+   "description": "Comparator: ComparatorChallenges/ClayD.json (Lean default kernel and nanoda)"
+  },
+  "K_ClayFefferman": {
+   "required": true,
+   "rc": 0,
+   "seconds": 870.2,
+   "description": "Comparator: ComparatorChallenges/ClayFefferman.json (Lean default kernel and nanoda)"
+  },
+  "K_ClayFeffermanViaD": {
+   "required": true,
+   "rc": 0,
+   "seconds": 867.7,
+   "description": "Comparator: ComparatorChallenges/ClayFeffermanViaD.json (Lean default kernel and nanoda)"
+  },
+  "K_NavierStokesComplete": {
+   "required": true,
+   "rc": 0,
+   "seconds": 856.4,
+   "description": "Comparator: ComparatorChallenges/NavierStokesComplete.json (Lean default kernel and nanoda)"
+  },
+  "P0": {
+   "required": true,
+   "rc": 0,
+   "seconds": 3.1,
+   "description": "prerequisites, platform and network"
+  },
+  "S1": {
+   "required": true,
+   "rc": 0,
+   "seconds": 0.2,
+   "description": "package input integrity (INPUTS.sha256)"
+  },
+  "S10": {
+   "required": true,
+   "rc": 0,
+   "seconds": 21.5,
+   "description": "build every claimed solution module and the statement-only challenge modules explicitly"
+  },
+  "S11": {
+   "required": true,
+   "rc": 0,
+   "seconds": 2.3,
+   "description": "upstream checkout at the pinned revision"
+  },
+  "S12": {
+   "required": true,
+   "rc": 0,
+   "seconds": 1.4,
+   "description": "source binding: upstream + shipped patch + listed extra files == shipped project (added and modified files)"
+  },
+  "S13": {
+   "required": true,
+   "rc": 0,
+   "seconds": 18.5,
+   "description": "integrity sweep (sorry, admit, axiom, native_decide, reduceBool, implemented_by, extern, unsafe, ...)"
+  },
+  "S14": {
+   "required": true,
+   "rc": 0,
+   "seconds": 0.5,
+   "description": "route coverage: every proved route is named by a Comparator configuration"
+  },
+  "S15": {
+   "required": true,
+   "rc": 0,
+   "seconds": 35.3,
+   "description": "theorem bindings: each configuration's theorems exist in its solution module within the permitted axioms"
+  },
+  "S16": {
+   "required": true,
+   "rc": 0,
+   "seconds": 341.7,
+   "description": "axiom enumeration over the whole claimed closure"
+  },
+  "S17": {
+   "required": true,
+   "rc": 0,
+   "seconds": 13.8,
+   "description": "Comparator trial projects (expected exits 0, 1, 0, 1)"
+  },
+  "S2": {
+   "required": true,
+   "rc": 0,
+   "seconds": 0.3,
+   "description": "copy the project to the workdir"
+  },
+  "S3": {
+   "required": true,
+   "rc": 0,
+   "seconds": 90.9,
+   "description": "toolchain and dependency pins"
+  },
+  "S4": {
+   "required": true,
+   "rc": 0,
+   "seconds": 22.8,
+   "description": "build nanoda_bin from the pinned source"
+  },
+  "S5": {
+   "required": true,
+   "rc": 0,
+   "seconds": 3.1,
+   "description": "build landrun from the pinned source"
+  },
+  "S6": {
+   "required": true,
+   "rc": 0,
+   "seconds": 42.0,
+   "description": "restore Mathlib build cache (public cache)"
+  },
+  "S7": {
+   "required": true,
+   "rc": 0,
+   "seconds": 8.4,
+   "description": "build lean4export; restore its toolchain file"
+  },
+  "S8": {
+   "required": true,
+   "rc": 0,
+   "seconds": 11.9,
+   "description": "build the Comparator"
+  },
+  "S9": {
+   "required": true,
+   "rc": 0,
+   "seconds": 751.9,
+   "description": "default build (lake build)"
+  }
+ },
+ "comparators": {
+  "ClayFefferman": {
+   "checker_exit_status": 0,
+   "stage_rc": 0,
+   "lean_default_kernel_accepts": true,
+   "nanoda_accepts": true,
+   "okay_line": true,
+   "uncaught_exception": false,
+   "elapsed": "14:30.17",
+   "max_rss_kb": 5675944,
+   "PASS": true
+  },
+  "ClayFeffermanViaD": {
+   "checker_exit_status": 0,
+   "stage_rc": 0,
+   "lean_default_kernel_accepts": true,
+   "nanoda_accepts": true,
+   "okay_line": true,
+   "uncaught_exception": false,
+   "elapsed": "14:27.67",
+   "max_rss_kb": 5681048,
+   "PASS": true
+  },
+  "NavierStokesComplete": {
+   "checker_exit_status": 0,
+   "stage_rc": 0,
+   "lean_default_kernel_accepts": true,
+   "nanoda_accepts": true,
+   "okay_line": true,
+   "uncaught_exception": false,
+   "elapsed": "14:16.41",
+   "max_rss_kb": 5676520,
+   "PASS": true
+  },
+  "ClayC": {
+   "checker_exit_status": 0,
+   "stage_rc": 0,
+   "lean_default_kernel_accepts": true,
+   "nanoda_accepts": true,
+   "okay_line": true,
+   "uncaught_exception": false,
+   "elapsed": "14:38.80",
+   "max_rss_kb": 5675760,
+   "PASS": true
+  },
+  "ClayD": {
+   "checker_exit_status": 0,
+   "stage_rc": 0,
+   "lean_default_kernel_accepts": true,
+   "nanoda_accepts": true,
+   "okay_line": true,
+   "uncaught_exception": false,
+   "elapsed": "13:55.11",
+   "max_rss_kb": 5680684,
+   "PASS": true
+  }
+ },
+ "axioms": {
+  "roots": [
+   "ClayStatement",
+   "NavierStokes.ClayFeffermanSolution",
+   "NavierStokes.ComparatorCompleteSolution",
+   "NavierStokes.ComparatorSolution",
+   "NavierStokes.ClayCSolution",
+   "NavierStokes.ClayDSolution"
+  ],
+  "closure_modules": 620,
+  "modules_enumerated": 620,
+  "modules_failed": [],
+  "theorems": 40986,
+  "modules_with_theorems": 619,
+  "exactly_the_three": 35970,
+  "strict_subset_of_the_three": 5016,
+  "outside_the_three": [],
+  "named_exact_checked": 26,
+  "named_exact_failures": [],
+  "subset_examples": [
+   [
+    "ClayStatement.Fefferman",
+    "Clay.NavierStokes.comp._proof_1",
+    [
+     "propext"
+    ]
+   ],
+   [
+    "NavierStokes.ActivationBounds",
+    "NavierStokes.ActivationBounds.NaturalOverlap.diagonal_histories_uniform_jets._simp_1_1",
+    [
+     "propext"
+    ]
+   ],
+   [
+    "NavierStokes.ActivationBounds",
+    "NavierStokes.ActivationBounds.NaturalOverlap.diagonal_histories_uniform_jets._simp_1_2",
+    [
+     "propext"
+    ]
+   ],
+   [
+    "NavierStokes.ActivationBounds",
+    "NavierStokes.ActivationBounds.NaturalOverlap.diagonal_histories_uniform_jets._simp_1_3",
+    [
+     "propext"
+    ]
+   ],
+   [
+    "NavierStokes.ActivationBounds",
+    "NavierStokes.ActivationBounds.NaturalOverlap.diagonal_histories_uniform_jets._simp_1_4",
+    [
+     "propext"
+    ]
+   ],
+   [
+    "NavierStokes.ActivationBounds",
+    "NavierStokes.ActivationBounds.NaturalOverlap.diagonal_histories_uniform_jets._simp_1_5",
+    [
+     "propext"
+    ]
+   ]
+  ],
+  "seconds": 332.4,
+  "PASS": true
+ },
+ "bindings": {
+  "bindings": [
+   {
+    "config": "ComparatorChallenges/ClayFefferman.json",
+    "challenge_module": "ComparatorChallenges.ClayFefferman",
+    "solution_module": "NavierStokes.ClayFeffermanSolution",
+    "permitted": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "rc": 0,
+    "theorems": [
+     {
+      "theorem": "NavierStokes.ClayChallenge.clay_navier_stokes_fefferman",
+      "exists_in_solution_module": true,
+      "axioms": [
+       "Classical.choice",
+       "Quot.sound",
+       "propext"
+      ],
+      "inside_permitted_list": true
+     }
+    ]
+   },
+   {
+    "config": "ComparatorChallenges/ClayFeffermanViaD.json",
+    "challenge_module": "ComparatorChallenges.ClayFeffermanViaD",
+    "solution_module": "NavierStokes.ClayFeffermanSolution",
+    "permitted": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "rc": 0,
+    "theorems": [
+     {
+      "theorem": "NavierStokes.ClayChallenge.clay_navier_stokes_fefferman_via_D",
+      "exists_in_solution_module": true,
+      "axioms": [
+       "Classical.choice",
+       "Quot.sound",
+       "propext"
+      ],
+      "inside_permitted_list": true
+     }
+    ]
+   },
+   {
+    "config": "ComparatorChallenges/NavierStokesComplete.json",
+    "challenge_module": "ComparatorChallenges.NavierStokesComplete",
+    "solution_module": "NavierStokes.ComparatorCompleteSolution",
+    "permitted": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "rc": 0,
+    "theorems": [
+     {
+      "theorem": "NavierStokes.Comparator.navier_stokes_clay_via_C",
+      "exists_in_solution_module": true,
+      "axioms": [
+       "Classical.choice",
+       "Quot.sound",
+       "propext"
+      ],
+      "inside_permitted_list": true
+     },
+     {
+      "theorem": "NavierStokes.Comparator.navier_stokes_clay_via_D",
+      "exists_in_solution_module": true,
+      "axioms": [
+       "Classical.choice",
+       "Quot.sound",
+       "propext"
+      ],
+      "inside_permitted_list": true
+     }
+    ]
+   },
+   {
+    "config": "ComparatorChallenges/ClayC.json",
+    "challenge_module": "ComparatorChallenges.ClayC",
+    "solution_module": "NavierStokes.ClayCSolution",
+    "permitted": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "rc": 0,
+    "theorems": [
+     {
+      "theorem": "NavierStokes.ClayC.clay_C",
+      "exists_in_solution_module": true,
+      "axioms": [
+       "Classical.choice",
+       "Quot.sound",
+       "propext"
+      ],
+      "inside_permitted_list": true
+     }
+    ]
+   },
+   {
+    "config": "ComparatorChallenges/ClayD.json",
+    "challenge_module": "ComparatorChallenges.ClayD",
+    "solution_module": "NavierStokes.ClayDSolution",
+    "permitted": [
+     "Classical.choice",
+     "Quot.sound",
+     "propext"
+    ],
+    "rc": 0,
+    "theorems": [
+     {
+      "theorem": "NavierStokes.ClayD.clay_D",
+      "exists_in_solution_module": true,
+      "axioms": [
+       "Classical.choice",
+       "Quot.sound",
+       "propext"
+      ],
+      "inside_permitted_list": true
+     }
+    ]
+   }
+  ],
+  "PASS": true
+ },
+ "sweep_verdict": {
+  "hits_outside_ComparatorChallenges": 0,
+  "non_sorry_constructs_inside_ComparatorChallenges": 0,
+  "challenge_configs_violating_one_sorry_per_named_theorem": {},
+  "files_in_ComparatorChallenges_with_sorry_but_no_comparator_config": [
+   "ComparatorChallenges/ClayA.lean",
+   "ComparatorChallenges/ClayB.lean"
+  ],
+  "PASS": true
+ },
+ "source_binding": {
+  "project_files": 2692,
+  "upstream_plus_patch_files": 2684,
+  "patch_added": 15,
+  "patch_modified": 24,
+  "extra_files": 8,
+  "problems": [],
+  "PASS": true
+ },
+ "source_binding_selftest": {
+  "results": [
+   {
+    "control": "unaltered copy",
+    "expected": "PASS",
+    "got": "PASS",
+    "ok": true
+   },
+   {
+    "control": "tampered ADDED file (ClayStatement/Bridge.lean)",
+    "expected": "FAIL naming ClayStatement/Bridge.lean",
+    "got": "FAIL naming ['ClayStatement/Bridge.lean']",
+    "ok": true
+   },
+   {
+    "control": "tampered MODIFIED file (NavierStokes/ActualCandidateConstruction.lean)",
+    "expected": "FAIL naming NavierStokes/ActualCandidateConstruction.lean",
+    "got": "FAIL naming ['NavierStokes/ActualCandidateConstruction.lean']",
+    "ok": true
+   },
+   {
+    "control": "deleted ADDED file (ClayStatement/Bridge.lean)",
+    "expected": "FAIL naming ClayStatement/Bridge.lean",
+    "got": "FAIL naming ['ClayStatement/Bridge.lean']",
+    "ok": true
+   },
+   {
+    "control": "unlisted extra file (Sneaky.lean)",
+    "expected": "FAIL naming Sneaky.lean",
+    "got": "FAIL naming ['Sneaky.lean']",
+    "ok": true
+   }
+  ],
+  "PASS": true
+ },
+ "control_lines": [
+  "CONTROL REAL_chain_accepted: ACCEPTED as expected (rc=0)",
+  "CONTROL R3_solution_modules_accepted: ACCEPTED as expected (rc=0)",
+  "CONTROL R2F1_collision_rejected: REJECTED as expected (rc=1; matched 'already contains')",
+  "CONTROL R2F1_resolved_pair_accepted: ACCEPTED as expected (rc=0)",
+  "CONTROL R2F2_delivered_pair_flagged: REJECTED as expected (uncovered route: via_D)",
+  "CONTROL R2F2_tree_fully_covered: ACCEPTED as expected (ROUTE_COVERAGE_OK uncovered=0 solution_modules=8)",
+  "CONTROL C_from_periodic_rejected: REJECTED as expected (rc=1; matched 'Application type mismatch')",
+  "CONTROL R2F4_weak_chain_base: ACCEPTED as expected (rc=0)",
+  "CONTROL R2F4_oneway_accepts_weak: ACCEPTED as expected (rc=0)",
+  "CONTROL R2F4_converse_rejects_weak: REJECTED as expected (rc=1; matched 'Application type mismatch')",
+  "CONTROL R2F4_bridge_equiv_rejects_weak: REJECTED as expected (rc=1; matched 'Application type mismatch')",
+  "CONTROL MUTANT_MODULES_BUILD: ACCEPTED as expected (the mutants themselves elaborate; their rejection below is the Comparator's)",
+  "CONTROL MUT_F5_removed_disjunction: REJECTED as expected by the Comparator (rc=1; matched 'Const does not match between challenge and target 'Clay.NavierStokes.FiniteEnergy''; first diagnostic: uncaught exception: Const does not match between challenge and target 'Clay.NavierStokes.FiniteEnergy')",
+  "CONTROL MUT_force_bound_weakened: REJECTED as expected by the Comparator (rc=1; matched 'Const does not match between challenge and target 'Clay.NavierStokes.ForceTorus''; first diagnostic: uncaught exception: Const does not match between challenge and target 'Clay.NavierStokes.ForceTorus')",
+  "CONTROL MUT_clause_3_altered: REJECTED as expected by the Comparator (rc=1; matched 'Const does not match between challenge and target 'Clay.NavierStokes.Initial''; first diagnostic: uncaught exception: Const does not match between challenge and target 'Clay.NavierStokes.Initial')",
+  "CONTROL MUT_sorry_solution: REJECTED as expected by the Comparator (rc=1; matched 'Illegal axiom detected: 'sorryAx''; first diagnostic: uncaught exception: Illegal axiom detected: 'sorryAx')",
+  "CONTROL R3_C_without_F5: REJECTED as expected by the Comparator (rc=1; matched 'Const does not match between challenge and target'; first diagnostic: uncaught exception: Const does not match between challenge and target 'Clay.NavierStokes.FiniteEnergy')",
+  "CONTROL R3_D_force_bound_weakened: REJECTED as expected by the Comparator (rc=1; matched 'Const does not match between challenge and target'; first diagnostic: uncaught exception: Const does not match between challenge and target 'Clay.NavierStokes.ForceTorus')",
+  "CONTROL R3_C_sorry_solution: REJECTED as expected by the Comparator (rc=1; matched 'Illegal axiom detected: 'sorryAx''; first diagnostic: uncaught exception: Illegal axiom detected: 'sorryAx')"
+ ],
+ "trials": [
+  "TRIAL simple_match: exit 0 (expected 0)",
+  "TRIAL simple_mismatch: exit 1 (expected 1)",
+  "TRIAL simple_nanoda: exit 0 (expected 0)",
+  "TRIAL simple_nanoda_mismatch: exit 1 (expected 1)"
+ ],
+ "environment": [
+  "free disk at WORKDIR: 54 GB (need >= 30)",
+  "Linux 7.0.0-34-generic x86_64",
+  "PRETTY_NAME=\"Ubuntu 24.04.5 LTS\"",
+  "cores: 88 (jobs for parallel stages: 32)",
+  "MemTotal:       396127476 kB",
+  "git version 2.43.0",
+  "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cargo 1.99.0 (5f94df478 2026-08-27)",
+  "rustc 1.99.0 (b940084d7 2026-09-28)",
+  "go version go1.27.2 linux/amd64",
+  "Python 3.12.3",
+  "Landlock in the kernel LSM list: landlock"
+ ],
+ "pins": [
+  "lean-toolchain: leanprover/lean4:v4.34.1",
+  "info: Comparator: cloning https://github.com/leanprover/comparator.git",
+  "info: Comparator: checking out revision '19e111e2141cf333c7daff0f64c5f24acc91dd2e'",
+  "dependency Comparator     rev 19e111e2141cf333c7daff0f64c5f24acc91dd2e  https://github.com/leanprover/comparator.git",
+  "dependency mathlib        rev d13f23b723b8a846827a245b89c10fc7d3f11612  https://github.com/leanprover-community/mathlib4.git",
+  "dependency lean4export    rev cacf989bd75f608700820f6afc595f32e7a99a4d  https://github.com/leanprover/lean4export",
+  "dependency plausible      rev 118aa17ee84656b8bd727fef7c458ee8c833385c  https://github.com/leanprover-community/plausible",
+  "dependency LeanSearchClient rev ddf04cf3949fa556442341e87d47f9f6e6074707  https://github.com/leanprover-community/LeanSearchClient",
+  "dependency importGraph    rev e928b72544873815af278d38681b31c0293588e3  https://github.com/leanprover-community/import-graph",
+  "dependency proofwidgets   rev 106ff4fafc74ef4ac99d81dbf3ab399118f497a5  https://github.com/leanprover-community/ProofWidgets4",
+  "dependency aesop          rev 355695d523e41d0554926416cba2a2b3544fbbc9  https://github.com/leanprover-community/aesop",
+  "dependency Qq             rev 6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259  https://github.com/leanprover-community/quote4",
+  "dependency batteries      rev f2effa3d803fda822b1f97b806c47cf2adfbcbc2  https://github.com/leanprover-community/batteries",
+  "dependency Cli            rev e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204  https://github.com/leanprover/lean4-cli",
+  "nanoda_lib pin: 68d5ca9db226849b41a6fff59d796ff19d0a8840",
+  "landrun pin:    5ed4a3db3a4ad930d577215c6b9abaa19df7f99f",
+  "upstream pin:   f9e8bc5b38b6e212696e8a30e3e91517af887bbd"
+ ],
+ "tool_hashes_observed": [
+  "2b8068e338e5d5a0a236cf6bb273fc92ab09fd2251b36d683ea3434786add4eb  <WORKDIR>/bin/nanoda_bin",
+  "85dee475c1cfce88af33cfb541e88cd2f7114e916a4de12374cd8c6fc050827c  <WORKDIR>/bin/landrun"
+ ],
+ "checks": [
+  {
+   "check": "stage P0 exit code 0",
+   "pass": true,
+   "detail": "rc=0 (prerequisites, platform and network)"
+  },
+  {
+   "check": "stage S1 exit code 0",
+   "pass": true,
+   "detail": "rc=0 (package input integrity (INPUTS.sha256))"
+  },
+  {
+   "check": "stage S2 exit code 0",
+   "pass": true,
+   "detail": "rc=0 (copy the project to the workdir)"
+  },
+  {
+   "check": "stage S3 exit code 0",
+   "pass": true,
+   "detail": "rc=0 (toolchain and dependency pins)"
+  },
+  {
+   "check": "stage S4 exit code 0",
+   "pass": true,
+   "detail": "rc=0 (build nanoda_bin from the pinned source)"
+  },
+  {
+   "check": "stage S5 exit code 0",
+   "pass": true,
+   "detail": "rc=0 (build landrun from the pinned source)"
+  },
+  {
+   "check": "stage S6 exit code 0",
+   "pass": true,
+   "detail": "rc=0 (restore Mathlib build cache (public cache))"
+  },
+  {
+   "check": "stage S7 exit code 0",
+   "pass": true,
+   "detail": "rc=0 (build lean4export; restore its toolchain file)"
+  },
+  {
+   "check": "stage S8 exit code 0",
+   "pass": true,
+   "detail": "rc=0 (build the Comparator)"
+  },
+  {
+   "check": "stage S9 exit code 0",
+   "pass": true,
+   "detail": "rc=0 (default build (lake build))"
+  },
+  {
+   "check": "stage S10 exit code 0",
+   "pass": true,
+   "detail": "rc=0 (build every claimed solution module and the statement-only challenge modules explicitly)"
+  },
+  {
+   "check": "stage S11 exit code 0",
+   "pass": true,
+   "detail": "rc=0 (upstream checkout at the pinned revision)"
+  },
+  {
+   "check": "stage S12 exit code 0",
+   "pass": true,
+   "detail": "rc=0 (source binding: upstream + shipped patch + listed extra files == shipped project (added and modified files))"
+  },
+  {
+   "check": "stage S13 exit code 0",
+   "pass": true,
+   "detail": "rc=0 (integrity sweep (sorry, admit, axiom, native_decide, reduceBool, implemented_by, extern, unsafe, ...))"
+  },
+  {
+   "check": "stage S14 exit code 0",
+   "pass": true,
+   "detail": "rc=0 (route coverage: every proved route is named by a Comparator configuration)"
+  },
+  {
+   "check": "stage S15 exit code 0",
+   "pass": true,
+   "detail": "rc=0 (theorem bindings: each configuration's theorems exist in its solution module within the permitted axioms)"
+  },
+  {
+   "check": "stage S16 exit code 0",
+   "pass": true,
+   "detail": "rc=0 (axiom enumeration over the whole claimed closure)"
+  },
+  {
+   "check": "stage K_ClayFefferman exit code 0",
+   "pass": true,
+   "detail": "rc=0 (Comparator: ComparatorChallenges/ClayFefferman.json (Lean default kernel and nanoda))"
+  },
+  {
+   "check": "stage K_ClayFeffermanViaD exit code 0",
+   "pass": true,
+   "detail": "rc=0 (Comparator: ComparatorChallenges/ClayFeffermanViaD.json (Lean default kernel and nanoda))"
+  },
+  {
+   "check": "stage K_NavierStokesComplete exit code 0",
+   "pass": true,
+   "detail": "rc=0 (Comparator: ComparatorChallenges/NavierStokesComplete.json (Lean default kernel and nanoda))"
+  },
+  {
+   "check": "stage K_ClayC exit code 0",
+   "pass": true,
+   "detail": "rc=0 (Comparator: ComparatorChallenges/ClayC.json (Lean default kernel and nanoda))"
+  },
+  {
+   "check": "stage K_ClayD exit code 0",
+   "pass": true,
+   "detail": "rc=0 (Comparator: ComparatorChallenges/ClayD.json (Lean default kernel and nanoda))"
+  },
+  {
+   "check": "stage S17 exit code 0",
+   "pass": true,
+   "detail": "rc=0 (Comparator trial projects (expected exits 0, 1, 0, 1))"
+  },
+  {
+   "check": "stage C0 exit code 0",
+   "pass": true,
+   "detail": "rc=0 (disposable copy of the built tree for the controls)"
+  },
+  {
+   "check": "stage C1 exit code 0",
+   "pass": true,
+   "detail": "rc=0 (Lean-level controls and comparator mutation controls (disposable copy))"
+  },
+  {
+   "check": "stage C2 exit code 0",
+   "pass": true,
+   "detail": "rc=0 (source-binding self-test (tampered added/modified file, deleted file, unlisted extra file))"
+  },
+  {
+   "check": "Comparator ClayFefferman: exit 0, Lean default kernel AND nanoda accept, no exception",
+   "pass": true,
+   "detail": "{\"checker_exit_status\": 0, \"stage_rc\": 0, \"lean_default_kernel_accepts\": true, \"nanoda_accepts\": true, \"okay_line\": true, \"uncaught_exception\": false, \"elapsed\": \"14:30.17\", \"max_rss_kb\": 5675944, \"PASS\": true}"
+  },
+  {
+   "check": "Comparator ClayFeffermanViaD: exit 0, Lean default kernel AND nanoda accept, no exception",
+   "pass": true,
+   "detail": "{\"checker_exit_status\": 0, \"stage_rc\": 0, \"lean_default_kernel_accepts\": true, \"nanoda_accepts\": true, \"okay_line\": true, \"uncaught_exception\": false, \"elapsed\": \"14:27.67\", \"max_rss_kb\": 5681048, \"PASS\": true}"
+  },
+  {
+   "check": "Comparator NavierStokesComplete: exit 0, Lean default kernel AND nanoda accept, no exception",
+   "pass": true,
+   "detail": "{\"checker_exit_status\": 0, \"stage_rc\": 0, \"lean_default_kernel_accepts\": true, \"nanoda_accepts\": true, \"okay_line\": true, \"uncaught_exception\": false, \"elapsed\": \"14:16.41\", \"max_rss_kb\": 5676520, \"PASS\": true}"
+  },
+  {
+   "check": "Comparator ClayC: exit 0, Lean default kernel AND nanoda accept, no exception",
+   "pass": true,
+   "detail": "{\"checker_exit_status\": 0, \"stage_rc\": 0, \"lean_default_kernel_accepts\": true, \"nanoda_accepts\": true, \"okay_line\": true, \"uncaught_exception\": false, \"elapsed\": \"14:38.80\", \"max_rss_kb\": 5675760, \"PASS\": true}"
+  },
+  {
+   "check": "Comparator ClayD: exit 0, Lean default kernel AND nanoda accept, no exception",
+   "pass": true,
+   "detail": "{\"checker_exit_status\": 0, \"stage_rc\": 0, \"lean_default_kernel_accepts\": true, \"nanoda_accepts\": true, \"okay_line\": true, \"uncaught_exception\": false, \"elapsed\": \"13:55.11\", \"max_rss_kb\": 5680684, \"PASS\": true}"
+  },
+  {
+   "check": "axioms: no dependency outside propext/Classical.choice/Quot.sound over the whole claimed closure; named theorems exactly the three",
+   "pass": true,
+   "detail": "{\"closure_modules\": 620, \"modules_enumerated\": 620, \"theorems\": 40986, \"exactly_the_three\": 35970, \"strict_subset_of_the_three\": 5016, \"named_exact_checked\": 26}"
+  },
+  {
+   "check": "axioms: no module failed to enumerate",
+   "pass": true,
+   "detail": "[]"
+  },
+  {
+   "check": "theorem bindings (each configuration's theorems exist in its solution module within the permitted axioms)",
+   "pass": true,
+   "detail": "[('ComparatorChallenges/ClayFefferman.json', [['Classical.choice', 'Quot.sound', 'propext']]), ('ComparatorChallenges/ClayFeffermanViaD.json', [['Classical.choice', 'Quot.sound', 'propext']]), ('ComparatorChallenges/NavierStokesComplete.json', [['Classical.choice', 'Quot.sound', 'propext'], ['Classi"
+  },
+  {
+   "check": "integrity sweep verdict",
+   "pass": true,
+   "detail": "{\"hits_outside_ComparatorChallenges\": 0, \"non_sorry_constructs_inside_ComparatorChallenges\": 0, \"challenge_configs_violating_one_sorry_per_named_theorem\": {}, \"files_in_ComparatorChallenges_with_sorry_but_no_comparator_config\": [\"ComparatorChallenges/ClayA.lean\", \"ComparatorChallenges/ClayB.lean\"], "
+  },
+  {
+   "check": "sweep: the only challenge files with a sorry and no Comparator configuration are the two statement-only files (A, B)",
+   "pass": true,
+   "detail": "got ['ComparatorChallenges/ClayA.lean', 'ComparatorChallenges/ClayB.lean']"
+  },
+  {
+   "check": "route coverage: every proved route is named by a configuration",
+   "pass": true,
+   "detail": "ROUTE_COVERAGE_OK uncovered=0 solution_modules=6"
+  },
+  {
+   "check": "source binding: upstream + patch + listed extras == shipped project (added and modified files)",
+   "pass": true,
+   "detail": "{\"project_files\": 2692, \"patch_added\": 15, \"patch_modified\": 24, \"extra_files\": 8}"
+  },
+  {
+   "check": "source binding self-test: tampered added/modified file, deleted file and unlisted extra file each rejected by name",
+   "pass": true,
+   "detail": "[('unaltered copy', True), ('tampered ADDED file (ClayStatement/Bridg', True), ('tampered MODIFIED file (NavierStokes/Act', True), ('deleted ADDED file (ClayStatement/Bridge', True), ('unlisted extra file (Sneaky.lean)', True)]"
+  },
+  {
+   "check": "controls: every named control ran and printed its expected outcome; CONTROLS_RESULT PASS",
+   "pass": true,
+   "detail": "19 of 19 named controls present; missing []; not as expected []; 12 rejected-as-expected, 7 accepted-as-expected"
+  },
+  {
+   "check": "Comparator trial projects behaved as expected (exits 0,1,0,1)",
+   "pass": true,
+   "detail": "TRIAL simple_match: exit 0 (expected 0); TRIAL simple_mismatch: exit 1 (expected 1); TRIAL simple_nanoda: exit 0 (expected 0); TRIAL simple_nanoda_mismatch: exit 1 (expected 1)"
+  }
+ ],
+ "problems": [],
+ "declared": {
+  "network": "github.com (mathlib4, nanoda_lib, landrun, upstream, Lake dependencies), crates.io, Go module proxy, public Mathlib cache",
+  "resident_components_not_installed_by_the_script": "elan + Lean 4.34.1, Rust, Go, gcc, git, python3",
+  "mathlib_cache": "public cache via `lake exe cache get`; a cold download was not part of this run"
+ }
+}

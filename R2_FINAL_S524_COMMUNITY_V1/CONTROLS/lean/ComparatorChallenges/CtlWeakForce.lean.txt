@@ -1,0 +1,9 @@
+import ClayStatementCtl.FeffermanWeakForce
+
+/-! CONTROL: challenge states StatementD with the force bound weakened. A sorry here is expected, as in any Comparator challenge. -/
+
+namespace NavierStokes.ClayChallenge
+
+theorem clay_navier_stokes_fefferman : Clay.NavierStokes.ClayNavierStokes := by sorry
+
+end NavierStokes.ClayChallenge

@@ -1,0 +1,23 @@
+P0	1	0	3.1	prerequisites, platform and network
+S1	1	0	0.2	package input integrity (INPUTS.sha256)
+S2	1	0	0.3	copy the project to the workdir
+S3	1	0	90.9	toolchain and dependency pins
+S4	1	0	22.8	build nanoda_bin from the pinned source
+S5	1	0	3.1	build landrun from the pinned source
+S6	1	0	42.0	restore Mathlib build cache (public cache)
+S7	1	0	8.4	build lean4export; restore its toolchain file
+S8	1	0	11.9	build the Comparator
+S9	1	0	751.9	default build (lake build)
+S10	1	0	21.5	build every claimed solution module and the statement-only challenge modules explicitly
+S11	1	0	2.3	upstream checkout at the pinned revision
+S12	1	0	1.4	source binding: upstream + shipped patch + listed extra files == shipped project (added and modified files)
+S13	1	0	18.5	integrity sweep (sorry, admit, axiom, native_decide, reduceBool, implemented_by, extern, unsafe, ...)
+S14	1	0	0.5	route coverage: every proved route is named by a Comparator configuration
+S15	1	0	35.3	theorem bindings: each configuration's theorems exist in its solution module within the permitted axioms
+S16	1	0	341.7	axiom enumeration over the whole claimed closure
+K_ClayFefferman	1	0	870.2	Comparator: ComparatorChallenges/ClayFefferman.json (Lean default kernel and nanoda)
+K_ClayFeffermanViaD	1	0	867.7	Comparator: ComparatorChallenges/ClayFeffermanViaD.json (Lean default kernel and nanoda)
+K_NavierStokesComplete	1	0	856.4	Comparator: ComparatorChallenges/NavierStokesComplete.json (Lean default kernel and nanoda)
+K_ClayC	1	0	878.8	Comparator: ComparatorChallenges/ClayC.json (Lean default kernel and nanoda)
+K_ClayD	1	0	835.1	Comparator: ComparatorChallenges/ClayD.json (Lean default kernel and nanoda)
+S17	1	0	13.8	Comparator trial projects (expected exits 0, 1, 0, 1)

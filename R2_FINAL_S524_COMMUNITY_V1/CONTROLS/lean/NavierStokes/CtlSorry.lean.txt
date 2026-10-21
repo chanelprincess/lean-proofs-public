@@ -1,0 +1,9 @@
+import ClayStatement.Fefferman
+
+/-! CONTROL: a solution that is `sorry`. The comparator must reject it. -/
+
+namespace NavierStokes.ClayChallenge
+
+theorem clay_navier_stokes_fefferman : Clay.NavierStokes.ClayNavierStokes := by sorry
+
+end NavierStokes.ClayChallenge

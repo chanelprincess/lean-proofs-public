@@ -1,0 +1,4 @@
+TRIAL simple_match: exit 0 (expected 0)
+TRIAL simple_mismatch: exit 1 (expected 1)
+TRIAL simple_nanoda: exit 0 (expected 0)
+TRIAL simple_nanoda_mismatch: exit 1 (expected 1)

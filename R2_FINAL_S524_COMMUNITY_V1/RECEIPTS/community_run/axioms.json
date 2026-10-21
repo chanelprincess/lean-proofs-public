@@ -1,0 +1,66 @@
+{
+ "roots": [
+  "ClayStatement",
+  "NavierStokes.ClayFeffermanSolution",
+  "NavierStokes.ComparatorCompleteSolution",
+  "NavierStokes.ComparatorSolution",
+  "NavierStokes.ClayCSolution",
+  "NavierStokes.ClayDSolution"
+ ],
+ "closure_modules": 620,
+ "modules_enumerated": 620,
+ "modules_failed": [],
+ "theorems": 40986,
+ "modules_with_theorems": 619,
+ "exactly_the_three": 35970,
+ "strict_subset_of_the_three": 5016,
+ "outside_the_three": [],
+ "named_exact_checked": 26,
+ "named_exact_failures": [],
+ "subset_examples": [
+  [
+   "ClayStatement.Fefferman",
+   "Clay.NavierStokes.comp._proof_1",
+   [
+    "propext"
+   ]
+  ],
+  [
+   "NavierStokes.ActivationBounds",
+   "NavierStokes.ActivationBounds.NaturalOverlap.diagonal_histories_uniform_jets._simp_1_1",
+   [
+    "propext"
+   ]
+  ],
+  [
+   "NavierStokes.ActivationBounds",
+   "NavierStokes.ActivationBounds.NaturalOverlap.diagonal_histories_uniform_jets._simp_1_2",
+   [
+    "propext"
+   ]
+  ],
+  [
+   "NavierStokes.ActivationBounds",
+   "NavierStokes.ActivationBounds.NaturalOverlap.diagonal_histories_uniform_jets._simp_1_3",
+   [
+    "propext"
+   ]
+  ],
+  [
+   "NavierStokes.ActivationBounds",
+   "NavierStokes.ActivationBounds.NaturalOverlap.diagonal_histories_uniform_jets._simp_1_4",
+   [
+    "propext"
+   ]
+  ],
+  [
+   "NavierStokes.ActivationBounds",
+   "NavierStokes.ActivationBounds.NaturalOverlap.diagonal_histories_uniform_jets._simp_1_5",
+   [
+    "propext"
+   ]
+  ]
+ ],
+ "seconds": 332.4,
+ "PASS": true
+}

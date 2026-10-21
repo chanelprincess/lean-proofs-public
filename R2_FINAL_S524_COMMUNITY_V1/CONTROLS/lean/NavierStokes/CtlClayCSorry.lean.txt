@@ -1,0 +1,7 @@
+import ClayStatement.Fefferman
+
+/-! CONTROL: a solution to R3's (C) challenge whose proof is `sorry`. The Comparator must reject it. -/
+
+namespace NavierStokes.ClayC
+theorem clay_C : Clay.NavierStokes.StatementC := by sorry
+end NavierStokes.ClayC

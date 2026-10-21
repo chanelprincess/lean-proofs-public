@@ -1,0 +1,5 @@
+import NavierStokes.ComparatorCompleteSolution
+import NavierStokes.ComparatorSolution
+
+/-! CONTROL R2-F1, the working half. The fix imports the S456 SOLUTION module, whose OptionA..OptionD are textually identical to the
+challenge module's. The same two-module pair loads together; Lean must accept this file. -/

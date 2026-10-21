@@ -1,0 +1,17 @@
+lean-toolchain: leanprover/lean4:v4.34.1
+info: Comparator: cloning https://github.com/leanprover/comparator.git
+info: Comparator: checking out revision '19e111e2141cf333c7daff0f64c5f24acc91dd2e'
+dependency Comparator     rev 19e111e2141cf333c7daff0f64c5f24acc91dd2e  https://github.com/leanprover/comparator.git
+dependency mathlib        rev d13f23b723b8a846827a245b89c10fc7d3f11612  https://github.com/leanprover-community/mathlib4.git
+dependency lean4export    rev cacf989bd75f608700820f6afc595f32e7a99a4d  https://github.com/leanprover/lean4export
+dependency plausible      rev 118aa17ee84656b8bd727fef7c458ee8c833385c  https://github.com/leanprover-community/plausible
+dependency LeanSearchClient rev ddf04cf3949fa556442341e87d47f9f6e6074707  https://github.com/leanprover-community/LeanSearchClient
+dependency importGraph    rev e928b72544873815af278d38681b31c0293588e3  https://github.com/leanprover-community/import-graph
+dependency proofwidgets   rev 106ff4fafc74ef4ac99d81dbf3ab399118f497a5  https://github.com/leanprover-community/ProofWidgets4
+dependency aesop          rev 355695d523e41d0554926416cba2a2b3544fbbc9  https://github.com/leanprover-community/aesop
+dependency Qq             rev 6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259  https://github.com/leanprover-community/quote4
+dependency batteries      rev f2effa3d803fda822b1f97b806c47cf2adfbcbc2  https://github.com/leanprover-community/batteries
+dependency Cli            rev e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204  https://github.com/leanprover/lean4-cli
+nanoda_lib pin: 68d5ca9db226849b41a6fff59d796ff19d0a8840
+landrun pin:    5ed4a3db3a4ad930d577215c6b9abaa19df7f99f
+upstream pin:   f9e8bc5b38b6e212696e8a30e3e91517af887bbd

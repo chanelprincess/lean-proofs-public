@@ -1,0 +1,7 @@
+{
+  "challenge_module": "ComparatorChallenges.ClayA",
+  "solution_module": "NavierStokes.ClayASolution",
+  "theorem_names": ["NavierStokes.ClayA.clay_A"],
+  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
+  "enable_nanoda": true
+}

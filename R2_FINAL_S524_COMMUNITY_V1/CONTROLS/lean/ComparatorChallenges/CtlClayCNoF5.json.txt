@@ -1,0 +1,13 @@
+{
+  "challenge_module": "ComparatorChallenges.CtlClayCNoF5",
+  "solution_module": "NavierStokes.ClayCSolution",
+  "theorem_names": [
+    "NavierStokes.ClayC.clay_C"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "enable_nanoda": true
+}

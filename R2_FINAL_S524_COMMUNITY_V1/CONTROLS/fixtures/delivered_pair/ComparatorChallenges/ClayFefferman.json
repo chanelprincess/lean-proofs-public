@@ -1,0 +1,7 @@
+{
+  "challenge_module": "ComparatorChallenges.ClayFefferman",
+  "solution_module": "NavierStokes.ClayFeffermanSolution",
+  "theorem_names": ["NavierStokes.ClayChallenge.clay_navier_stokes_fefferman"],
+  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
+  "enable_nanoda": true
+}

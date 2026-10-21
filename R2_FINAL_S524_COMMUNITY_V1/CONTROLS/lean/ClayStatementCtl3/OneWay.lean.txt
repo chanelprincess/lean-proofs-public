@@ -1,0 +1,28 @@
+import ClayStatementCtl3.BridgeSwap
+
+/-!
+# CONTROL R2-F4, part 1: a ONE-WAY bridge accepts the weakened target
+
+`ClayStatementCtl3.*` is the bridge chain rebuilt against `FeffermanWeakForce`, whose `ForceTorus` decay bound is weakened
+from `C / (1 + t) ^ K` to `C`. The direction the solve needs (authors' force condition → Fefferman's) only has to *imply* the
+weaker statement, and it does: this proof is accepted. A bridge that checks only this direction cannot tell the weakened
+target from the real one.
+-/
+
+namespace Clay.NavierStokes.Ctl3OneWay
+open Clay.NavierStokes Clay.NavierStokes.BridgeSwap
+
+theorem forceTorus_fwd_weak (f' : E3 → ℝ → E3) :
+    NavierStokes.Comparator.ForceConditionPeriodic f' → ForceTorus (fun t x => f' x t) := by
+  intro h
+  refine ⟨contDiffOn_of_strip (fun z : ℝ × E3 => f' z.2 z.1) h.smooth, fun t ht j x => h.isOnePeriodic t ht x j, fun n K => ?_⟩
+  obtain ⟨C, hC⟩ := h.decay n 0
+  refine ⟨C, fun t ht x => ?_⟩
+  have e : ‖iteratedFDerivWithin ℝ n (fun z : E3 × ℝ => f' z.1 z.2) (Set.univ ×ˢ Set.Ici (0 : ℝ)) (x, t)‖
+      = ‖iteratedFDerivWithin ℝ n (fun z : ℝ × E3 => f' z.2 z.1) halfSpace (t, x)‖ :=
+    norm_iter_swap (fun z : ℝ × E3 => f' z.2 z.1) n x ht
+  have h1 := hC x t ht
+  simp only [Real.rpow_zero, div_one] at h1
+  exact e.symm.le.trans h1
+
+end Clay.NavierStokes.Ctl3OneWay

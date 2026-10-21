@@ -1,0 +1,35 @@
+{
+ "results": [
+  {
+   "control": "unaltered copy",
+   "expected": "PASS",
+   "got": "PASS",
+   "ok": true
+  },
+  {
+   "control": "tampered ADDED file (ClayStatement/Bridge.lean)",
+   "expected": "FAIL naming ClayStatement/Bridge.lean",
+   "got": "FAIL naming ['ClayStatement/Bridge.lean']",
+   "ok": true
+  },
+  {
+   "control": "tampered MODIFIED file (NavierStokes/ActualCandidateConstruction.lean)",
+   "expected": "FAIL naming NavierStokes/ActualCandidateConstruction.lean",
+   "got": "FAIL naming ['NavierStokes/ActualCandidateConstruction.lean']",
+   "ok": true
+  },
+  {
+   "control": "deleted ADDED file (ClayStatement/Bridge.lean)",
+   "expected": "FAIL naming ClayStatement/Bridge.lean",
+   "got": "FAIL naming ['ClayStatement/Bridge.lean']",
+   "ok": true
+  },
+  {
+   "control": "unlisted extra file (Sneaky.lean)",
+   "expected": "FAIL naming Sneaky.lean",
+   "got": "FAIL naming ['Sneaky.lean']",
+   "ok": true
+  }
+ ],
+ "PASS": true
+}

@@ -1,0 +1,9 @@
+Euler.Solution                               routes=2 covered=2 UNCOVERED=[]
+NavierStokes.ClayCSolution                   routes=1 covered=1 UNCOVERED=[]
+NavierStokes.ClayDSolution                   routes=1 covered=1 UNCOVERED=[]
+NavierStokes.ClayFeffermanSolution           routes=2 covered=2 UNCOVERED=[]
+NavierStokes.ComparatorCompleteSolution      routes=2 covered=2 UNCOVERED=[]
+NavierStokes.ComparatorSolution              routes=2 covered=2 UNCOVERED=[]
+NavierStokes.CtlClayCSorry                   routes=1 covered=1 UNCOVERED=[]
+NavierStokes.CtlSorry                        routes=1 covered=1 UNCOVERED=[]
+ROUTE_COVERAGE_OK uncovered=0 solution_modules=8

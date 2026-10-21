@@ -1,0 +1,9 @@
+import ClayStatementCtl.FeffermanClauseMut
+
+/-! CONTROL: challenge with one clause (3) mutated. A sorry here is expected, as in any Comparator challenge. -/
+
+namespace NavierStokes.ClayChallenge
+
+theorem clay_navier_stokes_fefferman : Clay.NavierStokes.ClayNavierStokes := by sorry
+
+end NavierStokes.ClayChallenge

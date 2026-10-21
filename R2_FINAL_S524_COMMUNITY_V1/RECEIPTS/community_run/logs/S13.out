@@ -1,0 +1,23 @@
+files scanned: 2677 | eliminator cross-check: not used | disagreements: 0
+file                                                                       line  construct
+ComparatorChallenges/ClayA.lean                                               7  sorry   [inside ComparatorChallenges/]
+ComparatorChallenges/ClayB.lean                                               7  sorry   [inside ComparatorChallenges/]
+ComparatorChallenges/ClayC.lean                                               7  sorry   [inside ComparatorChallenges/]
+ComparatorChallenges/ClayD.lean                                               7  sorry   [inside ComparatorChallenges/]
+ComparatorChallenges/ClayFefferman.lean                                      13  sorry   [inside ComparatorChallenges/]
+ComparatorChallenges/ClayFeffermanViaD.lean                                  14  sorry   [inside ComparatorChallenges/]
+ComparatorChallenges/Euler.lean                                              88  sorry   [inside ComparatorChallenges/]
+ComparatorChallenges/Euler.lean                                             184  sorry   [inside ComparatorChallenges/]
+ComparatorChallenges/NavierStokes.lean                                      277  sorry   [inside ComparatorChallenges/]
+ComparatorChallenges/NavierStokes.lean                                      284  sorry   [inside ComparatorChallenges/]
+ComparatorChallenges/NavierStokesComplete.lean                              305  sorry   [inside ComparatorChallenges/]
+ComparatorChallenges/NavierStokesComplete.lean                              309  sorry   [inside ComparatorChallenges/]
+challenge configs (named theorem -> sorry lines inside its body):
+  ComparatorChallenges/ClayC.json                      [('clay_C', 1)] | sorry outside named theorems: []
+  ComparatorChallenges/ClayD.json                      [('clay_D', 1)] | sorry outside named theorems: []
+  ComparatorChallenges/ClayFefferman.json              [('clay_navier_stokes_fefferman', 1)] | sorry outside named theorems: []
+  ComparatorChallenges/ClayFeffermanViaD.json          [('clay_navier_stokes_fefferman_via_D', 1)] | sorry outside named theorems: []
+  ComparatorChallenges/Euler.json                      [('euler_breakdown_R3', 1), ('exists_compact_smooth_euler_singularity', 1)] | sorry outside named theorems: []
+  ComparatorChallenges/NavierStokes.json               [('navier_stokes_breakdown_R3', 1), ('navier_stokes_breakdown_periodic', 1)] | sorry outside named theorems: []
+  ComparatorChallenges/NavierStokesComplete.json       [('navier_stokes_clay_via_C', 1), ('navier_stokes_clay_via_D', 1)] | sorry outside named theorems: []
+verdict: {"hits_outside_ComparatorChallenges": 0, "non_sorry_constructs_inside_ComparatorChallenges": 0, "challenge_configs_violating_one_sorry_per_named_theorem": {}, "files_in_ComparatorChallenges_with_sorry_but_no_comparator_config": ["ComparatorChallenges/ClayA.lean", "ComparatorChallenges/ClayB.lean"], "PASS": true}

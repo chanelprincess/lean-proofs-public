@@ -1,0 +1,46 @@
+Building ComparatorChallenges.NavierStokesComplete
+⚠ [8924/8924] Built ComparatorChallenges.NavierStokesComplete (7.8s)
+warning: ComparatorChallenges/NavierStokesComplete.lean:304:8: declaration uses `sorry`
+warning: ComparatorChallenges/NavierStokesComplete.lean:308:8: declaration uses `sorry`
+Build completed successfully (8924 jobs).
+Exporting #[Nat, String, String.mk, Char, Quot, Quot.mk, Quot.lift, Quot.ind, NavierStokes.Comparator.navier_stokes_clay_via_C, NavierStokes.Comparator.navier_stokes_clay_via_D, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce] from ComparatorChallenges.NavierStokesComplete
+Building NavierStokes.ComparatorCompleteSolution
+⚠ [9078/9140] Replayed NavierStokes.AxisWeightEstimates
+warning: NavierStokes/AxisWeightEstimates.lean:5:0: 'Mathlib.Data.Real.Basic' has been deprecated: please replace this import by
+
+import Mathlib.Basic.Real.Basic
+⚠ [9110/9140] Replayed NavierStokes.TangentProjection
+warning: NavierStokes/TangentProjection.lean:4:0: 'Mathlib.Data.Complex.Basic' has been deprecated: please replace this import by
+
+import Mathlib.Basic.Complex.Basic
+⚠ [9120/9140] Replayed NavierStokes.CurlGeometry
+warning: NavierStokes/CurlGeometry.lean:1:0: 'Mathlib.Data.Complex.Basic' has been deprecated: please replace this import by
+
+import Mathlib.Basic.Complex.Basic
+⚠ [9156/9200] Replayed NavierStokes.UniformPrimaryWeights
+warning: NavierStokes/UniformPrimaryWeights.lean:3:0: 'Mathlib.Data.Countable.Defs' has been deprecated: please replace this import by
+
+import Mathlib.Basic.Countable.Defs
+⚠ [9256/9265] Replayed NavierStokes.BasePrefixIdentity
+warning: NavierStokes/BasePrefixIdentity.lean:185:4: Unused tactic linter: `norm_num [Fin.ext_iff]` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+warning: NavierStokes/BasePrefixIdentity.lean:192:4: Unused tactic linter: `norm_num [Fin.ext_iff]` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+⚠ [9326/9350] Replayed NavierStokes.ExponentLedger
+warning: NavierStokes/ExponentLedger.lean:1:0: 'Mathlib.Data.Real.Basic' has been deprecated: please replace this import by
+
+import Mathlib.Basic.Real.Basic
+ℹ [9532/9532] Replayed NavierStokes.ComparatorCompleteSolution
+info: NavierStokes/ComparatorCompleteSolution.lean:53:0: 'NavierStokes.Comparator.navier_stokes_clay_via_C' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: NavierStokes/ComparatorCompleteSolution.lean:54:0: 'NavierStokes.Comparator.navier_stokes_clay_via_D' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: NavierStokes/ComparatorCompleteSolution.lean:55:0: 'NavierStokes.Comparator.OptionA' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: NavierStokes/ComparatorCompleteSolution.lean:56:0: 'NavierStokes.Comparator.OptionB' depends on axioms: [propext, Classical.choice, Quot.sound]
+Build completed successfully (9532 jobs).
+Exporting #[Nat, String, String.mk, Char, Quot, Quot.mk, Quot.lift, Quot.ind, NavierStokes.Comparator.navier_stokes_clay_via_C, NavierStokes.Comparator.navier_stokes_clay_via_D, propext, Quot.sound, Classical.choice, Nat.add, Nat.sub, Nat.mul, Nat.pow, Nat.gcd, Nat.div, Nat.mod, Nat.beq, Nat.ble, Nat.land, Nat.lor, Nat.xor, Nat.shiftLeft, Nat.shiftRight, String.ofList, Char.ofNat, List, eagerReduce] from NavierStokes.ComparatorCompleteSolution
+Running nanoda kernel on solution
+nanoda kernel accepts the solution
+Running Lean default kernel on solution.
+Lean default kernel accepts the solution
+Your solution is okay!

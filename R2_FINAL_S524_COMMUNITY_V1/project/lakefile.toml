@@ -1,0 +1,41 @@
+name = "NavierStokesAndEuler"
+version = "0.1.0"
+defaultTargets = ["ClayStatement"]
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+git = "https://github.com/leanprover-community/mathlib4.git"
+rev = "d13f23b723b8a846827a245b89c10fc7d3f11612"
+
+[[require]]
+name = "Comparator"
+scope = "leanprover"
+git = "https://github.com/leanprover/comparator.git"
+rev = "v4.34.0-rc2"
+
+[[lean_lib]]
+name = "NavierStokes"
+globs = ["NavierStokes", "NavierStokes.+"]
+
+[[lean_lib]]
+name = "Euler"
+leanOptions = { autoImplicit = false, warningAsError = true }
+globs = ["Euler", "Euler.+"]
+
+[[lean_lib]]
+name = "ComparatorChallenges"
+globs = ["ComparatorChallenges.+"]
+
+
+[[lean_lib]]
+name = "ClayStatement"
+globs = ["ClayStatement", "ClayStatement.+"]
+
+# S523: ComparatorChallenges stays a library (the Comparator builds the challenge module it is given) but is no longer a default target: its files hold `sorry` by design.
+# ClayStatement is a default target and its root module imports BridgeConverse.
+
+# S523: ComparatorChallenges stays a library (the Comparator builds the challenge module it is given) but is no longer a default target: its files hold `sorry` by design.
+# ClayStatement is a default target and its root module imports BridgeConverse.
+# S523 (R2-F6): the default target is ClayStatement, whose import closure is the proof (618 modules: 611 NavierStokes + 7 ClayStatement). The authors' NavierStokes and Euler libraries are NOT default targets:
+# in a fresh room on Lean 4.34.1, seven of their modules outside that closure do not compile (see FINDINGS.md R2-F6); the S412 port never built them. They are left untouched and are not claimed.

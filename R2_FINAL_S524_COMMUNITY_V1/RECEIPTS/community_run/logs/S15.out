@@ -1,0 +1,6 @@
+ComparatorChallenges/ClayFefferman.json      rc=0 [('clay_navier_stokes_fefferman', ['Classical.choice', 'Quot.sound', 'propext'])]
+ComparatorChallenges/ClayFeffermanViaD.json  rc=0 [('clay_navier_stokes_fefferman_via_D', ['Classical.choice', 'Quot.sound', 'propext'])]
+ComparatorChallenges/NavierStokesComplete.json rc=0 [('navier_stokes_clay_via_C', ['Classical.choice', 'Quot.sound', 'propext']), ('navier_stokes_clay_via_D', ['Classical.choice', 'Quot.sound', 'propext'])]
+ComparatorChallenges/ClayC.json              rc=0 [('clay_C', ['Classical.choice', 'Quot.sound', 'propext'])]
+ComparatorChallenges/ClayD.json              rc=0 [('clay_D', ['Classical.choice', 'Quot.sound', 'propext'])]
+BINDINGS PASS

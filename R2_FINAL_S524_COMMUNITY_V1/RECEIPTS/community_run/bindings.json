@@ -1,0 +1,130 @@
+{
+ "bindings": [
+  {
+   "config": "ComparatorChallenges/ClayFefferman.json",
+   "challenge_module": "ComparatorChallenges.ClayFefferman",
+   "solution_module": "NavierStokes.ClayFeffermanSolution",
+   "permitted": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ],
+   "rc": 0,
+   "theorems": [
+    {
+     "theorem": "NavierStokes.ClayChallenge.clay_navier_stokes_fefferman",
+     "exists_in_solution_module": true,
+     "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+     ],
+     "inside_permitted_list": true
+    }
+   ]
+  },
+  {
+   "config": "ComparatorChallenges/ClayFeffermanViaD.json",
+   "challenge_module": "ComparatorChallenges.ClayFeffermanViaD",
+   "solution_module": "NavierStokes.ClayFeffermanSolution",
+   "permitted": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ],
+   "rc": 0,
+   "theorems": [
+    {
+     "theorem": "NavierStokes.ClayChallenge.clay_navier_stokes_fefferman_via_D",
+     "exists_in_solution_module": true,
+     "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+     ],
+     "inside_permitted_list": true
+    }
+   ]
+  },
+  {
+   "config": "ComparatorChallenges/NavierStokesComplete.json",
+   "challenge_module": "ComparatorChallenges.NavierStokesComplete",
+   "solution_module": "NavierStokes.ComparatorCompleteSolution",
+   "permitted": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ],
+   "rc": 0,
+   "theorems": [
+    {
+     "theorem": "NavierStokes.Comparator.navier_stokes_clay_via_C",
+     "exists_in_solution_module": true,
+     "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+     ],
+     "inside_permitted_list": true
+    },
+    {
+     "theorem": "NavierStokes.Comparator.navier_stokes_clay_via_D",
+     "exists_in_solution_module": true,
+     "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+     ],
+     "inside_permitted_list": true
+    }
+   ]
+  },
+  {
+   "config": "ComparatorChallenges/ClayC.json",
+   "challenge_module": "ComparatorChallenges.ClayC",
+   "solution_module": "NavierStokes.ClayCSolution",
+   "permitted": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ],
+   "rc": 0,
+   "theorems": [
+    {
+     "theorem": "NavierStokes.ClayC.clay_C",
+     "exists_in_solution_module": true,
+     "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+     ],
+     "inside_permitted_list": true
+    }
+   ]
+  },
+  {
+   "config": "ComparatorChallenges/ClayD.json",
+   "challenge_module": "ComparatorChallenges.ClayD",
+   "solution_module": "NavierStokes.ClayDSolution",
+   "permitted": [
+    "Classical.choice",
+    "Quot.sound",
+    "propext"
+   ],
+   "rc": 0,
+   "theorems": [
+    {
+     "theorem": "NavierStokes.ClayD.clay_D",
+     "exists_in_solution_module": true,
+     "axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+     ],
+     "inside_permitted_list": true
+    }
+   ]
+  }
+ ],
+ "PASS": true
+}

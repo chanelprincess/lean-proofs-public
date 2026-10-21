@@ -1,0 +1,7 @@
+import ClayStatementCtl.FeffermanWeakForce
+
+/-! CONTROL: R3's D challenge stated over the mutated statement module (force decay bound weakened). A `sorry` here is expected, as in any Comparator challenge. -/
+
+namespace NavierStokes.ClayD
+theorem clay_D : Clay.NavierStokes.StatementD := by sorry
+end NavierStokes.ClayD

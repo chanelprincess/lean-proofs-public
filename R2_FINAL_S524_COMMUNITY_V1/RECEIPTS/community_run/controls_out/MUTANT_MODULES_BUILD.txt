@@ -1,0 +1,30 @@
+⚠ [8924/8934] Replayed ClayStatementCtl.FeffermanWeakForce
+warning: ClayStatementCtl/FeffermanWeakForce.lean:109:13: Variable name `K` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _K
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [8926/8934] Built NavierStokes.CtlSorry (6.9s)
+warning: NavierStokes/CtlSorry.lean:7:8: declaration uses `sorry`
+✔ [8927/8934] Built ClayStatementCtl.FeffermanNoF5 (7.5s)
+⚠ [8928/8934] Built ComparatorChallenges.CtlClayDWeakForce (8.0s)
+warning: ComparatorChallenges/CtlClayDWeakForce.lean:6:8: declaration uses `sorry`
+⚠ [8929/8934] Built NavierStokes.CtlClayCSorry (7.0s)
+warning: NavierStokes/CtlClayCSorry.lean:6:8: declaration uses `sorry`
+⚠ [8930/8934] Built ComparatorChallenges.CtlWeakForce (8.0s)
+warning: ComparatorChallenges/CtlWeakForce.lean:7:8: declaration uses `sorry`
+⚠ [8931/8934] Built ClayStatementCtl.FeffermanClauseMut (8.7s)
+warning: ClayStatementCtl/FeffermanClauseMut.lean:71:31: Variable name `u0` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _u0
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+⚠ [8932/8934] Built ComparatorChallenges.CtlClayCNoF5 (6.2s)
+warning: ComparatorChallenges/CtlClayCNoF5.lean:6:8: declaration uses `sorry`
+⚠ [8933/8934] Built ComparatorChallenges.CtlNoF5 (6.3s)
+warning: ComparatorChallenges/CtlNoF5.lean:7:8: declaration uses `sorry`
+⚠ [8934/8934] Built ComparatorChallenges.CtlClauseMut (6.1s)
+warning: ComparatorChallenges/CtlClauseMut.lean:7:8: declaration uses `sorry`
+Build completed successfully (8934 jobs).

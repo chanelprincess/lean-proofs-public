@@ -1,0 +1,2 @@
+NavierStokes.ClayFeffermanSolution           routes=2 covered=1 UNCOVERED=['NavierStokes.ClayChallenge.clay_navier_stokes_fefferman_via_D']
+ROUTE_COVERAGE_GAP uncovered=1 solution_modules=1

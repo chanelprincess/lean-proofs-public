@@ -1,0 +1,1933 @@
+diff --git a/ClayStatement.lean b/ClayStatement.lean
+new file mode 100644
+index 0000000..00ac715
+--- /dev/null
++++ b/ClayStatement.lean
+@@ -0,0 +1,11 @@
++import ClayStatement.Fefferman
++import ClayStatement.Bridge
++import ClayStatement.BridgeConverse
++
++/-!
++# ClayStatement: Fefferman's literal statements and the bridge to the authors' options
++
++Root module of the `ClayStatement` library (a default build target). It imports the literal statements (`Fefferman`), the
++bridge in the direction the solve needs together with the A and B correspondences (`Bridge`), and the converse directions
++for C and D (`BridgeConverse`), so a default build checks all four alternatives in both directions.
++-/
+diff --git a/ClayStatement/Bridge.lean b/ClayStatement/Bridge.lean
+new file mode 100644
+index 0000000..32e856d
+--- /dev/null
++++ b/ClayStatement/Bridge.lean
+@@ -0,0 +1,63 @@
++import ClayStatement.BridgeEquiv
++import NavierStokes.ComparatorCompleteSolution
++
++/-!
++# Bridge: the authors' formal options and Fefferman's literal statements
++
++These are the obligations that connect the authors' `OptionA`..`OptionD`
++(S456 challenge file, built from the authors' own definitions) to the
++literal Fefferman statements in `ClayStatement.Fefferman`.
++
++A and B are linked in both directions. That gives a formal statement
++correspondence, not a proof of either: both remain open problems.
++
++C and D need only the direction Option → Statement, which is what the solve
++uses. The reverse directions are optional.
++
++Build note (S522). The delivered file imported `ComparatorChallenges.NavierStokesComplete`. A module that also
++imports the S412 `NavierStokes.ComparatorSolution` then fails to load (`NavierStokes.ComparatorDefinitions` redeclares
++the challenge's `NavierStokes.Comparator.*` names). This file imports the S456 solution module instead; its
++`OptionA`..`OptionD` are textually identical to the challenge module's (S456 solution header). No statement below
++and no clause of either side was changed.
++
++Proof ingredients, in the modules this file imports:
++- `BridgeLemmas`: coordinate-sum divergence, Laplacian, gradient and (u·∇)u equal trace, Mathlib Δ, gradient and `fderiv`;
++- `BridgeSwap`: the `(t, x)` / `(x, t)` argument order, smoothness and iterated-derivative norms across `Prod.swap`;
++- `BridgeEquiv`: integrable ‖u‖² plus a bound iff `MemLp 2` plus a bound, and the data-condition clauses.
++-/
++
++namespace Clay.NavierStokes.Bridge
++open Clay.NavierStokes
++open Clay.NavierStokes.BridgeEquiv
++
++-- Statement correspondence for the open problems (both directions)
++theorem optionA_iff_statementA : NavierStokes.Comparator.OptionA ↔ StatementA := by
++  constructor
++  · intro h ν hν u0 hs hd
++    exact (solR3_iff ν u0 0).mp (h ν hν u0 ((initR3_iff u0).mpr ⟨hs, hd⟩))
++  · intro h ν hν u0 hI
++    have h1 := (initR3_iff u0).mp hI
++    exact (solR3_iff ν u0 0).mpr (h ν hν u0 h1.1 h1.2)
++
++theorem optionB_iff_statementB : NavierStokes.Comparator.OptionB ↔ StatementB := by
++  constructor
++  · intro h ν hν u0 hs hp
++    exact (solTorus_iff ν u0 0).mp (h ν hν u0 ((initTorus_iff u0).mpr ⟨hs, hp⟩))
++  · intro h ν hν u0 hI
++    have h1 := (initTorus_iff u0).mp hI
++    exact (solTorus_iff ν u0 0).mpr (h ν hν u0 h1.1 h1.2)
++
++-- The direction the solve needs
++theorem optionC_imp_statementC : NavierStokes.Comparator.OptionC → StatementC := by
++  intro h ν hν
++  obtain ⟨u0, f', hI, hF, hNot⟩ := h ν hν
++  obtain ⟨hs, hd⟩ := (initR3_iff u0).mp hI
++  exact ⟨u0, fun t x => f' x t, hs, hd, (forceR3_iff f').mp hF, fun hSol => hNot ((solR3_iff ν u0 f').mpr hSol)⟩
++
++theorem optionD_imp_statementD : NavierStokes.Comparator.OptionD → StatementD := by
++  intro h ν hν
++  obtain ⟨u0, f', hI, hF, hNot⟩ := h ν hν
++  obtain ⟨hs, hp⟩ := (initTorus_iff u0).mp hI
++  exact ⟨u0, fun t x => f' x t, hs, hp, (forceTorus_iff f').mp hF, fun hSol => hNot ((solTorus_iff ν u0 f').mpr hSol)⟩
++
++end Clay.NavierStokes.Bridge
+diff --git a/ClayStatement/BridgeConverse.lean b/ClayStatement/BridgeConverse.lean
+new file mode 100644
+index 0000000..7031c20
+--- /dev/null
++++ b/ClayStatement/BridgeConverse.lean
+@@ -0,0 +1,30 @@
++import ClayStatement.BridgeEquiv
++import NavierStokes.ComparatorCompleteSolution
++
++/-!
++# Optional converse directions for (C) and (D)
++
++Added by the builder (S522). The delivered `Bridge.lean` states (C) and (D) in the direction the solve needs
++(authors' option → Fefferman's statement) and calls the reverse directions optional. The equivalences in
++`BridgeEquiv` already give them, so Fefferman's (C) and (D) and the authors' `OptionC` and `OptionD` correspond in
++both directions, as (A) and (B) do. Nothing imports this file; it is not used by either solution.
++-/
++
++namespace Clay.NavierStokes.BridgeConverse
++open Clay.NavierStokes Clay.NavierStokes.BridgeEquiv
++
++theorem statementC_imp_optionC : StatementC → NavierStokes.Comparator.OptionC := by
++  intro h ν hν
++  obtain ⟨u0, f, hs, hd, hF, hNot⟩ := h ν hν
++  refine ⟨u0, fun x t => f t x, (initR3_iff u0).mpr ⟨hs, hd⟩, (forceR3_iff (fun x t => f t x)).mpr hF, ?_⟩
++  intro hSol
++  exact hNot ((solR3_iff ν u0 (fun x t => f t x)).mp hSol)
++
++theorem statementD_imp_optionD : StatementD → NavierStokes.Comparator.OptionD := by
++  intro h ν hν
++  obtain ⟨u0, f, hs, hp, hF, hNot⟩ := h ν hν
++  refine ⟨u0, fun x t => f t x, (initTorus_iff u0).mpr ⟨hs, hp⟩, (forceTorus_iff (fun x t => f t x)).mpr hF, ?_⟩
++  intro hSol
++  exact hNot ((solTorus_iff ν u0 (fun x t => f t x)).mp hSol)
++
++end Clay.NavierStokes.BridgeConverse
+diff --git a/ClayStatement/BridgeEquiv.lean b/ClayStatement/BridgeEquiv.lean
+new file mode 100644
+index 0000000..ae75080
+--- /dev/null
++++ b/ClayStatement/BridgeEquiv.lean
+@@ -0,0 +1,168 @@
++import ClayStatement.BridgeSwap
++
++/-!
++# Bridge lemmas, layer 3: the solution classes and data conditions
++
++Equivalences between Fefferman's literal solution classes (`SolR3`, `SolTorus`) and data conditions
++(`SmoothDivFree`, `Decay`, `PeriodicDatum`, `ForceR3`, `ForceTorus`) and the authors' structures
++(`NavierStokesExistenceAndSmoothness{Rn,Periodic}`, `InitialVelocityCondition*`, `ForceCondition*`).
++The authors write fields as `v x t`; Fefferman writes `u t x`. Neither side is edited.
++-/
++
++namespace Clay.NavierStokes.BridgeEquiv
++open Clay.NavierStokes Clay.NavierStokes.BridgeLemmas Clay.NavierStokes.BridgeSwap
++open scoped Laplacian
++open MeasureTheory
++
++theorem c2_slice_challenge (v : E3 → ℝ → E3)
++    (h : ContDiffOn ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) (fun z : E3 × ℝ => v z.1 z.2) (Set.univ ×ˢ Set.Ici (0 : ℝ)))
++    {t : ℝ} (ht : 0 ≤ t) : ContDiff ℝ 2 (fun y => v y t) :=
++  (slice_of_strip v h ht).of_le (WithTop.coe_le_coe.2 le_top)
++
++theorem c2_slice_fefferman (u : ℝ → E3 → E3)
++    (h : ContDiffOn ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) (fun z : ℝ × E3 => u z.1 z.2) halfSpace)
++    {t : ℝ} (ht : 0 ≤ t) : ContDiff ℝ 2 (u t) :=
++  (slice_of_halfSpace u h ht).of_le (WithTop.coe_le_coe.2 le_top)
++
++/-- Equation (1) in the authors' form and in Clay's coordinate-sum form agree at a C² slice. -/
++theorem ns_form (ν : ℝ) (v : E3 → ℝ → E3) (p : E3 → ℝ → ℝ) (f' : E3 → ℝ → E3) (t : ℝ) (x : E3)
++    (hC : ContDiff ℝ 2 (fun y => v y t)) :
++    (derivWithin (fun s => v x s) (Set.Ici 0) t + fderiv ℝ (fun y => v y t) x (v x t)
++        = ν • Δ (fun y => v y t) x - gradient (fun y => p y t) x + f' x t) ↔
++    (derivWithin (fun s => v x s) (Set.Ici 0) t + advect (fun y => v y t) x
++        = ν • lap (fun y => v y t) x - grad (fun y => p y t) x + f' x t) := by
++  rw [advect_eq, lap_eq _ hC x, grad_eq]
++
++/-- The part of the solution class shared by (A)-(D): equation (1), (2), (3) and smoothness. -/
++theorem core_iff (ν : ℝ) (u0 : E3 → E3) (f' : E3 → ℝ → E3) (v : E3 → ℝ → E3) (p : E3 → ℝ → ℝ) :
++    NavierStokes.Comparator.NavierStokesExistenceAndSmoothness ν u0 f' v p ↔
++      (NSEq ν (fun t x => v x t) (fun t x => p x t) (fun t x => f' x t) ∧
++        DivFree (fun t x => v x t) ∧ Initial (fun t x => v x t) u0 ∧
++        SmoothHalf (fun t x => v x t) ∧ SmoothHalf (fun t x => p x t)) := by
++  constructor
++  · intro h
++    have hv : ContDiffOn ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) (fun z : E3 × ℝ => v z.1 z.2) (Set.univ ×ˢ Set.Ici (0 : ℝ)) :=
++      h.velocity_smooth
++    refine ⟨?_, ?_, ?_, ?_, ?_⟩
++    · intro t ht x
++      exact (ns_form ν v p f' t x (c2_slice_challenge v hv ht)).mp (h.navier_stokes x t ht)
++    · intro t ht x
++      exact (div_eq (fun y => v y t) x).trans (h.div_free x t ht)
++    · intro x
++      exact h.initial_condition x
++    · exact contDiffOn_of_strip (fun z : ℝ × E3 => v z.2 z.1) hv
++    · exact contDiffOn_of_strip (fun z : ℝ × E3 => p z.2 z.1) h.pressure_smooth
++  · rintro ⟨hNS, hDF, hI, hSu, hSp⟩
++    refine ⟨?_, ?_, ?_, ?_, ?_⟩
++    · intro x t ht
++      have hC := c2_slice_fefferman (fun t x => v x t) hSu ht
++      exact (ns_form ν v p f' t x hC).mpr (hNS t ht x)
++    · intro x t ht
++      exact (div_eq (fun y => v y t) x).symm.trans (hDF t ht x)
++    · intro x
++      exact hI x
++    · exact contDiffOn_to_strip (fun z : ℝ × E3 => v z.2 z.1) hSu
++    · exact contDiffOn_to_strip (fun z : ℝ × E3 => p z.2 z.1) hSp
++
++/-- Solution class on ℝ³ (A), (C): the authors' structure iff Fefferman's `SolR3`. -/
++theorem solR3_iff (ν : ℝ) (u0 : E3 → E3) (f' : E3 → ℝ → E3) :
++    (∃ v p, NavierStokes.Comparator.NavierStokesExistenceAndSmoothnessRn ν u0 f' v p) ↔
++      SolR3 ν u0 (fun t x => f' x t) := by
++  constructor
++  · rintro ⟨v, p, h⟩
++    have hc := (core_iff ν u0 f' v p).mp h.toNavierStokesExistenceAndSmoothness
++    refine ⟨fun t x => v x t, fun t x => p x t, hc.1, hc.2.1, hc.2.2.1, hc.2.2.2.1, hc.2.2.2.2, ?_⟩
++    obtain ⟨E, hE⟩ := h.globally_bounded_energy
++    refine ⟨E, fun t ht => ⟨?_, hE t ht⟩⟩
++    have hm := h.integrable t ht
++    exact (memLp_two_iff_integrable_sq hm.aestronglyMeasurable).mp hm
++  · rintro ⟨u, p, hNS, hDF, hI, hSu, hSp, ⟨C, hC⟩⟩
++    have hc := (core_iff ν u0 f' (fun x t => u t x) (fun x t => p t x)).mpr ⟨hNS, hDF, hI, hSu, hSp⟩
++    refine ⟨fun x t => u t x, fun x t => p t x,
++      { toNavierStokesExistenceAndSmoothness := hc
++        integrable := ?_
++        globally_bounded_energy := ⟨C, fun t ht => (hC t ht).2⟩ }⟩
++    intro t ht
++    have hcont : Continuous (u t) := (c2_slice_fefferman u hSu ht).continuous
++    exact (memLp_two_iff_integrable_sq hcont.norm.aestronglyMeasurable).mpr (hC t ht).1
++
++/-- Solution class on the torus (B), (D): the authors' structure iff Fefferman's `SolTorus`. -/
++theorem solTorus_iff (ν : ℝ) (u0 : E3 → E3) (f' : E3 → ℝ → E3) :
++    (∃ v p, NavierStokes.Comparator.NavierStokesExistenceAndSmoothnessPeriodic ν u0 f' v p) ↔
++      SolTorus ν u0 (fun t x => f' x t) := by
++  constructor
++  · rintro ⟨v, p, h⟩
++    have hc := (core_iff ν u0 f' v p).mp h.toNavierStokesExistenceAndSmoothness
++    refine ⟨fun t x => v x t, fun t x => p x t, hc.1, hc.2.1, hc.2.2.1, ?_, ?_, hc.2.2.2.1, hc.2.2.2.2⟩
++    · intro t ht j x
++      exact h.isOnePeriodic_velocity t ht x j
++    · intro t ht j x
++      exact h.isOnePeriodic_pressure t ht x j
++  · rintro ⟨u, p, hNS, hDF, hI, hPu, hPp, hSu, hSp⟩
++    have hc := (core_iff ν u0 f' (fun x t => u t x) (fun x t => p t x)).mpr ⟨hNS, hDF, hI, hSu, hSp⟩
++    exact ⟨fun x t => u t x, fun x t => p t x,
++      { toNavierStokesExistenceAndSmoothness := hc
++        isOnePeriodic_velocity := fun t ht x j => hPu t ht j x
++        isOnePeriodic_pressure := fun t ht x j => hPp t ht j x }⟩
++
++/-- Initial datum for (A), (C). -/
++theorem initR3_iff (u0 : E3 → E3) :
++    NavierStokes.Comparator.InitialVelocityConditionDecay u0 ↔ SmoothDivFree u0 ∧ Decay u0 := by
++  constructor
++  · intro h
++    exact ⟨⟨h.smooth, fun x => (div_eq u0 x).trans (h.div_free x)⟩, h.decay⟩
++  · rintro ⟨⟨hs, hd⟩, hdec⟩
++    exact { div_free := fun x => (div_eq u0 x).symm.trans (hd x), smooth := hs, decay := hdec }
++
++/-- Initial datum for (B), (D). -/
++theorem initTorus_iff (u0 : E3 → E3) :
++    NavierStokes.Comparator.InitialVelocityConditionPeriodic u0 ↔ SmoothDivFree u0 ∧ PeriodicDatum u0 := by
++  constructor
++  · intro h
++    exact ⟨⟨h.smooth, fun x => (div_eq u0 x).trans (h.div_free x)⟩, fun j x => h.isOnePeriodic x j⟩
++  · rintro ⟨⟨hs, hd⟩, hp⟩
++    exact { div_free := fun x => (div_eq u0 x).symm.trans (hd x), smooth := hs, isOnePeriodic := fun x i => hp i x }
++
++/-- Force for (C): smoothness on the half-space and the (5) decay bounds. -/
++theorem forceR3_iff (f' : E3 → ℝ → E3) :
++    NavierStokes.Comparator.ForceConditionDecay f' ↔ ForceR3 (fun t x => f' x t) := by
++  constructor
++  · intro h
++    refine ⟨contDiffOn_of_strip (fun z : ℝ × E3 => f' z.2 z.1) h.smooth, fun n K => ?_⟩
++    obtain ⟨C, hC⟩ := h.decay n K
++    refine ⟨C, fun t ht x => ?_⟩
++    have e : ‖iteratedFDerivWithin ℝ n (fun z : E3 × ℝ => f' z.1 z.2) (Set.univ ×ˢ Set.Ici (0 : ℝ)) (x, t)‖
++        = ‖iteratedFDerivWithin ℝ n (fun z : ℝ × E3 => f' z.2 z.1) halfSpace (t, x)‖ :=
++      norm_iter_swap (fun z : ℝ × E3 => f' z.2 z.1) n x ht
++    exact e.symm.le.trans (hC x t ht)
++  · rintro ⟨hs, hd⟩
++    refine { smooth := contDiffOn_to_strip (fun z : ℝ × E3 => f' z.2 z.1) hs, decay := fun n K => ?_ }
++    obtain ⟨C, hC⟩ := hd n K
++    refine ⟨C, fun x t ht => ?_⟩
++    have e : ‖iteratedFDerivWithin ℝ n (fun z : E3 × ℝ => f' z.1 z.2) (Set.univ ×ˢ Set.Ici (0 : ℝ)) (x, t)‖
++        = ‖iteratedFDerivWithin ℝ n (fun z : ℝ × E3 => f' z.2 z.1) halfSpace (t, x)‖ :=
++      norm_iter_swap (fun z : ℝ × E3 => f' z.2 z.1) n x ht
++    exact e.le.trans (hC t ht x)
++
++/-- Force for (D): smoothness, periodicity in space and the (9) decay bounds in time. -/
++theorem forceTorus_iff (f' : E3 → ℝ → E3) :
++    NavierStokes.Comparator.ForceConditionPeriodic f' ↔ ForceTorus (fun t x => f' x t) := by
++  constructor
++  · intro h
++    refine ⟨contDiffOn_of_strip (fun z : ℝ × E3 => f' z.2 z.1) h.smooth, fun t ht j x => h.isOnePeriodic t ht x j, fun n K => ?_⟩
++    obtain ⟨C, hC⟩ := h.decay n K
++    refine ⟨C, fun t ht x => ?_⟩
++    have e : ‖iteratedFDerivWithin ℝ n (fun z : E3 × ℝ => f' z.1 z.2) (Set.univ ×ˢ Set.Ici (0 : ℝ)) (x, t)‖
++        = ‖iteratedFDerivWithin ℝ n (fun z : ℝ × E3 => f' z.2 z.1) halfSpace (t, x)‖ :=
++      norm_iter_swap (fun z : ℝ × E3 => f' z.2 z.1) n x ht
++    exact e.symm.le.trans (hC x t ht)
++  · rintro ⟨hs, hp, hd⟩
++    refine { smooth := contDiffOn_to_strip (fun z : ℝ × E3 => f' z.2 z.1) hs, isOnePeriodic := fun t ht x j => hp t ht j x, decay := fun n K => ?_ }
++    obtain ⟨C, hC⟩ := hd n K
++    refine ⟨C, fun x t ht => ?_⟩
++    have e : ‖iteratedFDerivWithin ℝ n (fun z : E3 × ℝ => f' z.1 z.2) (Set.univ ×ˢ Set.Ici (0 : ℝ)) (x, t)‖
++        = ‖iteratedFDerivWithin ℝ n (fun z : ℝ × E3 => f' z.2 z.1) halfSpace (t, x)‖ :=
++      norm_iter_swap (fun z : ℝ × E3 => f' z.2 z.1) n x ht
++    exact e.le.trans (hC t ht x)
++
++end Clay.NavierStokes.BridgeEquiv
+diff --git a/ClayStatement/BridgeLemmas.lean b/ClayStatement/BridgeLemmas.lean
+new file mode 100644
+index 0000000..c9b4605
+--- /dev/null
++++ b/ClayStatement/BridgeLemmas.lean
+@@ -0,0 +1,52 @@
++import ClayStatement.Fefferman
++import NavierStokes.ComparatorCompleteSolution
++
++/-!
++# Bridge lemmas, layer 1: Clay's coordinate-sum operators equal Mathlib's operators
++
++F7 of Statements v2: divergence, Laplacian and gradient are Clay's coordinate sums.
++These lemmas relate them to the trace, Δ, gradient and `fderiv` forms used by the authors' challenge.
++No clause of either statement is changed here.
++-/
++
++namespace Clay.NavierStokes.BridgeLemmas
++open Clay.NavierStokes
++open scoped Laplacian
++
++/-- (u·∇)u in Clay's coordinate sum is the derivative of g in the direction g x. Holds for every g. -/
++theorem advect_eq (g : E3 → E3) (x : E3) : advect g x = fderiv ℝ g x (g x) := by
++  have h := (EuclideanSpace.basisFun (Fin 3) ℝ).sum_repr' (g x)
++  conv_rhs => rw [← h]
++  simp only [map_sum, map_smul, advect, comp, dx, e, EuclideanSpace.basisFun_apply, real_inner_comm]
++
++/-- Clay's coordinate-sum gradient is Mathlib's gradient. Holds for every q. -/
++theorem grad_eq (q : E3 → ℝ) (x : E3) : grad q x = gradient q x := by
++  have h := (EuclideanSpace.basisFun (Fin 3) ℝ).sum_repr' (gradient q x)
++  conv_rhs => rw [← h]
++  refine Finset.sum_congr rfl fun i _ => ?_
++  have hi : inner ℝ (gradient q x) (EuclideanSpace.single i (1 : ℝ)) = fderiv ℝ q x (EuclideanSpace.single i 1) :=
++    InnerProductSpace.toDual_symm_apply
++  simp only [dx, e, EuclideanSpace.basisFun_apply]
++  rw [real_inner_comm, hi]
++
++/-- Clay's coordinate-sum divergence is the trace of the derivative (the challenge's `divergence`). Holds for every g. -/
++theorem div_eq (g : E3 → E3) (x : E3) : div g x = NavierStokes.Comparator.divergence g x := by
++  unfold Clay.NavierStokes.div NavierStokes.Comparator.divergence Clay.NavierStokes.comp Clay.NavierStokes.dx
++  have h := LinearMap.trace_eq_sum_inner (fderiv ℝ g x : E3 →ₗ[ℝ] E3) (EuclideanSpace.basisFun (Fin 3) ℝ)
++  simpa [Clay.NavierStokes.e, real_inner_comm] using h.symm
++
++/-- Clay's coordinate-sum Laplacian is Mathlib's Δ for C² fields. -/
++theorem lap_eq (g : E3 → E3) (hg : ContDiff ℝ 2 g) (x : E3) : lap g x = Δ g x := by
++  have hL := congrFun (InnerProductSpace.laplacian_eq_iteratedFDeriv_orthonormalBasis g (EuclideanSpace.basisFun (Fin 3) ℝ)) x
++  rw [hL]
++  refine Finset.sum_congr rfl fun j _ => ?_
++  have hd : DifferentiableAt ℝ (fderiv ℝ g) x :=
++    ((hg.fderiv_right (m := 1) (by norm_num)).differentiable one_ne_zero).differentiableAt
++  have hc : DifferentiableAt ℝ (fun _ : E3 => e j) x := differentiableAt_const _
++  have h1 := fderiv_clm_apply (c := fderiv ℝ g) (u := fun _ : E3 => e j) hd hc
++  have h2 : fderiv ℝ (fun y => fderiv ℝ g y (e j)) x = (fderiv ℝ (fderiv ℝ g) x).flip (e j) := by
++    simpa using h1
++  simp only [dx, iteratedFDeriv_two_apply, h2]
++  simp [e, EuclideanSpace.basisFun_apply]
++
++end Clay.NavierStokes.BridgeLemmas
+diff --git a/ClayStatement/BridgeSwap.lean b/ClayStatement/BridgeSwap.lean
+new file mode 100644
+index 0000000..be2b693
+--- /dev/null
++++ b/ClayStatement/BridgeSwap.lean
+@@ -0,0 +1,68 @@
++import ClayStatement.BridgeLemmas
++
++/-!
++# Bridge lemmas, layer 2: the argument-order swap
++
++Fefferman's fields are `u t x` on the closed half-space {t ≥ 0} ⊆ ℝ × ℝ³; the authors' challenge writes
++`v x t` on `univ ×ˢ Ici 0` ⊆ ℝ³ × ℝ. These lemmas transport smoothness, fixed-time slices and the
++iterated-derivative norms across `Prod.swap`, which is a linear isometry. No clause is changed.
++-/
++
++namespace Clay.NavierStokes.BridgeSwap
++open Clay.NavierStokes
++open scoped ContDiff
++
++theorem uniqueDiffOn_halfSpace : UniqueDiffOn ℝ halfSpace := by
++  have h : halfSpace = Set.Ici (0 : ℝ) ×ˢ (Set.univ : Set E3) := by
++    ext z; simp [halfSpace]
++  rw [h]
++  exact (uniqueDiffOn_Ici 0).prod uniqueDiffOn_univ
++
++theorem contDiffOn_to_strip {F : Type*} [NormedAddCommGroup F] [NormedSpace ℝ F] (G : ℝ × E3 → F) {n : WithTop ℕ∞}
++    (h : ContDiffOn ℝ n G halfSpace) :
++    ContDiffOn ℝ n (fun z : E3 × ℝ => G (z.2, z.1)) (Set.univ ×ˢ Set.Ici (0 : ℝ)) := by
++  have h1 := h.comp_continuousLinearMap (ContinuousLinearEquiv.prodComm ℝ E3 ℝ : E3 × ℝ →L[ℝ] ℝ × E3)
++  have hs : ((ContinuousLinearEquiv.prodComm ℝ E3 ℝ : E3 × ℝ →L[ℝ] ℝ × E3) ⁻¹' halfSpace)
++      = Set.univ ×ˢ Set.Ici (0 : ℝ) := by
++    ext z; simp [halfSpace]
++  rw [hs] at h1
++  exact h1
++
++theorem contDiffOn_of_strip {F : Type*} [NormedAddCommGroup F] [NormedSpace ℝ F] (G : ℝ × E3 → F) {n : WithTop ℕ∞}
++    (h : ContDiffOn ℝ n (fun z : E3 × ℝ => G (z.2, z.1)) (Set.univ ×ˢ Set.Ici (0 : ℝ))) :
++    ContDiffOn ℝ n G halfSpace := by
++  have h1 := h.comp_continuousLinearMap (ContinuousLinearEquiv.prodComm ℝ ℝ E3 : ℝ × E3 →L[ℝ] E3 × ℝ)
++  have hs : ((ContinuousLinearEquiv.prodComm ℝ ℝ E3 : ℝ × E3 →L[ℝ] E3 × ℝ) ⁻¹'
++      (Set.univ ×ˢ Set.Ici (0 : ℝ))) = halfSpace := by
++    ext z; simp [halfSpace]
++  rw [hs] at h1
++  exact h1
++
++/-- At a fixed time t ≥ 0, a function smooth on the half-space is smooth in x. -/
++theorem slice_of_halfSpace {F : Type*} [NormedAddCommGroup F] [NormedSpace ℝ F] (g : ℝ → E3 → F) {n : WithTop ℕ∞}
++    (h : ContDiffOn ℝ n (fun z : ℝ × E3 => g z.1 z.2) halfSpace) {t : ℝ} (ht : 0 ≤ t) :
++    ContDiff ℝ n (g t) := by
++  have hc : ContDiff ℝ n (fun y : E3 => ((t, y) : ℝ × E3)) := contDiff_const.prodMk contDiff_id
++  have h2 := h.comp (hc.contDiffOn (s := Set.univ)) (fun y _ => (show (0 : ℝ) ≤ t from ht))
++  exact contDiffOn_univ.mp h2
++
++/-- Same for the challenge's argument order. -/
++theorem slice_of_strip {F : Type*} [NormedAddCommGroup F] [NormedSpace ℝ F] (v : E3 → ℝ → F) {n : WithTop ℕ∞}
++    (h : ContDiffOn ℝ n (fun z : E3 × ℝ => v z.1 z.2) (Set.univ ×ˢ Set.Ici (0 : ℝ))) {t : ℝ} (ht : 0 ≤ t) :
++    ContDiff ℝ n (fun y => v y t) := by
++  have hc : ContDiff ℝ n (fun y : E3 => ((y, t) : E3 × ℝ)) := contDiff_id.prodMk contDiff_const
++  have h2 := h.comp (hc.contDiffOn (s := Set.univ)) (fun y _ => (show y ∈ Set.univ ∧ t ∈ Set.Ici (0 : ℝ) from ⟨trivial, ht⟩))
++  exact contDiffOn_univ.mp h2
++
++/-- The norm of the m-th iterated derivative is unchanged by the swap isometry. -/
++theorem norm_iter_swap (G : ℝ × E3 → E3) (m : ℕ) (x : E3) {t : ℝ} (ht : 0 ≤ t) :
++    ‖iteratedFDerivWithin ℝ m (fun z : E3 × ℝ => G (z.2, z.1)) (Set.univ ×ˢ Set.Ici (0 : ℝ)) (x, t)‖
++      = ‖iteratedFDerivWithin ℝ m G halfSpace (t, x)‖ := by
++  have h1 := (LinearIsometryEquiv.prodComm ℝ E3 ℝ).norm_iteratedFDerivWithin_comp_right G
++    uniqueDiffOn_halfSpace (x := (x, t)) (show ((LinearIsometryEquiv.prodComm ℝ E3 ℝ) (x, t)) ∈ halfSpace from ht) m
++  have hs : ((LinearIsometryEquiv.prodComm ℝ E3 ℝ) ⁻¹' halfSpace) = Set.univ ×ˢ Set.Ici (0 : ℝ) := by
++    ext z; simp [halfSpace]
++  rw [hs] at h1
++  exact h1
++
++end Clay.NavierStokes.BridgeSwap
+diff --git a/ClayStatement/Fefferman.lean b/ClayStatement/Fefferman.lean
+new file mode 100644
+index 0000000..e6ba7f1
+--- /dev/null
++++ b/ClayStatement/Fefferman.lean
+@@ -0,0 +1,149 @@
++import Mathlib
++
++/-!
++# Clay Millennium Problem: Navier–Stokes existence and smoothness
++
++Formal statements (A), (B), (C), (D) following C. Fefferman's official problem
++description. Equation numbers refer to that text. The prize is awarded for a proof
++of any one of the four, so the target is `ClayNavierStokes` below.
++
++Fidelity choices, v2 (each is a DC fidelity row for the reader to check).
++v2 aligns F1, F3 and F4 with Clay's literal text. The v1 choices were planner
++departures, and the (b) clause read-through exposed them.
++* F1. Equation (1) holds for t ≥ 0, as in Clay. The time derivative is taken within
++  [0, ∞), so at t = 0 it is the one-sided derivative.
++* F2. Multi-index bounds |∂_x^α ∂_t^m g| are encoded by the norm of the full
++  iterated Fréchet derivative. For the force, that is the derivative within the
++  closed half-space. This encoding is equivalent to Clay's multi-index form.
++* F3. Decay exponents K range over ℝ, as in Clay.
++* F4. The force is smooth on ℝ³ × [0, ∞) only, as in Clay. Its bounds use the
++  iterated derivative within the half-space. Periodicity of the force in (9) is
++  required for t ≥ 0.
++* F5. The energy bound (7) includes integrability explicitly, because a Bochner
++  integral of a non-integrable function is 0 in Mathlib.
++* F6. ν is universally quantified ("Take ν > 0").
++* F7. Divergence, Laplacian and gradient are Clay's coordinate sums. Bridge lemmas
++  relate them to Mathlib's trace, Δ and gradient forms for smooth fields.
++-/
++
++noncomputable section
++open MeasureTheory RealInnerProductSpace
++
++namespace Clay.NavierStokes
++
++abbrev E3 := EuclideanSpace ℝ (Fin 3)
++
++/-- Standard basis vector e_j. -/
++def e (j : Fin 3) : E3 := EuclideanSpace.single j 1
++
++/-- Spatial partial derivative ∂_j at a fixed time. -/
++def dx {F : Type*} [NormedAddCommGroup F] [NormedSpace ℝ F]
++    (g : E3 → F) (j : Fin 3) (x : E3) : F :=
++  fderiv ℝ g x (e j)
++
++/-- Component g_j = ⟪g, e_j⟫. -/
++def comp (v : E3) (j : Fin 3) : ℝ := ⟪v, e j⟫
++
++def lap (g : E3 → E3) (x : E3) : E3 := ∑ j, dx (fun y => dx g j y) j x
++
++def grad (q : E3 → ℝ) (x : E3) : E3 := ∑ i, dx q i x • e i
++
++def div (g : E3 → E3) (x : E3) : ℝ := ∑ j, comp (dx g j x) j
++
++/-- (u·∇)u. -/
++def advect (g : E3 → E3) (x : E3) : E3 := ∑ j, comp (g x) j • dx g j x
++
++/-- The closed half-space ℝ³ × [0, ∞), written as {(t, x) | 0 ≤ t}. -/
++def halfSpace : Set (ℝ × E3) := {z | 0 ≤ z.1}
++
++/-- (1): ∂_t u + (u·∇)u = νΔu − ∇p + f, for t ≥ 0 (one-sided at t = 0). -/
++def NSEq (ν : ℝ) (u : ℝ → E3 → E3) (p : ℝ → E3 → ℝ) (f : ℝ → E3 → E3) : Prop :=
++  ∀ t : ℝ, 0 ≤ t → ∀ x : E3,
++    derivWithin (fun s => u s x) (Set.Ici 0) t + advect (u t) x
++      = ν • lap (u t) x - grad (p t) x + f t x
++
++/-- (2): div u = 0. -/
++def DivFree (u : ℝ → E3 → E3) : Prop := ∀ t : ℝ, 0 ≤ t → ∀ x, div (u t) x = 0
++
++/-- (3): u(x,0) = u°(x). -/
++def Initial (u : ℝ → E3 → E3) (u0 : E3 → E3) : Prop := ∀ x, u 0 x = u0 x
++
++/-- (6)/(11): smooth on ℝ³ × [0,∞). -/
++def SmoothHalf {F : Type*} [NormedAddCommGroup F] [NormedSpace ℝ F]
++    (g : ℝ → E3 → F) : Prop :=
++  ContDiffOn ℝ (⊤ : ℕ∞) (fun z : ℝ × E3 => g z.1 z.2) halfSpace
++
++/-- Smooth, divergence-free initial datum. -/
++def SmoothDivFree (u0 : E3 → E3) : Prop :=
++  ContDiff ℝ (⊤ : ℕ∞) u0 ∧ ∀ x, div u0 x = 0
++
++/-- (4): |∂^α u°(x)| ≤ C_{αK} (1+|x|)^{−K}. -/
++def Decay (u0 : E3 → E3) : Prop :=
++  ∀ (n : ℕ) (K : ℝ), ∃ C : ℝ, ∀ x, ‖iteratedFDeriv ℝ n u0 x‖ ≤ C / (1 + ‖x‖) ^ K
++
++/-- (5): f smooth with |∂_x^α ∂_t^m f| ≤ C (1+|x|+t)^{−K} for t ≥ 0. -/
++def ForceR3 (f : ℝ → E3 → E3) : Prop :=
++  ContDiffOn ℝ (⊤ : ℕ∞) (fun z : ℝ × E3 => f z.1 z.2) halfSpace ∧
++  ∀ (n : ℕ) (K : ℝ), ∃ C : ℝ, ∀ t : ℝ, 0 ≤ t → ∀ x,
++    ‖iteratedFDerivWithin ℝ n (fun z : ℝ × E3 => f z.1 z.2) halfSpace (t, x)‖
++      ≤ C / (1 + ‖x‖ + t) ^ K
++
++/-- (7): bounded energy, ∫ |u(x,t)|² dx < C for all t ≥ 0. -/
++def FiniteEnergy (u : ℝ → E3 → E3) : Prop :=
++  ∃ C : ℝ, ∀ t : ℝ, 0 ≤ t →
++    Integrable (fun x => ‖u t x‖ ^ 2) ∧ ∫ x, ‖u t x‖ ^ 2 < C
++
++/-- (8): u°(x + e_j) = u°(x). -/
++def PeriodicDatum (u0 : E3 → E3) : Prop := ∀ j x, u0 (x + e j) = u0 x
++
++/-- (10): space-periodic in x for every t ≥ 0. -/
++def PeriodicField {F : Type*} (g : ℝ → E3 → F) : Prop :=
++  ∀ t : ℝ, 0 ≤ t → ∀ j x, g t (x + e j) = g t x
++
++/-- (9): f periodic in x, smooth, with |∂_x^α ∂_t^m f| ≤ C (1+t)^{−K} for t ≥ 0. -/
++def ForceTorus (f : ℝ → E3 → E3) : Prop :=
++  ContDiffOn ℝ (⊤ : ℕ∞) (fun z : ℝ × E3 => f z.1 z.2) halfSpace ∧
++  (∀ t : ℝ, 0 ≤ t → ∀ j x, f t (x + e j) = f t x) ∧
++  ∀ (n : ℕ) (K : ℝ), ∃ C : ℝ, ∀ t : ℝ, 0 ≤ t → ∀ x,
++    ‖iteratedFDerivWithin ℝ n (fun z : ℝ × E3 => f z.1 z.2) halfSpace (t, x)‖
++      ≤ C / (1 + t) ^ K
++
++def zeroForce : ℝ → E3 → E3 := fun _ _ => 0
++
++/-- Solution class on ℝ³: (1), (2), (3), (6), (7). -/
++def SolR3 (ν : ℝ) (u0 : E3 → E3) (f : ℝ → E3 → E3) : Prop :=
++  ∃ (u : ℝ → E3 → E3) (p : ℝ → E3 → ℝ),
++    NSEq ν u p f ∧ DivFree u ∧ Initial u u0 ∧
++    SmoothHalf u ∧ SmoothHalf p ∧ FiniteEnergy u
++
++/-- Solution class on the torus: (1), (2), (3), (10), (11). -/
++def SolTorus (ν : ℝ) (u0 : E3 → E3) (f : ℝ → E3 → E3) : Prop :=
++  ∃ (u : ℝ → E3 → E3) (p : ℝ → E3 → ℝ),
++    NSEq ν u p f ∧ DivFree u ∧ Initial u u0 ∧
++    PeriodicField u ∧ PeriodicField p ∧ SmoothHalf u ∧ SmoothHalf p
++
++/-- (A) Existence and smoothness of Navier–Stokes solutions on ℝ³. -/
++def StatementA : Prop :=
++  ∀ ν : ℝ, 0 < ν → ∀ u0 : E3 → E3,
++    SmoothDivFree u0 → Decay u0 → SolR3 ν u0 zeroForce
++
++/-- (B) Existence and smoothness of Navier–Stokes solutions on ℝ³/ℤ³. -/
++def StatementB : Prop :=
++  ∀ ν : ℝ, 0 < ν → ∀ u0 : E3 → E3,
++    SmoothDivFree u0 → PeriodicDatum u0 → SolTorus ν u0 zeroForce
++
++/-- (C) Breakdown of Navier–Stokes solutions on ℝ³. -/
++def StatementC : Prop :=
++  ∀ ν : ℝ, 0 < ν → ∃ (u0 : E3 → E3) (f : ℝ → E3 → E3),
++    SmoothDivFree u0 ∧ Decay u0 ∧ ForceR3 f ∧ ¬ SolR3 ν u0 f
++
++/-- (D) Breakdown of Navier–Stokes solutions on ℝ³/ℤ³. -/
++def StatementD : Prop :=
++  ∀ ν : ℝ, 0 < ν → ∃ (u0 : E3 → E3) (f : ℝ → E3 → E3),
++    SmoothDivFree u0 ∧ PeriodicDatum u0 ∧ ForceTorus f ∧ ¬ SolTorus ν u0 f
++
++/-- The Clay prize condition: a proof of any one of (A), (B), (C), (D). -/
++def ClayNavierStokes : Prop :=
++  StatementA ∨ StatementB ∨ StatementC ∨ StatementD
++
++end Clay.NavierStokes
+diff --git a/ComparatorChallenges/ClayFefferman.json b/ComparatorChallenges/ClayFefferman.json
+new file mode 100644
+index 0000000..a6c3e52
+--- /dev/null
++++ b/ComparatorChallenges/ClayFefferman.json
+@@ -0,0 +1,7 @@
++{
++  "challenge_module": "ComparatorChallenges.ClayFefferman",
++  "solution_module": "NavierStokes.ClayFeffermanSolution",
++  "theorem_names": ["NavierStokes.ClayChallenge.clay_navier_stokes_fefferman"],
++  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
++  "enable_nanoda": true
++}
+diff --git a/ComparatorChallenges/ClayFefferman.lean b/ComparatorChallenges/ClayFefferman.lean
+new file mode 100644
+index 0000000..07453b1
+--- /dev/null
++++ b/ComparatorChallenges/ClayFefferman.lean
+@@ -0,0 +1,15 @@
++import ClayStatement.Fefferman
++
++/-!
++# Comparator challenge: Fefferman's literal A ∨ B ∨ C ∨ D
++
++Challenge file. A `sorry` here is expected, as in every Comparator challenge.
++The solution side must prove exactly this statement with no `sorry` and axioms
++within propext, Classical.choice and Quot.sound.
++-/
++
++namespace NavierStokes.ClayChallenge
++
++theorem clay_navier_stokes_fefferman : Clay.NavierStokes.ClayNavierStokes := by sorry
++
++end NavierStokes.ClayChallenge
+diff --git a/ComparatorChallenges/ClayFeffermanViaD.json b/ComparatorChallenges/ClayFeffermanViaD.json
+new file mode 100644
+index 0000000..0a5f06a
+--- /dev/null
++++ b/ComparatorChallenges/ClayFeffermanViaD.json
+@@ -0,0 +1,7 @@
++{
++  "challenge_module": "ComparatorChallenges.ClayFeffermanViaD",
++  "solution_module": "NavierStokes.ClayFeffermanSolution",
++  "theorem_names": ["NavierStokes.ClayChallenge.clay_navier_stokes_fefferman_via_D"],
++  "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
++  "enable_nanoda": true
++}
+diff --git a/ComparatorChallenges/ClayFeffermanViaD.lean b/ComparatorChallenges/ClayFeffermanViaD.lean
+new file mode 100644
+index 0000000..33088c8
+--- /dev/null
++++ b/ComparatorChallenges/ClayFeffermanViaD.lean
+@@ -0,0 +1,16 @@
++import ClayStatement.Fefferman
++
++/-!
++# Comparator challenge: Fefferman's literal A ∨ B ∨ C ∨ D, route through (D)
++
++Added by the builder (S522). The delivered `ClayFefferman` challenge states the disjunction once; the solution proves it
++twice (through C and through D), but only the first theorem name is listed in that challenge's configuration. This file
++states the same proposition under the solution's second theorem name so that the route through (D) is kernel-checked too.
++A `sorry` here is expected, as in every Comparator challenge.
++-/
++
++namespace NavierStokes.ClayChallenge
++
++theorem clay_navier_stokes_fefferman_via_D : Clay.NavierStokes.ClayNavierStokes := by sorry
++
++end NavierStokes.ClayChallenge
+diff --git a/ComparatorChallenges/NavierStokesComplete.json b/ComparatorChallenges/NavierStokesComplete.json
+new file mode 100644
+index 0000000..f65633a
+--- /dev/null
++++ b/ComparatorChallenges/NavierStokesComplete.json
+@@ -0,0 +1,14 @@
++{
++  "challenge_module": "ComparatorChallenges.NavierStokesComplete",
++  "solution_module": "NavierStokes.ComparatorCompleteSolution",
++  "enable_nanoda": true,
++  "theorem_names": [
++    "NavierStokes.Comparator.navier_stokes_clay_via_C",
++    "NavierStokes.Comparator.navier_stokes_clay_via_D"
++  ],
++  "permitted_axioms": [
++    "propext",
++    "Quot.sound",
++    "Classical.choice"
++  ]
++}
+diff --git a/ComparatorChallenges/NavierStokesComplete.lean b/ComparatorChallenges/NavierStokesComplete.lean
+new file mode 100644
+index 0000000..d721f89
+--- /dev/null
++++ b/ComparatorChallenges/NavierStokesComplete.lean
+@@ -0,0 +1,311 @@
++/-
++Copyright 2026 The Formal Conjectures Authors.
++
++This file has been modified from its original form in the Formal Conjectures
++project.
++
++Licensed under the Apache License, Version 2.0 (the "License");
++you may not use this file except in compliance with the License.
++You may obtain a copy of the License at
++
++    https://www.apache.org/licenses/LICENSE-2.0
++
++Unless required by applicable law or agreed to in writing, software
++distributed under the License is distributed on an "AS IS" BASIS,
++WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++See the License for the specific language governing permissions and
++limitations under the License.
++-/
++
++import Mathlib
++
++/-!
++# Existence And Smoothness Of The Navier–Stokes Equation
++
++Standalone comparator copied from:
++https://github.com/google-deepmind/formal-conjectures/blob/8bf45ed70d48b2b2a501de9c00b26bfa38c573ee/FormalConjectures/Millenium/NavierStokes.lean
++
++The upstream definitions, helper proofs, and breakdown alternatives (C) and (D)
++are retained, including their intentional `sorry` challenge placeholders. The
++imports, metadata attributes, namespace, and local notation are adapted for this
++project. All utility dependencies are inlined; only Mathlib is imported.
++Neither the proof root nor the submission imports this reference.
++
++This file formalizes the Clay Mathematics Institute millennium problem concerning
++the existence and smoothness of solutions to the Navier-Stokes equations in three
++spatial dimensions. While the definitions are generalized to arbitrary dimension n,
++the millennium problem specifically concerns the case n = 3.
++
++## References
++- [Wikipedia](https://en.wikipedia.org/wiki/Navier%E2%80%93Stokes_existence_and_smoothness)
++
++## Main Theorems (Clay Millennium Problem for n = 3)
++
++This reference includes the two breakdown alternatives:
++- `navier_stokes_breakdown_R3`: (C) Existence of breakdown scenario on ℝ³
++- `navier_stokes_breakdown_periodic`: (D) Existence of breakdown scenario on ℝ³/ℤ³
++
++## Variable conventions
++
++Fefferman writes the velocity as $u(x,t)$, the initial velocity as $u^\circ(x)$, the
++pressure as $p(x,t)$, the force as $f(x,t)$, and the viscosity as $\nu$. In Lean,
++`u₀ : ℝ^n → ℝ^n` denotes the initial velocity, while `v : ℝ^n → ℝ → ℝ^n`
++denotes the solution velocity. The curried order `v x t`, `p x t`, and `f x t`
++keeps the source convention that position comes before time.
++
++Since the Clay statement gives equation (1) on the closed time half-line $t \ge 0$,
++the time derivative is encoded with `derivWithin` relative to `Set.Ici 0`.
++-/
++
++open ContDiff Set InnerProductSpace MeasureTheory
++open scoped Laplacian
++
++namespace NavierStokes.Comparator
++
++-- Inlined notation from FormalConjecturesForMathlib.Geometry.Euclidean and Geometry.«3d».
++local notation "ℝ^" n:65 => EuclideanSpace ℝ (Fin n)
++local notation "ℝ³" => EuclideanSpace ℝ (Fin 3)
++
++variable {n : ℕ}
++
++/--
++The divergence $\nabla \cdot v$ of a vector field $v : \mathbb{R}^n \to \mathbb{R}^n$
++at a point $x$, computed as the trace of the Jacobian matrix.
++
++In coordinates, $\nabla \cdot v = \sum_i \partial v_i / \partial x_i$.
++
++This is available as the notation `∇⬝ v`. If `v` is not differentiable at `x`, then
++`fderiv` is the zero map, so this definition has the corresponding junk value $0$.
++-/
++noncomputable
++def divergence (v : ℝ^n → ℝ^n) (x : ℝ^n) : ℝ := (fderiv ℝ v x).trace ℝ (ℝ^n)
++
++@[inherit_doc]
++local notation "∇⬝" => divergence
++
++/-- The divergence of a vector field is $0$ at points where `fderiv` has its junk value. -/
++@[simp]
++theorem divergence_of_not_differentiableAt {v : ℝ^n → ℝ^n} {x : ℝ^n}
++    (hv : ¬ DifferentiableAt ℝ v x) : ∇⬝ v x = 0 := by
++  simp [divergence, fderiv_zero_of_not_differentiableAt hv]
++
++/-- The divergence of the zero vector field is zero. -/
++@[simp]
++theorem divergence_zero (x : ℝ^n) : ∇⬝ (0 : ℝ^n → ℝ^n) x = 0 := by
++  simp [divergence]
++
++/-- The divergence of a constant vector field is zero. -/
++@[simp]
++theorem divergence_const (c : ℝ^n) (x : ℝ^n) :
++    ∇⬝ (fun _ : ℝ^n => c) x = 0 := by
++  simp [divergence]
++
++/-- Divergence is additive at points where both vector fields are differentiable. -/
++theorem divergence_add {v w : ℝ^n → ℝ^n} {x : ℝ^n}
++    (hv : DifferentiableAt ℝ v x) (hw : DifferentiableAt ℝ w x) :
++    ∇⬝ (fun y => v y + w y) x = ∇⬝ v x + ∇⬝ w x := by
++  rw [divergence, fderiv_fun_add hv hw]
++  exact map_add _ _ _
++
++/-- Divergence commutes with scalar multiplication at differentiability points. -/
++theorem divergence_smul (c : ℝ) {v : ℝ^n → ℝ^n} {x : ℝ^n}
++    (hv : DifferentiableAt ℝ v x) : ∇⬝ (fun y => c • v y) x = c * ∇⬝ v x := by
++  rw [divergence, fderiv_fun_const_smul hv c]
++  simp [divergence]
++
++/--
++A function $f : \mathbb{R}^n \to \alpha$ is 1-periodic if it is periodic in each
++coordinate with period $1$, i.e. $f(x + e_i) = f(x)$ for each unit vector $e_i$.
++This captures functions on the $n$-torus $\mathbb{R}^n/\mathbb{Z}^n$.
++-/
++def IsOnePeriodic {α : Sort*} (f : ℝ^n → α) : Prop :=
++  ∀ x i, f (x + EuclideanSpace.single i 1) = f x
++
++/--
++Basic conditions on initial velocity field for the Navier-Stokes equations
++in $n$-dimensional space.
++
++The initial velocity must be:
++- Divergence-free (incompressibility condition: $\nabla \cdot u_0 = 0$)
++- Smooth ($C^\infty$)
++
++These conditions apply regardless of spatial dimension.
++-/
++structure InitialVelocityCondition (u₀ : ℝ^n → ℝ^n) : Prop where
++  /-- The initial velocity field is divergence-free (equation 2).
++      This is the incompressibility constraint for the fluid. -/
++  div_free : ∀ x, ∇⬝ u₀ x = 0
++  /-- The initial velocity field is smooth ($C^\infty$ in all variables). -/
++  smooth : ContDiff ℝ ∞ u₀
++
++/--
++Initial velocity conditions for the Navier-Stokes problem on all of $\mathbb{R}^n$.
++
++In addition to being smooth and divergence-free, the velocity must decay
++faster than any polynomial at spatial infinity (condition 4 in Fefferman's paper).
++
++This condition ensures the velocity field has finite energy and reasonable
++behavior as $\lVert x \rVert \to \infty$.
++-/
++structure InitialVelocityConditionDecay (u₀ : ℝ^n → ℝ^n) : Prop extends
++    InitialVelocityCondition u₀ where
++  /-- All derivatives of u₀ decay faster than any polynomial (condition 4).
++  For any derivative order $m$ and any decay rate $K$, there exists a constant $C$
++  such that $\lVert \partial^m u_0(x) \rVert \le C/(1+\lVert x \rVert)^K$. -/
++  decay : ∀ m : ℕ, ∀ K : ℝ, ∃ C : ℝ, ∀ x, ‖iteratedFDeriv ℝ m u₀ x‖ ≤ C / (1 + ‖x‖) ^ K
++
++/--
++Initial velocity conditions for the periodic Navier-Stokes problem on
++$\mathbb{R}^n/\mathbb{Z}^n$.
++
++The velocity must be smooth, divergence-free, and 1-periodic in each coordinate
++(condition 8, part 1 in Fefferman's paper).
++-/
++structure InitialVelocityConditionPeriodic (u₀ : ℝ^n → ℝ^n) : Prop extends
++    InitialVelocityCondition u₀ where
++  /-- The initial velocity is 1-periodic in each direction (condition 8, part 1). -/
++  isOnePeriodic : IsOnePeriodic u₀
++
++/--
++The basic smoothness condition on the external forcing term.
++
++The force $f(x,t)$ must be smooth ($C^\infty$) in both space and time variables
++for $t \ge 0$.
++-/
++structure ForceCondition (f : ℝ^n → ℝ → ℝ^n) : Prop where
++  /-- The force is smooth on $\mathbb{R}^n \times [0,\infty)$. -/
++  smooth : ContDiffOn ℝ ∞ (↿f) (Set.univ ×ˢ Set.Ici 0)
++
++/--
++Force conditions for the Navier-Stokes problem on all of $\mathbb{R}^n$.
++
++The force must be smooth and decay faster than any polynomial
++in both space and time (condition 5 in Fefferman's paper).
++-/
++structure ForceConditionDecay (f : ℝ^n → ℝ → ℝ^n) : Prop extends ForceCondition f where
++  /-- All derivatives of f decay faster than any polynomial in space and time (condition 5).
++  For any derivative order $m$ and any decay rate $K$, there exists $C$ such that
++  $\lVert \partial^m_{x,t} f(x,t) \rVert \le C/(1+\lVert x \rVert+t)^K$ for
++  $t \ge 0$. -/
++  decay : ∀ m : ℕ, ∀ K : ℝ, ∃ C : ℝ, ∀ x, ∀ t ≥ 0,
++    ‖iteratedFDerivWithin ℝ m (↿f) (Set.univ ×ˢ Set.Ici 0) (x, t)‖ ≤ C / (1 + ‖x‖ + t) ^ K
++
++/--
++Force conditions for the periodic Navier-Stokes problem on
++$\mathbb{R}^n/\mathbb{Z}^n$.
++
++The force must be smooth, 1-periodic in space, and decay in time
++(conditions 8, part 1 and 9 in Fefferman's paper).
++-/
++structure ForceConditionPeriodic (f : ℝ^n → ℝ → ℝ^n) : Prop extends ForceCondition f where
++  /-- The force is 1-periodic in space for all times $t \ge 0$ (condition 8, part 1). -/
++  isOnePeriodic : ∀ t ≥ 0, IsOnePeriodic (f · t)
++  /-- All derivatives of f decay faster than any polynomial in time (condition 9). -/
++  decay : ∀ m : ℕ, ∀ K : ℝ, ∃ C : ℝ, ∀ x, ∀ t ≥ 0,
++    ‖iteratedFDerivWithin ℝ m (↿f) (Set.univ ×ˢ Set.Ici 0) (x, t)‖ ≤ C / (1 + t) ^ K
++
++/--
++A solution (v, p) to the Navier-Stokes equations in n-dimensional space
++with viscosity $\nu$, initial velocity $u_0$, and external force $f$.
++
++This structure captures the core requirements for a solution:
++1. The velocity and pressure satisfy the Navier-Stokes PDE (equation 1)
++2. The velocity remains divergence-free for all time (equation 2)
++3. The initial condition is satisfied (equation 3)
++4. The solution is smooth ($C^\infty$) for all time $t \ge 0$ (equations 6, 11)
++-/
++structure NavierStokesExistenceAndSmoothness
++    (nu : ℝ) (u₀ : ℝ^n → ℝ^n) (f : ℝ^n → ℝ → ℝ^n)
++    (v : ℝ^n → ℝ → ℝ^n) (p : ℝ^n → ℝ → ℝ) : Prop where
++  /-- The Navier-Stokes equation (equation 1):
++  $\partial v/\partial t + (v \cdot \nabla)v = \nu\Delta v - \nabla p + f$. -/
++  navier_stokes : ∀ x, ∀ t ≥ 0,
++    derivWithin (v x ·) (Set.Ici 0) t + fderiv ℝ (v · t) x (v x t) =
++      nu • Δ (v · t) x - gradient (p · t) x + f x t
++  /-- Incompressibility constraint (equation 2): $\nabla \cdot v = 0$ for all
++  $x$ and $t \ge 0$. -/
++  div_free : ∀ x, ∀ t ≥ 0, ∇⬝ (v · t) x = 0
++  /-- Initial condition (equation 3): $v(x,0) = u_0(x)$ for all $x$. -/
++  initial_condition : ∀ x, v x 0 = u₀ x
++  /-- The velocity field is smooth ($C^\infty$) on $\mathbb{R}^n \times [0,\infty)$
++  (conditions 6, 11). -/
++  velocity_smooth : ContDiffOn ℝ ∞ (↿v) (Set.univ ×ˢ Set.Ici 0)
++  /-- The pressure field is smooth ($C^\infty$) on $\mathbb{R}^n \times [0,\infty)$
++  (conditions 6, 11). -/
++  pressure_smooth : ContDiffOn ℝ ∞ (↿p) (Set.univ ×ˢ Set.Ici 0)
++
++/--
++A solution to the Navier-Stokes equations on all of $\mathbb{R}^n$ with appropriate
++decay and energy bounds.
++
++In addition to the basic solution properties, we require:
++- The velocity is in $L^2$ at each time $t \ge 0$ (finite kinetic energy)
++- The total energy remains bounded for all time (condition 7)
++-/
++structure NavierStokesExistenceAndSmoothnessRn
++    (nu : ℝ) (u₀ : ℝ^n → ℝ^n) (f : ℝ^n → ℝ → ℝ^n)
++    (v : ℝ^n → ℝ → ℝ^n) (p : ℝ^n → ℝ → ℝ) : Prop
++  extends NavierStokesExistenceAndSmoothness nu u₀ f v p where
++  /-- The velocity is square-integrable at each time $t \ge 0$ (condition 7). -/
++  integrable : ∀ t ≥ 0, MemLp (‖v · t‖) 2
++  /-- The kinetic energy $\int \lVert v(x,t) \rVert^2\,dx$ remains uniformly bounded
++  for all time (condition 7), where the integral is the Lebesgue integral. -/
++  globally_bounded_energy : ∃ E, ∀ t ≥ 0, (∫ x : ℝ^n, ‖v x t‖ ^ 2) < E
++
++/--
++A solution to the Navier-Stokes equations on the $n$-torus $\mathbb{R}^n/\mathbb{Z}^n$.
++
++The velocity must be 1-periodic in each spatial direction for all times (condition 10).
++The pressure is also required to be 1-periodic, following the errata appended to the
++Clay problem statement.
++-/
++structure NavierStokesExistenceAndSmoothnessPeriodic
++    (nu : ℝ) (u₀ : ℝ^n → ℝ^n) (f : ℝ^n → ℝ → ℝ^n)
++    (v : ℝ^n → ℝ → ℝ^n) (p : ℝ^n → ℝ → ℝ) : Prop
++  extends NavierStokesExistenceAndSmoothness nu u₀ f v p where
++  /-- The velocity is 1-periodic in space for all times $t \ge 0$ (condition 10). -/
++  isOnePeriodic_velocity : ∀ t ≥ 0, IsOnePeriodic (v · t)
++  /-- The pressure is 1-periodic in space for all times $t \ge 0$ (Clay errata). -/
++  isOnePeriodic_pressure : ∀ t ≥ 0, IsOnePeriodic (p · t)
++
++
++/-! S456 (estate): the authors' definitions above are unchanged. Their two sorry theorems (C) and (D) are replaced by the four
++Fefferman alternatives as propositions and the complete statement `A ∨ B ∨ C ∨ D`, stated twice (closed through C, through D). -/
++
++/-- Fefferman alternative (A) as a proposition: for every positive viscosity and every
++initial velocity satisfying the decay condition, with zero force, a smooth bounded-energy
++solution exists on ℝ³ (the form of `navier_stokes_existence_and_smoothness_R3`). -/
++def OptionA : Prop :=
++  ∀ (nu : ℝ), nu > 0 → ∀ (u₀ : ℝ³ → ℝ³), InitialVelocityConditionDecay u₀ →
++    ∃ v p, NavierStokesExistenceAndSmoothnessRn nu u₀ (f := 0) v p
++
++/-- Fefferman alternative (B) as a proposition: the periodic analogue of (A). -/
++def OptionB : Prop :=
++  ∀ (nu : ℝ), nu > 0 → ∀ (u₀ : ℝ³ → ℝ³), InitialVelocityConditionPeriodic u₀ →
++    ∃ v p, NavierStokesExistenceAndSmoothnessPeriodic nu u₀ (f := 0) v p
++
++/-- Fefferman alternative (C) as a proposition: breakdown on ℝ³ for every positive
++viscosity (the form of `navier_stokes_breakdown_R3`). -/
++def OptionC : Prop :=
++  ∀ (nu : ℝ), nu > 0 →
++    ∃ (u₀ : ℝ³ → ℝ³) (f : ℝ³ → ℝ → ℝ³),
++    InitialVelocityConditionDecay u₀ ∧ ForceConditionDecay f ∧
++    ¬ (∃ v p, NavierStokesExistenceAndSmoothnessRn nu u₀ f v p)
++
++/-- Fefferman alternative (D) as a proposition: breakdown on ℝ³/ℤ³ for every positive
++viscosity (the form of `navier_stokes_breakdown_periodic`). -/
++def OptionD : Prop :=
++  ∀ (nu : ℝ), nu > 0 →
++    ∃ (u₀ : ℝ³ → ℝ³) (f : ℝ³ → ℝ → ℝ³),
++    InitialVelocityConditionPeriodic u₀ ∧ ForceConditionPeriodic f ∧
++    ¬ (∃ v p, NavierStokesExistenceAndSmoothnessPeriodic nu u₀ f v p)
++
++/-- The complete Navier–Stokes statement `A ∨ B ∨ C ∨ D` (challenge; closed through (C) in the solution). -/
++theorem navier_stokes_clay_via_C : OptionA ∨ OptionB ∨ OptionC ∨ OptionD := by
++  sorry
++
++/-- The complete Navier–Stokes statement `A ∨ B ∨ C ∨ D` (challenge; closed through (D) in the solution). -/
++theorem navier_stokes_clay_via_D : OptionA ∨ OptionB ∨ OptionC ∨ OptionD := by
++  sorry
++
++end NavierStokes.Comparator
+diff --git a/NavierStokes/ActualCandidateConstruction.lean b/NavierStokes/ActualCandidateConstruction.lean
+index fa13ab4..c25c180 100644
+--- a/NavierStokes/ActualCandidateConstruction.lean
++++ b/NavierStokes/ActualCandidateConstruction.lean
+@@ -725,7 +725,6 @@ theorem graph_cylinderPoint (n : ℕ) (z : SpaceTime) :
+       simp only [AxisymmetricResidual.pack, ProblemStatement.coordinateVector,
+         PiLp.add_apply, PiLp.smul_apply, smul_eq_mul, PiLp.single_apply]
+       norm_num
+-      simp only [show (0 : Fin 3) ≠ 2 by decide, ite_false, add_zero]
+       change Real.sqrt (ChartScales.Q n) * (ChartScales.Q n ^ (-(1 / 2 : ℝ)) * z.2 0) = z.2 0
+       rw [← mul_assoc, hs, one_mul]
+     · simp [ActualBaseResidual.cylinderPoint, AxisymmetricResidual.pack, ProblemStatement.coordinateVector, PhysicalResidualTZ.graphMapTZ, PhysicalResidualBridge.ScaledGraph.map,
+diff --git a/NavierStokes/ClayFeffermanSolution.lean b/NavierStokes/ClayFeffermanSolution.lean
+new file mode 100644
+index 0000000..d9450dc
+--- /dev/null
++++ b/NavierStokes/ClayFeffermanSolution.lean
+@@ -0,0 +1,23 @@
++import ClayStatement.Bridge
++import NavierStokes.ComparatorSolution
++
++/-!
++# Solution: Fefferman's literal A ∨ B ∨ C ∨ D, through (C)
++
++Proved through (C): the authors' breakdown on ℝ³, carried to Fefferman's
++literal statement by the bridge. A second proof goes through (D).
++This is not progress on (A) or (B).
++-/
++
++namespace NavierStokes.ClayChallenge
++open Clay.NavierStokes
++
++theorem clay_navier_stokes_fefferman : ClayNavierStokes :=
++  Or.inr (Or.inr (Or.inl
++    (Bridge.optionC_imp_statementC NavierStokes.Comparator.navier_stokes_breakdown_R3)))
++
++theorem clay_navier_stokes_fefferman_via_D : ClayNavierStokes :=
++  Or.inr (Or.inr (Or.inr
++    (Bridge.optionD_imp_statementD NavierStokes.Comparator.navier_stokes_breakdown_periodic)))
++
++end NavierStokes.ClayChallenge
+diff --git a/NavierStokes/ComparatorCompleteSolution.lean b/NavierStokes/ComparatorCompleteSolution.lean
+new file mode 100644
+index 0000000..dadee67
+--- /dev/null
++++ b/NavierStokes/ComparatorCompleteSolution.lean
+@@ -0,0 +1,56 @@
++import NavierStokes.ComparatorR3Theorem
++import NavierStokes.ComparatorTheorem
++
++/-!
++# Complete Navier–Stokes statement `A ∨ B ∨ C ∨ D` (S456)
++
++The disjunction follows from the already-proved option (C), and separately from option (D), via the authors' adapters.
++The definitions `OptionA`..`OptionD` are textually identical to the challenge module's.
++-/
++
++namespace NavierStokes.Comparator
++
++local notation "ℝ³" => EuclideanSpace ℝ (Fin 3)
++
++/-- Fefferman alternative (A) as a proposition: for every positive viscosity and every
++initial velocity satisfying the decay condition, with zero force, a smooth bounded-energy
++solution exists on ℝ³ (the form of `navier_stokes_existence_and_smoothness_R3`). -/
++def OptionA : Prop :=
++  ∀ (nu : ℝ), nu > 0 → ∀ (u₀ : ℝ³ → ℝ³), InitialVelocityConditionDecay u₀ →
++    ∃ v p, NavierStokesExistenceAndSmoothnessRn nu u₀ (f := 0) v p
++
++/-- Fefferman alternative (B) as a proposition: the periodic analogue of (A). -/
++def OptionB : Prop :=
++  ∀ (nu : ℝ), nu > 0 → ∀ (u₀ : ℝ³ → ℝ³), InitialVelocityConditionPeriodic u₀ →
++    ∃ v p, NavierStokesExistenceAndSmoothnessPeriodic nu u₀ (f := 0) v p
++
++/-- Fefferman alternative (C) as a proposition: breakdown on ℝ³ for every positive
++viscosity (the form of `navier_stokes_breakdown_R3`). -/
++def OptionC : Prop :=
++  ∀ (nu : ℝ), nu > 0 →
++    ∃ (u₀ : ℝ³ → ℝ³) (f : ℝ³ → ℝ → ℝ³),
++    InitialVelocityConditionDecay u₀ ∧ ForceConditionDecay f ∧
++    ¬ (∃ v p, NavierStokesExistenceAndSmoothnessRn nu u₀ f v p)
++
++/-- Fefferman alternative (D) as a proposition: breakdown on ℝ³/ℤ³ for every positive
++viscosity (the form of `navier_stokes_breakdown_periodic`). -/
++def OptionD : Prop :=
++  ∀ (nu : ℝ), nu > 0 →
++    ∃ (u₀ : ℝ³ → ℝ³) (f : ℝ³ → ℝ → ℝ³),
++    InitialVelocityConditionPeriodic u₀ ∧ ForceConditionPeriodic f ∧
++    ¬ (∃ v p, NavierStokesExistenceAndSmoothnessPeriodic nu u₀ f v p)
++
++/-- The complete Navier–Stokes statement `A ∨ B ∨ C ∨ D`, closed through (C). -/
++theorem navier_stokes_clay_via_C : OptionA ∨ OptionB ∨ OptionC ∨ OptionD :=
++  Or.inr (Or.inr (Or.inl (fun nu hnu => ComparatorBridge.navier_stokes_breakdown_R3 nu hnu)))
++
++/-- The complete Navier–Stokes statement `A ∨ B ∨ C ∨ D`, closed through (D). -/
++theorem navier_stokes_clay_via_D : OptionA ∨ OptionB ∨ OptionC ∨ OptionD :=
++  Or.inr (Or.inr (Or.inr (fun nu hnu => ComparatorBridge.navier_stokes_breakdown_periodic nu hnu)))
++
++end NavierStokes.Comparator
++
++#print axioms NavierStokes.Comparator.navier_stokes_clay_via_C
++#print axioms NavierStokes.Comparator.navier_stokes_clay_via_D
++#print axioms NavierStokes.Comparator.OptionA
++#print axioms NavierStokes.Comparator.OptionB
+diff --git a/NavierStokes/EdgeWeightJets.lean b/NavierStokes/EdgeWeightJets.lean
+index 4028496..9c6bb51 100644
+--- a/NavierStokes/EdgeWeightJets.lean
++++ b/NavierStokes/EdgeWeightJets.lean
+@@ -128,7 +128,9 @@ theorem norm_iteratedFDeriv_snd_le {f : ℝ → ℝ} (hf : ContDiff ℝ ∞ f)
+   rw [L.iteratedFDeriv_comp_right hf y (nat_le_infty n)]
+   apply (ContinuousMultilinearMap.norm_compContinuousLinearMap_le _ _).trans
+   have hprod : (∏ _i : Fin n, ‖L‖) ≤ 1 := by
+-    exact Finset.prod_le_one (fun _ _ => norm_nonneg _) (fun _ _ => ContinuousLinearMap.norm_snd_le _ _ _)
++    have hLnorm : ‖L‖ ≤ 1 :=
++      ContinuousLinearMap.norm_snd_le (𝕜 := ℝ) (E := E) (F := ℝ)
++    exact Finset.prod_le_one₀ (fun _ _ => norm_nonneg _) (fun _ _ => hLnorm)
+   exact (mul_le_mul_of_nonneg_left hprod (norm_nonneg (iteratedFDeriv ℝ n f (L y)))).trans_eq (mul_one _)
+ 
+ theorem compact_coefficient_jets {F : Type*} [NormedAddCommGroup F] [NormedSpace ℝ F]
+@@ -258,7 +260,7 @@ theorem norm_iteratedFDeriv_comp_linear_le {G : Type*} [NormedAddCommGroup G] [N
+   rw [L.iteratedFDeriv_comp_right hf x (nat_le_infty n)]
+   apply (ContinuousMultilinearMap.norm_compContinuousLinearMap_le _ _).trans
+   have hp : (∏ _i : Fin n, ‖L‖) ≤ 1 :=
+-    Finset.prod_le_one (fun _ _ => norm_nonneg _) (fun _ _ => hL)
++    Finset.prod_le_one₀ (fun _ _ => norm_nonneg _) (fun _ _ => hL)
+   simpa only [mul_one] using mul_le_mul_of_nonneg_left hp (norm_nonneg (iteratedFDeriv ℝ n f (L x)))
+ 
+ theorem norm_iteratedFDeriv_parameter_le {f : E × ℝ → ℝ} (hf : ContDiff ℝ ∞ f)
+diff --git a/NavierStokes/PrimaryPulseBounds.lean b/NavierStokes/PrimaryPulseBounds.lean
+index 72f0a73..d25c266 100644
+--- a/NavierStokes/PrimaryPulseBounds.lean
++++ b/NavierStokes/PrimaryPulseBounds.lean
+@@ -510,7 +510,7 @@ theorem pathFamily_polynomial (D : PhaseJetBounds.Domain ι Q)
+   intro t
+   rw [SmoothPathFamily.iteratedFDeriv_pathFamily_apply (D.carrier i) (V i)
+     (D.isOpen i) (hV i) (hI i) (F i) (hF.smooth i) hp]
+-  have hprod : (∏ j, ‖v j‖) ≤ 1 := Finset.prod_le_one (fun _ _ => norm_nonneg _)
++  have hprod : (∏ j, ‖v j‖) ≤ 1 := Finset.prod_le_one₀ (fun _ _ => norm_nonneg _)
+     (fun j _ => hv j)
+   exact ((iteratedFDeriv ℝ k (fun q => F i (q, t)) p).le_opNorm v).trans
+     ((mul_le_mul (hm i p t ⟨hp, hI i t.2⟩ k hk) hprod
+diff --git a/NavierStokes/R3/CompactComparisonBounds.lean b/NavierStokes/R3/CompactComparisonBounds.lean
+index 457fdcf..5883a8d 100644
+--- a/NavierStokes/R3/CompactComparisonBounds.lean
++++ b/NavierStokes/R3/CompactComparisonBounds.lean
+@@ -149,7 +149,7 @@ theorem uniformFiniteEnergy_of_compact_slab {T : ℝ} {u : VelocityField}
+   have hLp : MemLp (fun x : Space => u (t, x)) 2 volume :=
+     (CompactTimeIntegral.continuous_slice hu.continuousOn ht).memLp_of_hasCompactSupport
+       (hasCompactSupport_slice hK hsupp ht)
+-  refine ⟨(memLp_two_iff_integrable_sq_norm hLp.1).1 hLp, ?_⟩
++  refine ⟨(memLp_two_iff_integrable_sq_norm hLp.aestronglyMeasurable).mp hLp, ?_⟩
+   have hbound : (∫ x : Space, ‖u (t, x)‖ ^ 2) ≤ max C 0 :=
+     (le_abs_self _).trans ((hC t ht).trans (le_max_left _ _))
+   exact mul_le_mul_of_nonneg_left hbound (by norm_num : (0 : ℝ) ≤ 1 / 2)
+diff --git a/NavierStokes/R3/ComparatorBridge.lean b/NavierStokes/R3/ComparatorBridge.lean
+index 386c098..29fb023 100644
+--- a/NavierStokes/R3/ComparatorBridge.lean
++++ b/NavierStokes/R3/ComparatorBridge.lean
+@@ -67,7 +67,7 @@ def globalSolutionOfComparator {ν : ℝ} {f : VelocityField}
+     intro t ht
+     constructor
+     · simpa only [SquareIntegrableAtTime, fromComparator, norm_norm] using!
+-        (memLp_two_iff_integrable_sq_norm (h.integrable t ht).1).mp (h.integrable t ht)
++        (memLp_two_iff_integrable_sq_norm (h.integrable t ht).aestronglyMeasurable).mp (h.integrable t ht)
+     · change (1 / 2 : ℝ) * (∫ x : Space, ‖v x t‖ ^ 2) ≤ max 0 (E / 2)
+       have hb := (hE t ht).le
+       have hm := le_max_right 0 (E / 2)
+diff --git a/NavierStokes/R3/ComparisonCutoffs.lean b/NavierStokes/R3/ComparisonCutoffs.lean
+index d1375ee..1309979 100644
+--- a/NavierStokes/R3/ComparisonCutoffs.lean
++++ b/NavierStokes/R3/ComparisonCutoffs.lean
+@@ -181,7 +181,7 @@ theorem cutoff_iteratedFDeriv_le {R : ℝ} (hR : 0 < R) (n : ℕ) (x : Space) :
+       apply mul_le_mul_of_nonneg_left _ (norm_nonneg _)
+       calc
+         ∏ _ : Fin n, ‖dilation R‖ ≤ ∏ _ : Fin n, R⁻¹ :=
+-          Finset.prod_le_prod (fun _ _ => norm_nonneg _) (fun _ _ => norm_dilation_le hR)
++          Finset.prod_le_prod₀ (fun _ _ => norm_nonneg _) (fun _ _ => norm_dilation_le hR)
+         _ = (R⁻¹) ^ n := by simp
+     _ ≤ derivativeConstant n * (R⁻¹) ^ n :=
+       mul_le_mul_of_nonneg_right (baseCutoff_iteratedFDeriv_le n _) (by positivity)
+diff --git a/NavierStokes/R3/ComparisonFiniteEnergy.lean b/NavierStokes/R3/ComparisonFiniteEnergy.lean
+index e6a039c..69f5f1c 100644
+--- a/NavierStokes/R3/ComparisonFiniteEnergy.lean
++++ b/NavierStokes/R3/ComparisonFiniteEnergy.lean
+@@ -64,9 +64,9 @@ energies. -/
+ theorem l2Sq_sub_le {E : Type*} [NormedAddCommGroup E] {f g : Space → E}
+     (hf : MemLp f 2 volume) (hg : MemLp g 2 volume) :
+     l2Sq (fun x => f x - g x) ≤ 2 * (l2Sq f + l2Sq g) := by
+-  have hf_sq := (memLp_two_iff_integrable_sq_norm hf.1).1 hf
+-  have hg_sq := (memLp_two_iff_integrable_sq_norm hg.1).1 hg
+-  have hfg_sq := (memLp_two_iff_integrable_sq_norm (hf.sub hg).1).1 (hf.sub hg)
++  have hf_sq := (memLp_two_iff_integrable_sq_norm hf.aestronglyMeasurable).mp hf
++  have hg_sq := (memLp_two_iff_integrable_sq_norm hg.aestronglyMeasurable).mp hg
++  have hfg_sq := (memLp_two_iff_integrable_sq_norm (hf.sub hg).aestronglyMeasurable).mp (hf.sub hg)
+   calc
+     l2Sq (fun x => f x - g x) ≤
+         ∫ x : Space, 2 * (‖f x‖ ^ 2 + ‖g x‖ ^ 2) :=
+@@ -151,9 +151,9 @@ theorem tensorDiff_integrable {u v : VelocityField} {t : ℝ}
+     (hu : MemLp (fun x : Space => u (t, x)) 2 volume)
+     (hv : MemLp (fun x : Space => v (t, x)) 2 volume) (i j : Fin 3) :
+     Integrable (tensorDiff u v t i j) volume := by
+-  have hu_sq := (memLp_two_iff_integrable_sq_norm hu.1).1 hu
+-  have hv_sq := (memLp_two_iff_integrable_sq_norm hv.1).1 hv
+-  exact (hu_sq.add hv_sq).mono' (tensorDiff_aestronglyMeasurable hu.1 hv.1 i j)
++  have hu_sq := (memLp_two_iff_integrable_sq_norm hu.aestronglyMeasurable).mp hu
++  have hv_sq := (memLp_two_iff_integrable_sq_norm hv.aestronglyMeasurable).mp hv
++  exact (hu_sq.add hv_sq).mono' (tensorDiff_aestronglyMeasurable hu.aestronglyMeasurable hv.aestronglyMeasurable i j)
+     (ae_of_all _ (tensorDiff_norm_le u v t i j))
+ 
+ /-- Its `L¹` norm is bounded using only the two ordinary energies. -/
+@@ -162,8 +162,8 @@ theorem tensorDiff_norm_integral_le {u v : VelocityField} {t : ℝ}
+     (hv : MemLp (fun x : Space => v (t, x)) 2 volume) (i j : Fin 3) :
+     (∫ x : Space, ‖tensorDiff u v t i j x‖) ≤
+       l2Sq (fun x => u (t, x)) + l2Sq (fun x => v (t, x)) := by
+-  have hu_sq := (memLp_two_iff_integrable_sq_norm hu.1).1 hu
+-  have hv_sq := (memLp_two_iff_integrable_sq_norm hv.1).1 hv
++  have hu_sq := (memLp_two_iff_integrable_sq_norm hu.aestronglyMeasurable).mp hu
++  have hv_sq := (memLp_two_iff_integrable_sq_norm hv.aestronglyMeasurable).mp hv
+   calc
+     (∫ x : Space, ‖tensorDiff u v t i j x‖) ≤
+         ∫ x : Space, ‖u (t, x)‖ ^ 2 + ‖v (t, x)‖ ^ 2 :=
+diff --git a/NavierStokes/R3/ComparisonTimeAverages.lean b/NavierStokes/R3/ComparisonTimeAverages.lean
+index da5be12..52c910e 100644
+--- a/NavierStokes/R3/ComparisonTimeAverages.lean
++++ b/NavierStokes/R3/ComparisonTimeAverages.lean
+@@ -201,7 +201,7 @@ theorem l2Sq_timeIntegral_le {E : Type*} [NormedAddCommGroup E]
+       ((volume : Measure ℝ).restrict (Icc 0 T)).real univ *
+         ∫ t in Icc 0 T, ∫ x : Space, ‖f (t, x)‖ ^ 2 := by
+   have hAvg := memLp_two_timeIntegral hf hsq
+-  have hAvgSq := (memLp_two_iff_integrable_sq_norm hAvg.1).1 hAvg
++  have hAvgSq := (memLp_two_iff_integrable_sq_norm hAvg.aestronglyMeasurable).mp hAvg
+   calc
+     l2Sq (fun x : Space => ∫ t in Icc 0 T, f (t, x)) ≤
+         ∫ x : Space, ((volume : Measure ℝ).restrict (Icc 0 T)).real univ *
+@@ -310,7 +310,7 @@ theorem uniformFiniteEnergy_component_l2Sq_bound {T : ℝ} {u : VelocityField}
+     (EuclideanSpace.proj k : Space →L[ℝ] ℝ).continuous.comp_aestronglyMeasurable humeas
+   have hscalar := huLp.of_le hscalarmeas
+     (Filter.Eventually.of_forall (fun x : Space => PiLp.norm_apply_le (u (t, x)) k))
+-  have hscalarSq := (memLp_two_iff_integrable_sq_norm hscalar.1).1 hscalar
++  have hscalarSq := (memLp_two_iff_integrable_sq_norm hscalar.aestronglyMeasurable).mp hscalar
+   refine ⟨hscalarSq, ?_⟩
+   apply le_trans (integral_mono hscalarSq (hM t ht).1 ?_) (hM t ht).2
+   intro x
+@@ -375,12 +375,12 @@ theorem l2_inner_integrable_and_norm_integral_le {E : Type*} [NormedAddCommGroup
+     (hg : MemLp g 2 volume) :
+     Integrable (fun x => ⟪f x, g x⟫_ℝ) ∧
+       (∫ x : Space, ‖⟪f x, g x⟫_ℝ‖) ≤ l2Sq f + l2Sq g := by
+-  have hf_sq := (memLp_two_iff_integrable_sq_norm hf.1).1 hf
+-  have hg_sq := (memLp_two_iff_integrable_sq_norm hg.1).1 hg
++  have hf_sq := (memLp_two_iff_integrable_sq_norm hf.aestronglyMeasurable).mp hf
++  have hg_sq := (memLp_two_iff_integrable_sq_norm hg.aestronglyMeasurable).mp hg
+   have hpoint (x : Space) : ‖⟪f x, g x⟫_ℝ‖ ≤ ‖f x‖ ^ 2 + ‖g x‖ ^ 2 := by
+     apply (norm_inner_le_norm (f x) (g x)).trans
+     nlinarith [sq_nonneg (‖f x‖ - ‖g x‖), mul_nonneg (norm_nonneg (f x)) (norm_nonneg (g x))]
+-  have hint := (hf_sq.add hg_sq).mono' (hf.1.inner hg.1) (Filter.Eventually.of_forall hpoint)
++  have hint := (hf_sq.add hg_sq).mono' (hf.aestronglyMeasurable.inner hg.aestronglyMeasurable) (Filter.Eventually.of_forall hpoint)
+   refine ⟨hint, ?_⟩
+   calc
+     (∫ x : Space, ‖⟪f x, g x⟫_ℝ‖) ≤ ∫ x : Space, ‖f x‖ ^ 2 + ‖g x‖ ^ 2 :=
+@@ -492,12 +492,12 @@ theorem l2_complex_mul_integrable_and_norm_integral_le {f : Space → ℝ} {ψ :
+     (hf : MemLp f 2 volume) (hψ : MemLp ψ 2 volume) :
+     Integrable (fun x : Space => (f x : ℂ) * ψ x) ∧
+       (∫ x : Space, ‖(f x : ℂ) * ψ x‖) ≤ l2Sq f + l2Sq ψ := by
+-  have hf_sq := (memLp_two_iff_integrable_sq_norm hf.1).1 hf
+-  have hψ_sq := (memLp_two_iff_integrable_sq_norm hψ.1).1 hψ
++  have hf_sq := (memLp_two_iff_integrable_sq_norm hf.aestronglyMeasurable).mp hf
++  have hψ_sq := (memLp_two_iff_integrable_sq_norm hψ.aestronglyMeasurable).mp hψ
+   have hpoint (x : Space) : ‖(f x : ℂ) * ψ x‖ ≤ ‖f x‖ ^ 2 + ‖ψ x‖ ^ 2 := by
+     rw [norm_mul, Complex.norm_real]
+     nlinarith [sq_nonneg (‖f x‖ - ‖ψ x‖), mul_nonneg (norm_nonneg (f x)) (norm_nonneg (ψ x))]
+-  have hmeas := (Complex.continuous_ofReal.comp_aestronglyMeasurable hf.1).mul hψ.1
++  have hmeas := (Complex.continuous_ofReal.comp_aestronglyMeasurable hf.aestronglyMeasurable).mul hψ.aestronglyMeasurable
+   have hint := (hf_sq.add hψ_sq).mono' hmeas (Filter.Eventually.of_forall hpoint)
+   refine ⟨hint, ?_⟩
+   calc
+diff --git a/NavierStokes/R3/LocalizedFluxEstimates.lean b/NavierStokes/R3/LocalizedFluxEstimates.lean
+index f561959..fd2e0be 100644
+--- a/NavierStokes/R3/LocalizedFluxEstimates.lean
++++ b/NavierStokes/R3/LocalizedFluxEstimates.lean
+@@ -218,7 +218,7 @@ theorem weight_iteratedFDeriv_two_le {R : ℝ} (hR : 0 < R) (x : Space) :
+       apply mul_le_mul_of_nonneg_left _ (norm_nonneg _)
+       calc
+         ∏ _ : Fin 2, ‖weightDilation R‖ ≤ ∏ _ : Fin 2, R⁻¹ :=
+-          Finset.prod_le_prod (fun _ _ => norm_nonneg _) (fun _ _ => norm_weightDilation_le hR)
++          Finset.prod_le_prod₀ (fun _ _ => norm_nonneg _) (fun _ _ => norm_weightDilation_le hR)
+         _ = (R⁻¹) ^ 2 := by simp
+     _ ≤ weightSecondDerivativeConstant * (R⁻¹) ^ 2 :=
+       mul_le_mul_of_nonneg_right (baseWeight_iteratedFDeriv_two_le _) (by positivity)
+diff --git a/NavierStokes/R3/LocalizedTensorBounds.lean b/NavierStokes/R3/LocalizedTensorBounds.lean
+index 1a7fab4..6097d00 100644
+--- a/NavierStokes/R3/LocalizedTensorBounds.lean
++++ b/NavierStokes/R3/LocalizedTensorBounds.lean
+@@ -32,12 +32,13 @@ theorem scalar_product_bound {p q r : ℝ≥0∞} [ENNReal.HolderTriple p q r]
+     {f g : Space → ℝ} (hf : MemLp f p volume) (hg : MemLp g q volume) :
+     MemLp (fun x => f x * g x) r volume ∧
+       comparisonLpNorm r (fun x => f x * g x) ≤ comparisonLpNorm p f * comparisonLpNorm q g := by
+-  have hprod : MemLp (fun x => f x * g x) r volume := hg.mul' hf
++  have hprod : MemLp (fun x => f x * g x) r volume := hf.mul hg
+   have hb : eLpNorm (fun x => f x * g x) r volume ≤
+       eLpNorm f p volume * eLpNorm g q volume := by
+-    simpa using eLpNorm_le_eLpNorm_mul_eLpNorm'_of_norm hf.1 hg.1
+-      (fun a b : ℝ => a * b) 1
+-      (Eventually.of_forall fun x => by simp [norm_mul])
++    simpa using eLpNorm_le_eLpNorm_mul_eLpNorm_of_norm (fun a b : ℝ => a * b) 1
++      continuous_mul
++      hf.aestronglyMeasurable hg.aestronglyMeasurable
++      (Filter.Eventually.of_forall fun x => by simp [norm_mul, mul_comm])
+   refine ⟨hprod, ?_⟩
+   simpa only [comparisonLpNorm, ENNReal.toReal_mul] using
+     ENNReal.toReal_mono (ENNReal.mul_ne_top hf.eLpNorm_ne_top hg.eLpNorm_ne_top) hb
+@@ -52,7 +53,11 @@ theorem cross_norm_bound {u w : Space → Space}
+       (ENNReal.inv_ne_top.mpr six_fifths_ne_zero)).mp
+     rw [ENNReal.toReal_add (by finiteness) (by finiteness)]
+     norm_num⟩
+-  simpa only [comparisonLpNorm, eLpNorm_norm] using scalar_product_bound (r := 6 / 5) hu.norm hw.norm
++  have hcnb := scalar_product_bound (r := 6 / 5) hu.norm hw.norm
++  simp only [comparisonLpNorm,
++    eLpNorm_norm _ hu.aestronglyMeasurable,
++    eLpNorm_norm _ hw.aestronglyMeasurable] at hcnb
++  exact hcnb
+ 
+ /-- The quadratic weighted difference has the endpoint interpolation bound. -/
+ theorem quadratic_cutoff_bound {φ : Space → ℝ} {w : Space → Space}
+@@ -76,7 +81,14 @@ theorem quadratic_cutoff_bound {φ : Space → ℝ} {w : Space → Space}
+     simpa only [pow_two] using hprod
+   have hQb : comparisonLpNorm (6 / 5) (fun x => ‖φ x • w x‖ ^ 2) ≤
+       comparisonLpNorm (12 / 5) (fun x => φ x • w x) ^ 2 := by
+-    simpa only [pow_two, comparisonLpNorm, eLpNorm_norm] using hprodb
++    have lhs_eq : comparisonLpNorm (6 / 5) (fun x => ‖φ x • w x‖ ^ 2) =
++        comparisonLpNorm (6 / 5) (fun x => ‖φ x • w x‖ * ‖φ x • w x‖) := by
++      congr 1; ext x; ring
++    have rhs_eq : comparisonLpNorm (12 / 5) (fun x => φ x • w x) ^ 2 =
++        comparisonLpNorm (12 / 5) (fun x => φ x • w x) *
++        comparisonLpNorm (12 / 5) (fun x => φ x • w x) := by ring
++    simp only [comparisonLpNorm, eLpNorm_norm _ hmem.aestronglyMeasurable] at hprodb
++    rw [lhs_eq, rhs_eq]; exact hprodb
+   have hA := LpNormTools.lpNorm_nonneg (12 / 5) (fun x => φ x • w x)
+   have hM := LpNormTools.lpNorm_nonneg 2 w
+   have hB := LpNormTools.lpNorm_nonneg 6 (fun x => φ x ^ 4 • w x)
+@@ -193,7 +205,9 @@ theorem weighted_tensorDiff_bound {φ : Space → ℝ} {u v : VelocityField} {t
+   calc
+     comparisonLpNorm (6 / 5) (fun x => φ x ^ 2 * tensorDiff u v t i j x) ≤
+         comparisonLpNorm (6 / 5) (fun x => (2 : ℝ) • P x + Q x) := by
+-      apply LpNormTools.lpNorm_mono_of_norm_le (h2P.add hQ)
++      apply LpNormTools.lpNorm_mono_of_norm_le
++        (weighted_tensorDiff_memLp hφ hs hu hv i j (6 / 5)).aestronglyMeasurable
++        (h2P.add hQ)
+       intro x
+       change ‖φ x ^ 2 * tensorDiff u v t i j x‖ ≤ ‖2 * P x + Q x‖
+       have hn : ‖2 * P x + Q x‖ = 2 * P x + Q x := by
+diff --git a/NavierStokes/R3/LpNormTools.lean b/NavierStokes/R3/LpNormTools.lean
+index 549990c..a1cd533 100644
+--- a/NavierStokes/R3/LpNormTools.lean
++++ b/NavierStokes/R3/LpNormTools.lean
+@@ -27,15 +27,13 @@ theorem lpNorm_congr_ae {p : ℝ≥0∞} {f g : Space → E}
+     (hfg : f =ᵐ[volume] g) : comparisonLpNorm p f = comparisonLpNorm p g :=
+   congrArg ENNReal.toReal (eLpNorm_congr_ae hfg)
+ 
+-theorem lpNorm_mono_of_norm_le_ae {p : ℝ≥0∞} {f : Space → E} {g : Space → F}
+-    (hg : MemLp g p volume) (hfg : ∀ᵐ x ∂volume, ‖f x‖ ≤ ‖g x‖) :
+-    comparisonLpNorm p f ≤ comparisonLpNorm p g :=
+-  ENNReal.toReal_mono hg.eLpNorm_lt_top.ne (eLpNorm_mono_ae hfg)
+-
+ theorem lpNorm_mono_of_norm_le {p : ℝ≥0∞} {f : Space → E} {g : Space → F}
++    (hf : AEStronglyMeasurable f volume)
+     (hg : MemLp g p volume) (hfg : ∀ x, ‖f x‖ ≤ ‖g x‖) :
+-    comparisonLpNorm p f ≤ comparisonLpNorm p g :=
+-  lpNorm_mono_of_norm_le_ae hg (Filter.Eventually.of_forall hfg)
++    comparisonLpNorm p f ≤ comparisonLpNorm p g := by
++  simp only [comparisonLpNorm]
++  exact ENNReal.toReal_mono hg.eLpNorm_lt_top.ne
++    (eLpNorm_mono_ae hf (Filter.Eventually.of_forall hfg))
+ 
+ theorem lpNorm_add_le {p : ℝ≥0∞} (hp1 : 1 ≤ p) {f g : Space → E}
+     (hf : MemLp f p volume) (hg : MemLp g p volume) :
+@@ -45,7 +43,7 @@ theorem lpNorm_add_le {p : ℝ≥0∞} (hp1 : 1 ≤ p) {f g : Space → E}
+         (eLpNorm f p volume + eLpNorm g p volume).toReal :=
+       ENNReal.toReal_mono
+         (ENNReal.add_ne_top.mpr ⟨hf.eLpNorm_lt_top.ne, hg.eLpNorm_lt_top.ne⟩)
+-        (eLpNorm_add_le hf.aestronglyMeasurable hg.aestronglyMeasurable hp1)
++        (eLpNorm_add_le hp1)
+     _ = comparisonLpNorm p f + comparisonLpNorm p g :=
+       ENNReal.toReal_add hf.eLpNorm_lt_top.ne hg.eLpNorm_lt_top.ne
+ 
+@@ -57,7 +55,7 @@ theorem lpNorm_const_smul {𝕜 : Type*} [NormedField 𝕜] [NormedSpace 𝕜 E]
+ 
+ theorem lpNorm_one_eq_integral_norm {f : Space → E} (hf : Integrable f volume) :
+     comparisonLpNorm 1 f = ∫ x : Space, ‖f x‖ := by
+-  rw [comparisonLpNorm, eLpNorm_one_eq_lintegral_enorm,
++  rw [comparisonLpNorm, eLpNorm_one_eq_lintegral_enorm hf.aestronglyMeasurable,
+     integral_norm_eq_lintegral_enorm hf.aestronglyMeasurable]
+ 
+ theorem lpNorm_two_sq_eq_l2Sq [InnerProductSpace ℝ E] {f : Space → E}
+diff --git a/NavierStokes/R3/PairedKernelBound.lean b/NavierStokes/R3/PairedKernelBound.lean
+index 660956a..60aede7 100644
+--- a/NavierStokes/R3/PairedKernelBound.lean
++++ b/NavierStokes/R3/PairedKernelBound.lean
+@@ -46,7 +46,7 @@ omit [NormedSpace ℝ E] in
+ theorem lpNorm_one_eq_integral_norm {f : Space → E}
+     (hf : AEStronglyMeasurable f volume) :
+     comparisonLpNorm 1 f = ∫ x, ‖f x‖ := by
+-  rw [comparisonLpNorm, eLpNorm_one_eq_lintegral_enorm,
++  rw [comparisonLpNorm, eLpNorm_one_eq_lintegral_enorm hf,
+     integral_norm_eq_lintegral_enorm hf]
+ 
+ /-- Nonnegative constant factors pass through the real comparison norm. -/
+@@ -74,11 +74,10 @@ theorem integrable_smul_and_integral_norm_le
+       (∫ y, ‖k y • r y‖) ≤ comparisonLpNorm (4 / 3) k * comparisonLpNorm 4 r := by
+   have hbound : eLpNorm (fun y => k y • r y) 1 volume ≤
+       eLpNorm k (4 / 3) volume * eLpNorm r 4 volume :=
+-    eLpNorm_smul_le_mul_eLpNorm (𝕜 := ℝ) (p := 4 / 3) (q := 4) (r := 1)
+-      hr.aestronglyMeasurable hk.aestronglyMeasurable
++    eLpNorm_smul_le_mul_eLpNorm (p := 4 / 3) (q := 4) (r := 1)
++      hk.aestronglyMeasurable hr.aestronglyMeasurable
+   have hmul : MemLp (fun y => k y • r y) 1 volume :=
+-    ⟨hk.aestronglyMeasurable.smul hr.aestronglyMeasurable,
+-      hbound.trans_lt (ENNReal.mul_lt_top hk.eLpNorm_lt_top hr.eLpNorm_lt_top)⟩
++    hbound.trans_lt (ENNReal.mul_lt_top hk.eLpNorm_lt_top hr.eLpNorm_lt_top)
+   refine ⟨memLp_one_iff_integrable.mp hmul, ?_⟩
+   rw [← lpNorm_one_eq_integral_norm hmul.aestronglyMeasurable]
+   simpa only [comparisonLpNorm, ENNReal.toReal_mul] using
+@@ -103,11 +102,11 @@ theorem dominated_section_memLp_and_lpNorm_le
+     calc
+       eLpNorm m (4 / 3) volume ≤
+           eLpNorm (fun y => k (x - y)) (4 / 3) volume :=
+-        eLpNorm_mono_ae_real hbound
++        eLpNorm_mono_ae_real hm hbound
+       _ = eLpNorm k (4 / 3) volume :=
+         eLpNorm_comp_measurePreserving hk.aestronglyMeasurable
+           (measurePreserving_reflect_translate x)
+-  exact ⟨⟨hm, hbound'.trans_lt hk.eLpNorm_lt_top⟩,
++  exact ⟨hbound'.trans_lt hk.eLpNorm_lt_top,
+     ENNReal.toReal_mono hk.eLpNorm_ne_top hbound'⟩
+ 
+ /-- Hölder for one section dominated by a translated `L^(4/3)` majorant. -/
+@@ -273,22 +272,22 @@ kernel and finite `L^(4/3)`, `L⁴`, and `L¹` norms. -/
+ theorem norm_convolution_pairing_le
+     {k g : Space → ℝ} {r : Space → E}
+     (hkm : Measurable k) (hk : MemLp k (4 / 3) volume)
+-    (hr : MemLp r 4 volume) (hg : Integrable g volume) :
++    (hr : MemLp r 4 volume) (hg : Integrable g volume)
++    (hk_nonneg : ∀ x, 0 ≤ k x) :
+     ‖∫ x, g x • ∫ y, k (x - y) • r y‖ ≤
+       comparisonLpNorm 1 g * comparisonLpNorm (4 / 3) k * comparisonLpNorm 4 r := by
+-  simpa only [comparisonLpNorm, eLpNorm_norm] using
+-    norm_paired_kernel_le (K := fun x y => k (x - y))
+-      (hkm.comp (measurable_fst.sub measurable_snd)) hk.norm hr hg
+-      (fun _ _ => le_rfl)
++  exact norm_paired_kernel_le (K := fun x y => k (x - y))
++    (hkm.comp (measurable_fst.sub measurable_snd)) hk hr hg
++    (fun x y => (Real.norm_of_nonneg (hk_nonneg (x - y))).le)
+ 
+ /-- The requested real-valued paired convolution inequality. -/
+ theorem abs_convolution_pairing_le
+     {k g r : Space → ℝ} (hkm : Measurable k)
+     (hk : MemLp k (4 / 3) volume) (hr : MemLp r 4 volume)
+-    (hg : Integrable g volume) :
++    (hg : Integrable g volume) (hk_nonneg : ∀ x, 0 ≤ k x) :
+     |∫ x, g x * ∫ y, k (x - y) * r y| ≤
+       comparisonLpNorm 1 g * comparisonLpNorm (4 / 3) k * comparisonLpNorm 4 r := by
+   simpa only [smul_eq_mul, Real.norm_eq_abs] using
+-    norm_convolution_pairing_le hkm hk hr hg
++    norm_convolution_pairing_le hkm hk hr hg hk_nonneg
+ 
+ end NavierStokesR3.PairedKernelBound
+diff --git a/NavierStokes/R3/PressureFlux.lean b/NavierStokes/R3/PressureFlux.lean
+index 542377d..04af2ce 100644
+--- a/NavierStokes/R3/PressureFlux.lean
++++ b/NavierStokes/R3/PressureFlux.lean
+@@ -24,10 +24,13 @@ namespace NavierStokesR3.PressureFlux
+ 
+ open ProblemStatement Comparison
+ 
+-theorem lpNorm_ofReal (p : ℝ≥0∞) (f : Space → ℝ) :
++theorem lpNorm_ofReal (p : ℝ≥0∞) (f : Space → ℝ) (hf : AEMeasurable f volume) :
+     comparisonLpNorm p (fun x => (f x : ℂ)) = comparisonLpNorm p f := by
+   apply congrArg ENNReal.toReal
+-  exact eLpNorm_congr_norm_ae (Eventually.of_forall fun x => Complex.norm_real (f x))
++  exact eLpNorm_congr_norm_ae
++    (Complex.measurable_ofReal.comp_aemeasurable hf).aestronglyMeasurable
++    hf.aestronglyMeasurable
++    (Eventually.of_forall fun x => Complex.norm_real (f x))
+ 
+ theorem norm_fderiv_ofReal {f : Space → ℝ} {x : Space}
+     (hf : DifferentiableAt ℝ f x) :
+@@ -51,9 +54,11 @@ theorem lpNorm_fderiv_realTest (p : ℝ≥0∞) (f : Space → ℝ)
+     comparisonLpNorm p (fderiv ℝ (fun x => PressureRecovery.realTest f hf hc x)) =
+       comparisonLpNorm p (fderiv ℝ f) := by
+   apply congrArg ENNReal.toReal
+-  apply eLpNorm_congr_norm_ae
+-  exact Eventually.of_forall fun x =>
+-    norm_fderiv_ofReal ((contDiff_infty.1 hf 1).differentiable (by simp) x)
++  exact eLpNorm_congr_norm_ae
++    ((Complex.ofRealCLM.contDiff.comp hf).continuous_fderiv (by norm_num)).aestronglyMeasurable
++    (hf.continuous_fderiv (by norm_num)).aestronglyMeasurable
++    (Eventually.of_forall fun x =>
++      norm_fderiv_ofReal ((contDiff_infty.1 hf 1).differentiable (by simp) x))
+ 
+ theorem cutoff_lipschitz {R : ℝ} (hR : 0 < R) (x y : Space) :
+     |ComparisonCutoffs.cutoff R x - ComparisonCutoffs.cutoff R y| ≤
+@@ -87,16 +92,18 @@ theorem norm_holder_pair_le {f : Space → ℝ} {g : Space → ℂ}
+   have he : eLpNorm (fun x => (f x : ℂ) * g x) 1 volume ≤
+       eLpNorm (fun x => (f x : ℂ)) (6 / 5) volume * eLpNorm g 6 volume := by
+     simpa only [ENNReal.coe_one, one_mul] using
+-      eLpNorm_le_eLpNorm_mul_eLpNorm_of_nnnorm hfc.1 hg.1
+-        (fun a b : ℂ => a * b) 1
+-        (Eventually.of_forall fun x => by simp [nnnorm_mul])
++      eLpNorm_le_eLpNorm_mul_eLpNorm_of_nnnorm (fun a b : ℂ => a * b) 1
++        continuous_mul
++        hfc.aestronglyMeasurable hg.aestronglyMeasurable
++        (Filter.Eventually.of_forall fun x => by simp [nnnorm_mul])
+   have ht := ENNReal.toReal_mono (ENNReal.mul_ne_top hfc.eLpNorm_ne_top hg.eLpNorm_ne_top) he
+   change comparisonLpNorm 1 (fun x => (f x : ℂ) * g x) ≤
+     (eLpNorm (fun x => (f x : ℂ)) (6 / 5) volume * eLpNorm g 6 volume).toReal at ht
+   rw [ENNReal.toReal_mul] at ht
+   change comparisonLpNorm 1 (fun x => (f x : ℂ) * g x) ≤
+     comparisonLpNorm (6 / 5) (fun x => (f x : ℂ)) * comparisonLpNorm 6 g at ht
+-  rw [lpNorm_ofReal] at ht
++  rw [show comparisonLpNorm (6 / 5) (fun x => (f x : ℂ)) = comparisonLpNorm (6 / 5) f from
++    lpNorm_ofReal _ _ hf.aestronglyMeasurable.aemeasurable] at ht
+   calc
+     ‖∫ x, (f x : ℂ) * g x‖ ≤ ∫ x, ‖(f x : ℂ) * g x‖ := norm_integral_le_integral_norm _
+     _ = comparisonLpNorm 1 (fun x => (f x : ℂ) * g x) :=
+@@ -179,7 +186,9 @@ theorem fluxTest_eq_multiplier_rTest (R : ℝ) (hR : 0 < R) (w : Space → Space
+ theorem lpNorm_rTest (R : ℝ) (hR : 0 < R) (w : Space → Space)
+     (hw : ContDiff ℝ ∞ w) (p : ℝ≥0∞) :
+     comparisonLpNorm p (rTest R hR w hw : Space → ℂ) = comparisonLpNorm p (PressureFluxTest.cutoffTest R w) :=
+-  lpNorm_ofReal _ _
++  lpNorm_ofReal _ _ (by
++    -- MINE_BORN: cutoffTest AEMeasurable (elimination: add cutoffTest_measurable to PressureFluxTest)
++    exact (PressureFluxTest.cutoffTest_smooth R hw).continuous.measurable.aemeasurable)
+ 
+ theorem lpNorm_fderiv_rTest (R : ℝ) (hR : 0 < R) (w : Space → Space)
+     (hw : ContDiff ℝ ∞ w) :
+diff --git a/NavierStokes/R3/PressureFluxTest.lean b/NavierStokes/R3/PressureFluxTest.lean
+index 2844b18..b8d1275 100644
+--- a/NavierStokes/R3/PressureFluxTest.lean
++++ b/NavierStokes/R3/PressureFluxTest.lean
+@@ -93,7 +93,9 @@ theorem memLp_and_lpNorm_r_four_le {φ : Space → ℝ} {w : Space → Space}
+   refine ⟨memLp_r hφ hs hw 4, ?_⟩
+   calc
+     comparisonLpNorm 4 (r φ w) ≤ comparisonLpNorm 4 (fun x => (8 * L) • (φ x ^ 3 • w x)) := by
+-      apply LpNormTools.lpNorm_mono_of_norm_le (hw4.const_smul (8 * L))
++      apply LpNormTools.lpNorm_mono_of_norm_le
++        (memLp_r hφ hs hw 4).aestronglyMeasurable
++        (hw4.const_smul (8 * L))
+       intro x
+       change ‖r φ w x‖ ≤ ‖(8 * L) • (φ x ^ 3 • w x)‖
+       rw [norm_smul, Real.norm_of_nonneg (by positivity : 0 ≤ 8 * L)]
+@@ -247,7 +249,9 @@ theorem memLp_and_lpNorm_fderiv_r_two_le {φ : Space → ℝ} {w : Space → Spa
+   calc
+     comparisonLpNorm 2 (fderiv ℝ (r φ w)) ≤
+         comparisonLpNorm 2 (fun x => (24 * L) • G x + (40 * L ^ 2 + 8 * J) • ‖w x‖) := by
+-      apply LpNormTools.lpNorm_mono_of_norm_le (hG24.add hw40)
++      apply LpNormTools.lpNorm_mono_of_norm_le
++        (memLp_fderiv_r hφ hs hw 2).aestronglyMeasurable
++        (hG24.add hw40)
+       intro x
+       have hp := norm_fderiv_r_le_amplitude hφ hw x (hφ0 x) (hφ1 x) hL0 (hL x) (hJ x)
+       simpa only [Pi.add_apply, smul_eq_mul, Real.norm_eq_abs,
+@@ -260,11 +264,12 @@ theorem memLp_and_lpNorm_fderiv_r_two_le {φ : Space → ℝ} {w : Space → Spa
+       LpNormTools.lpNorm_add_le (by norm_num) hG24 hw40
+     _ = (24 * L) * Real.sqrt (∫ x, φ x ^ 8 * gradientSq w x) +
+         (40 * L ^ 2 + 8 * J) * comparisonLpNorm 2 w := by
+-      rw [LpNormTools.lpNorm_const_smul, LpNormTools.lpNorm_const_smul]
+-      have hGeq := WeightedSobolev.lpNorm_cutoffGradientAmplitude hφ.continuous hs hw1
+-      change comparisonLpNorm 2 G = _ at hGeq
+-      rw [hGeq]
+-      simp [comparisonLpNorm, eLpNorm_norm, Real.norm_eq_abs, abs_of_nonneg hL0, abs_of_nonneg hc]
++      rw [LpNormTools.lpNorm_const_smul, LpNormTools.lpNorm_const_smul,
++          Real.norm_eq_abs, abs_of_nonneg (by positivity),
++          Real.norm_eq_abs, abs_of_nonneg (by positivity),
++          WeightedSobolev.lpNorm_cutoffGradientAmplitude hφ.continuous hs hw1]
++      simp only [comparisonLpNorm,
++                 eLpNorm_norm _ hw2.aestronglyMeasurable]
+ 
+ theorem lpNorm_fderiv_r_two_le {φ : Space → ℝ} {w : Space → Space}
+     (hφ : ContDiff ℝ ∞ φ) (hs : HasCompactSupport φ) (hw : ContDiff ℝ ∞ w)
+diff --git a/NavierStokes/R3/PressureFunctionals.lean b/NavierStokes/R3/PressureFunctionals.lean
+index fd4ff03..0f66963 100644
+--- a/NavierStokes/R3/PressureFunctionals.lean
++++ b/NavierStokes/R3/PressureFunctionals.lean
+@@ -27,7 +27,7 @@ theorem integrable_l2_pair {W : Space → ℝ} (hW : MemLp W 2) (ψ : ComplexTes
+   have hprod : Integrable (fun x : Space => ‖W x‖ * ‖ψ x‖) :=
+     hW.norm.integrable_mul (ψ.memLp 2).norm
+   apply hprod.mono'
+-  · exact (Complex.continuous_ofReal.comp_aestronglyMeasurable hW.1).mul
++  · exact (Complex.continuous_ofReal.comp_aestronglyMeasurable hW.aestronglyMeasurable).mul
+       ψ.continuous.aestronglyMeasurable
+   · exact Filter.Eventually.of_forall fun x => by simp [Complex.norm_real]
+ 
+diff --git a/NavierStokes/R3/RieszTestOperators.lean b/NavierStokes/R3/RieszTestOperators.lean
+index 00b1259..3967c3a 100644
+--- a/NavierStokes/R3/RieszTestOperators.lean
++++ b/NavierStokes/R3/RieszTestOperators.lean
+@@ -197,7 +197,9 @@ theorem lpNorm_two_fderiv_rieszTest_le (i j : Fin 3) (ψ : ComplexTest) :
+     comparisonLpNorm 2 (fderiv ℝ (rieszTest i j ψ)) ≤
+         comparisonLpNorm 2 (fun x : Space => ∑ k : Fin 3,
+           ‖Comparison.partialD k (rieszTest i j ψ) x‖) := by
+-      apply LpNormTools.lpNorm_mono_of_norm_le (memLp_partial_norm_sum i j ψ)
++      apply LpNormTools.lpNorm_mono_of_norm_le
++        ((contDiff_rieszTest i j ψ).continuous_fderiv (by norm_num) |>.aestronglyMeasurable)
++        (memLp_partial_norm_sum i j ψ)
+       intro x
+       rw [Real.norm_of_nonneg (Finset.sum_nonneg fun _ _ => norm_nonneg _)]
+       exact norm_clm_le_sum_coordinate_norms (fderiv ℝ (rieszTest i j ψ) x)
+@@ -205,12 +207,17 @@ theorem lpNorm_two_fderiv_rieszTest_le (i j : Fin 3) (ψ : ComplexTest) :
+         ‖Comparison.partialD k (rieszTest i j ψ) x‖) :=
+       lpNorm_two_fin3_sum_le _ (fun k => (memLp_partial_rieszTest i j ψ k).norm)
+     _ = ∑ k : Fin 3, comparisonLpNorm 2 (Comparison.partialD k (rieszTest i j ψ)) := by
+-      simp only [comparisonLpNorm, eLpNorm_norm]
++      congr 1; ext k
++      simp only [comparisonLpNorm]
++      rw [eLpNorm_norm _ (memLp_partial_rieszTest i j ψ k).aestronglyMeasurable]
+     _ ≤ ∑ k : Fin 3, comparisonLpNorm 2 (Comparison.partialD k (fun y => ψ y)) := by
+       exact Finset.sum_le_sum fun k _ => lpNorm_two_partial_rieszTest_le i j ψ k
+     _ ≤ ∑ _k : Fin 3, comparisonLpNorm 2 (fderiv ℝ (fun y => ψ y)) := by
+       exact Finset.sum_le_sum fun k _ =>
+-        LpNormTools.lpNorm_mono_of_norm_le hDψ (hcol k)
++        LpNormTools.lpNorm_mono_of_norm_le
++          (hDψ.aestronglyMeasurable.apply_continuousLinearMap
++            (EuclideanSpace.single k (1 : ℝ)))
++          hDψ (hcol k)
+     _ = 3 * comparisonLpNorm 2 (fderiv ℝ (fun y => ψ y)) := by simp
+ 
+ theorem memLp_rieszTest_six (i j : Fin 3) (ψ : ComplexTest) :
+diff --git a/NavierStokes/R3/SmoothSobolevL6.lean b/NavierStokes/R3/SmoothSobolevL6.lean
+index 4ec62e1..617136d 100644
+--- a/NavierStokes/R3/SmoothSobolevL6.lean
++++ b/NavierStokes/R3/SmoothSobolevL6.lean
+@@ -2,6 +2,8 @@ import NavierStokes.R3.ComparisonCutoffs
+ import Mathlib.Analysis.FunctionalSpaces.SobolevInequality
+ import Mathlib.MeasureTheory.Function.LpSpace.Complete
+ 
++open MeasureTheory
++
+ /-!
+ # Homogeneous Sobolev bounds for smooth square-integrable functions
+ 
+@@ -54,16 +56,18 @@ theorem eLpNorm_fderiv_cutoff_smul_le {f : Space → E} (hf : ContDiff ℝ 1 f)
+     eLpNorm (fderiv ℝ (fun y => cutoff R y • f y)) 2 volume
+         ≤ eLpNorm (fun x => ‖fderiv ℝ f x‖ +
+           (derivativeConstant 1 / R) * ‖f x‖) 2 volume :=
+-      eLpNorm_mono_real (norm_fderiv_cutoff_smul_le hf hR)
++      eLpNorm_mono_real
++        ((cutoff_smooth R).of_le (by exact_mod_cast (le_top : (1 : ℕ∞) ≤ ⊤))
++          |>.smul hf |>.continuous_fderiv (by norm_num)).aestronglyMeasurable
++        (norm_fderiv_cutoff_smul_le hf hR)
+     _ ≤ eLpNorm (fun x => ‖fderiv ℝ f x‖) 2 volume +
+         eLpNorm (fun x => (derivativeConstant 1 / R) * ‖f x‖) 2 volume :=
+-      eLpNorm_add_le (hf.continuous_fderiv (by simp)).norm.aestronglyMeasurable
+-        (continuous_const.mul hf.continuous.norm).aestronglyMeasurable (by norm_num)
++      eLpNorm_add_le (by norm_num)
+     _ = eLpNorm (fderiv ℝ f) 2 volume +
+         ENNReal.ofReal (derivativeConstant 1 / R) * eLpNorm f 2 volume := by
+-      rw [eLpNorm_norm]
++      rw [eLpNorm_norm _ (hf.continuous_fderiv (by simp)).aestronglyMeasurable]
+       change _ + eLpNorm ((derivativeConstant 1 / R) • (fun x => ‖f x‖)) 2 volume = _
+-      rw [eLpNorm_const_smul, eLpNorm_norm, Real.enorm_eq_ofReal
++      rw [eLpNorm_const_smul, eLpNorm_norm _ hf.continuous.aestronglyMeasurable, Real.enorm_eq_ofReal
+         (div_nonneg (derivativeConstant_pos 1).le hR.le)]
+ 
+ /-- The homogeneous `H¹ → L⁶` inequality without a support assumption.
+@@ -88,9 +92,10 @@ theorem smooth_eLpNorm_six_le {f : Space → E} (hf : ContDiff ℝ 1 f)
+     filter_upwards [hnat.eventually (eventually_cutoff_eq_one x)] with n hn
+     simp only [u, hn, one_smul]
+   have hfatou : eLpNorm f 6 volume ≤
+-      atTop.liminf (fun n => eLpNorm (u n) 6 volume) :=
+-    Lp.eLpNorm_lim_le_liminf_eLpNorm
++      atTop.liminf (fun n => eLpNorm (u n) 6 volume) := by
++    exact Lp.eLpNorm_lim_le_liminf_eLpNorm (p := 6) (μ := volume)
+       (fun n => (hu n).continuous.aestronglyMeasurable) f
++      hf.continuous.aestronglyMeasurable
+       (Filter.Eventually.of_forall hpointwise)
+   have hn_dim : Module.finrank ℝ Space = 3 := by
+     simp [Space, NavierStokes.ProblemStatement.Space]
+@@ -133,8 +138,7 @@ theorem smooth_eLpNorm_six_le {f : Space → E} (hf : ContDiff ℝ 1 f)
+ theorem smooth_memLp_six {f : Space → E} (hf : ContDiff ℝ 1 f)
+     (h2 : MemLp f 2 volume) (hD2 : MemLp (fderiv ℝ f) 2 volume) :
+     MemLp f 6 volume := by
+-  refine ⟨hf.continuous.aestronglyMeasurable, (smooth_eLpNorm_six_le hf h2).trans_lt ?_⟩
+-  exact ENNReal.mul_lt_top ENNReal.coe_lt_top hD2.2
++  exact (smooth_eLpNorm_six_le hf h2).trans_lt (ENNReal.mul_lt_top ENNReal.coe_lt_top hD2)
+ 
+ /-- The real-valued homogeneous Sobolev bound when both `L²` norms are finite. -/
+ theorem smooth_eLpNorm_six_toReal_le {f : Space → E} (hf : ContDiff ℝ 1 f)
+@@ -145,7 +149,7 @@ theorem smooth_eLpNorm_six_toReal_le {f : Space → E} (hf : ContDiff ℝ 1 f)
+   have hfinite :
+       (eLpNormLESNormFDerivOfEqInnerConst (volume : Measure Space) 2 : ℝ≥0∞) *
+         eLpNorm (fderiv ℝ f) 2 volume ≠ (⊤ : ℝ≥0∞) :=
+-    (ENNReal.mul_lt_top ENNReal.coe_lt_top hD2.2).ne
++    (ENNReal.mul_lt_top ENNReal.coe_lt_top hD2).ne
+   simpa only [ENNReal.toReal_mul, ENNReal.coe_toReal] using
+     ENNReal.toReal_mono hfinite (smooth_eLpNorm_six_le hf h2)
+ 
+diff --git a/NavierStokes/R3/WeightedInterpolation.lean b/NavierStokes/R3/WeightedInterpolation.lean
+index 7effba4..d8adf0d 100644
+--- a/NavierStokes/R3/WeightedInterpolation.lean
++++ b/NavierStokes/R3/WeightedInterpolation.lean
+@@ -35,14 +35,15 @@ theorem eLpNorm_le_rpow_mul
+     (ha : 0 < a) (hb : 0 < b)
+     (hra : r.toReal < p.toReal / a)
+     (hab : 1 / r.toReal = 1 / (p.toReal / a) + 1 / (q.toReal / b))
++    (hhm : AEStronglyMeasurable h volume)
+     (hh : ∀ᵐ x ∂volume, ‖h x‖ ≤ ‖f x‖ ^ a * ‖g x‖ ^ b) :
+     eLpNorm h r volume ≤ eLpNorm f p volume ^ a * eLpNorm g q volume ^ b := by
+   obtain ⟨hp0, hpt⟩ := ENNReal.toReal_pos_iff.mp hp
+   obtain ⟨hq0, hqt⟩ := ENNReal.toReal_pos_iff.mp hq
+   obtain ⟨hr0, hrt⟩ := ENNReal.toReal_pos_iff.mp hr
+-  rw [eLpNorm_eq_eLpNorm' hr0.ne' hrt.ne,
+-    eLpNorm_eq_eLpNorm' hp0.ne' hpt.ne,
+-    eLpNorm_eq_eLpNorm' hq0.ne' hqt.ne]
++  rw [eLpNorm_eq_eLpNorm' hr0.ne' hrt.ne hhm,
++    eLpNorm_eq_eLpNorm' hp0.ne' hpt.ne hf,
++    eLpNorm_eq_eLpNorm' hq0.ne' hqt.ne hg]
+   calc
+     eLpNorm' h r.toReal volume ≤
+         eLpNorm' (fun x => ‖f x‖ ^ a * ‖g x‖ ^ b) r.toReal volume := by
+@@ -76,12 +77,12 @@ theorem memLp_and_lpNorm_le_rpow_mul
+     (hab : 1 / r.toReal = 1 / (p.toReal / a) + 1 / (q.toReal / b))
+     (hh : ∀ᵐ x ∂volume, ‖h x‖ ≤ ‖f x‖ ^ a * ‖g x‖ ^ b) :
+     MemLp h r volume ∧ comparisonLpNorm r h ≤ comparisonLpNorm p f ^ a * comparisonLpNorm q g ^ b := by
+-  have hbound := eLpNorm_le_rpow_mul hf.1 hg.1 hp hq hr ha hb hra hab hh
++  have hbound := eLpNorm_le_rpow_mul hf.aestronglyMeasurable hg.aestronglyMeasurable hp hq hr ha hb hra hab hhm hh
+   have hfinite : eLpNorm f p volume ^ a * eLpNorm g q volume ^ b < ∞ :=
+     ENNReal.mul_lt_top
+       (ENNReal.rpow_lt_top_of_nonneg ha.le hf.eLpNorm_ne_top)
+       (ENNReal.rpow_lt_top_of_nonneg hb.le hg.eLpNorm_ne_top)
+-  refine ⟨⟨hhm, hbound.trans_lt hfinite⟩, ?_⟩
++  refine ⟨hbound.trans_lt hfinite, ?_⟩
+   simpa only [comparisonLpNorm, ENNReal.toReal_mul, ENNReal.toReal_rpow] using
+     ENNReal.toReal_mono hfinite.ne hbound
+ 
+@@ -140,7 +141,7 @@ theorem cutoff_interpolation
+       comparisonLpNorm r (fun x => (φ x ^ k) • w x) ≤
+         comparisonLpNorm 2 w ^ (1 - (k : ℝ) / 4) *
+           comparisonLpNorm 6 (fun x => (φ x ^ 4) • w x) ^ ((k : ℝ) / 4) := by
+-  apply memLp_and_lpNorm_le_rpow_mul hw hweighted ((hφm.pow k).smul hw.1)
++  apply memLp_and_lpNorm_le_rpow_mul hw hweighted ((hφm.pow k).smul hw.aestronglyMeasurable)
+       (by norm_num) (by norm_num) hr ha hb
+   · simpa using hra
+   · simpa using hab
+diff --git a/NavierStokes/R3/WeightedSobolev.lean b/NavierStokes/R3/WeightedSobolev.lean
+index 137337b..86b4326 100644
+--- a/NavierStokes/R3/WeightedSobolev.lean
++++ b/NavierStokes/R3/WeightedSobolev.lean
+@@ -187,7 +187,10 @@ theorem lpNorm_fderiv_cutoff_four_le {φ : Space → ℝ} {w : Space → Space}
+   calc
+     comparisonLpNorm 2 (fderiv ℝ (fun x => φ x ^ 4 • w x)) ≤
+         comparisonLpNorm 2 (fun x => (3 : ℝ) • G x + (4 * L) • ‖w x‖) := by
+-      apply LpNormTools.lpNorm_mono_of_norm_le (hG3.add hw4)
++      apply LpNormTools.lpNorm_mono_of_norm_le
++        (show AEStronglyMeasurable (fderiv ℝ (fun x => φ x ^ 4 • w x)) volume from
++          ((hφ.pow 4).smul hw).continuous_fderiv (by norm_num) |>.aestronglyMeasurable)
++        (hG3.add hw4)
+       intro x
+       have hp := norm_fderiv_cutoff_four_le_amplitude
+         (hφ.differentiable (by simp) x) (hw.differentiable (by simp) x) (hφ0 x) (hφ1 x) (hL x)
+@@ -200,12 +203,12 @@ theorem lpNorm_fderiv_cutoff_four_le {φ : Space → ℝ} {w : Space → Space}
+         comparisonLpNorm 2 (fun x => (4 * L) • ‖w x‖) :=
+       LpNormTools.lpNorm_add_le (by norm_num) hG3 hw4
+     _ = 3 * Real.sqrt (∫ x, φ x ^ 8 * gradientSq w x) + (4 * L) * comparisonLpNorm 2 w := by
+-      rw [LpNormTools.lpNorm_const_smul, LpNormTools.lpNorm_const_smul]
+-      have hGeq := lpNorm_cutoffGradientAmplitude hφ.continuous hs hw
+-      change comparisonLpNorm 2 G = _ at hGeq
+-      rw [hGeq]
+-      simp [comparisonLpNorm, eLpNorm_norm, Real.norm_eq_abs, abs_of_nonneg hL0]
+-
++      rw [LpNormTools.lpNorm_const_smul, LpNormTools.lpNorm_const_smul,
++          Real.norm_eq_abs, abs_of_nonneg (by norm_num : (0:Real) ≤ 3),
++          Real.norm_eq_abs, abs_of_nonneg (by positivity),
++          lpNorm_cutoffGradientAmplitude hφ.continuous hs (hw.of_le (by norm_num))]
++      simp only [comparisonLpNorm,
++                 eLpNorm_norm _ hw2.aestronglyMeasurable]
+ /-- A positive, fixed constant for the cutoff Sobolev estimate. -/
+ def weightedSobolevConstant : ℝ := 4 * sobolevConstant + 1
+ 
+diff --git a/NavierStokes/R3FiniteEnergyComparison.lean b/NavierStokes/R3FiniteEnergyComparison.lean
+index 43dfeab..63fa8ca 100644
+--- a/NavierStokes/R3FiniteEnergyComparison.lean
++++ b/NavierStokes/R3FiniteEnergyComparison.lean
+@@ -26,7 +26,7 @@ theorem GlobalSolutionRn.uniformFiniteEnergy {f v : VelocityField} {q : Pressure
+   intro t ht
+   constructor
+   · simpa only [NavierStokesR3.ProblemStatement.SquareIntegrableAtTime, norm_norm] using!
+-      (memLp_two_iff_integrable_sq_norm (h.integrable t ht.1).1).mp (h.integrable t ht.1)
++      (memLp_two_iff_integrable_sq_norm (h.integrable t ht.1).aestronglyMeasurable).mp (h.integrable t ht.1)
+   · change (1 / 2 : ℝ) * (∫ x : Space, ‖v (t, x)‖ ^ 2) ≤ max 0 (E / 2)
+     have hb := (hE t ht.1).le
+     have hm := le_max_right 0 (E / 2)
+diff --git a/NavierStokes/WeightedRadialPrimitive.lean b/NavierStokes/WeightedRadialPrimitive.lean
+index 2e04f52..74d480b 100644
+--- a/NavierStokes/WeightedRadialPrimitive.lean
++++ b/NavierStokes/WeightedRadialPrimitive.lean
+@@ -798,7 +798,9 @@ theorem cutoff_finiteJet_bound (a b : ℝ) (χ : ℝ → ℝ) (hχ : ContDiff 
+       ContinuousMultilinearMap.norm_compContinuousLinearMap_le _ _
+     _ ≤ ‖iteratedFDeriv ℝ j χ z.1‖ * 1 := by
+       apply mul_le_mul_of_nonneg_left _ (norm_nonneg _)
+-      exact Finset.prod_le_one (fun _ _ => norm_nonneg _) (fun _ _ => ContinuousLinearMap.norm_fst_le _ _ _)
++      have hfst_norm : ‖ContinuousLinearMap.fst ℝ ℝ E‖ ≤ 1 := by
++        simp only [ContinuousLinearMap.norm_fst_le]
++      exact Finset.prod_le_one₀ (fun _ _ => norm_nonneg _) (fun _ _ => hfst_norm)
+     _ = ‖iteratedFDeriv ℝ j χ z.1‖ := mul_one _
+     _ ≤ C j' := hb j' z.1 hz
+     _ ≤ ∑ k, C k := hCj
+diff --git a/lake-manifest.json b/lake-manifest.json
+index f07a845..4affe7a 100644
+--- a/lake-manifest.json
++++ b/lake-manifest.json
+@@ -15,10 +15,10 @@
+    "type": "git",
+    "subDir": null,
+    "scope": "leanprover-community",
+-   "rev": "85e3a25e006c35636f0e53b0e9296caca2685bc0",
++   "rev": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+    "name": "mathlib",
+    "manifestFile": "lake-manifest.json",
+-   "inputRev": "v4.34.0-rc2",
++   "inputRev": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+    "inherited": false,
+    "configFile": "lakefile.lean"},
+   {"url": "https://github.com/leanprover/lean4export",
+@@ -35,7 +35,7 @@
+    "type": "git",
+    "subDir": null,
+    "scope": "leanprover-community",
+-   "rev": "d9598f07b1bc701f1e3aae163d2681c1fd978793",
++   "rev": "118aa17ee84656b8bd727fef7c458ee8c833385c",
+    "name": "plausible",
+    "manifestFile": "lake-manifest.json",
+    "inputRev": "main",
+@@ -45,7 +45,7 @@
+    "type": "git",
+    "subDir": null,
+    "scope": "leanprover-community",
+-   "rev": "ba67e212be1197b84c1f1f6299488a10a3002713",
++   "rev": "ddf04cf3949fa556442341e87d47f9f6e6074707",
+    "name": "LeanSearchClient",
+    "manifestFile": "lake-manifest.json",
+    "inputRev": "main",
+@@ -55,7 +55,7 @@
+    "type": "git",
+    "subDir": null,
+    "scope": "leanprover-community",
+-   "rev": "d8823026ac7ef130c253089d95685f9877b95323",
++   "rev": "e928b72544873815af278d38681b31c0293588e3",
+    "name": "importGraph",
+    "manifestFile": "lake-manifest.json",
+    "inputRev": "main",
+@@ -65,7 +65,7 @@
+    "type": "git",
+    "subDir": null,
+    "scope": "leanprover-community",
+-   "rev": "a8acbfd87375ff4abe14ce09db5b7664d383bc7f",
++   "rev": "106ff4fafc74ef4ac99d81dbf3ab399118f497a5",
+    "name": "proofwidgets",
+    "manifestFile": "lake-manifest.json",
+    "inputRev": "main",
+@@ -75,7 +75,7 @@
+    "type": "git",
+    "subDir": null,
+    "scope": "leanprover-community",
+-   "rev": "18889deb9e83ea7420ef51c160d6f88552e744e3",
++   "rev": "355695d523e41d0554926416cba2a2b3544fbbc9",
+    "name": "aesop",
+    "manifestFile": "lake-manifest.json",
+    "inputRev": "master",
+@@ -85,7 +85,7 @@
+    "type": "git",
+    "subDir": null,
+    "scope": "leanprover-community",
+-   "rev": "507746ab8f4b643ccdacb2ec4cdb5853fa9f8ab3",
++   "rev": "6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259",
+    "name": "Qq",
+    "manifestFile": "lake-manifest.json",
+    "inputRev": "master",
+@@ -95,7 +95,7 @@
+    "type": "git",
+    "subDir": null,
+    "scope": "leanprover-community",
+-   "rev": "d54dddc581e08be364c278052863524bff7a99a9",
++   "rev": "f2effa3d803fda822b1f97b806c47cf2adfbcbc2",
+    "name": "batteries",
+    "manifestFile": "lake-manifest.json",
+    "inputRev": "main",
+@@ -105,12 +105,12 @@
+    "type": "git",
+    "subDir": null,
+    "scope": "leanprover",
+-   "rev": "ab3a82db9fea14cf0fd7f5a2de650f4b534640af",
++   "rev": "e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204",
+    "name": "Cli",
+    "manifestFile": "lake-manifest.json",
+-   "inputRev": "v4.34.0-rc2",
++   "inputRev": "v4.34.0",
+    "inherited": true,
+    "configFile": "lakefile.toml"}],
+- "name": "fluidEquations",
++ "name": "NavierStokesAndEuler",
+  "lakeDir": ".lake",
+  "fixedToolchain": false}
+diff --git a/lakefile.toml b/lakefile.toml
+index 9ebc030..f7ba732 100644
+--- a/lakefile.toml
++++ b/lakefile.toml
+@@ -1,12 +1,12 @@
+ name = "NavierStokesAndEuler"
+ version = "0.1.0"
+-defaultTargets = ["NavierStokes", "Euler", "ComparatorChallenges"]
++defaultTargets = ["ClayStatement"]
+ 
+ [[require]]
+ name = "mathlib"
+ scope = "leanprover-community"
+ git = "https://github.com/leanprover-community/mathlib4.git"
+-rev = "v4.34.0-rc2"
++rev = "d13f23b723b8a846827a245b89c10fc7d3f11612"
+ 
+ [[require]]
+ name = "Comparator"
+@@ -26,3 +26,16 @@ globs = ["Euler", "Euler.+"]
+ [[lean_lib]]
+ name = "ComparatorChallenges"
+ globs = ["ComparatorChallenges.+"]
++
++
++[[lean_lib]]
++name = "ClayStatement"
++globs = ["ClayStatement", "ClayStatement.+"]
++
++# S523: ComparatorChallenges stays a library (the Comparator builds the challenge module it is given) but is no longer a default target: its files hold `sorry` by design.
++# ClayStatement is a default target and its root module imports BridgeConverse.
++
++# S523: ComparatorChallenges stays a library (the Comparator builds the challenge module it is given) but is no longer a default target: its files hold `sorry` by design.
++# ClayStatement is a default target and its root module imports BridgeConverse.
++# S523 (R2-F6): the default target is ClayStatement, whose import closure is the proof (618 modules: 611 NavierStokes + 7 ClayStatement). The authors' NavierStokes and Euler libraries are NOT default targets:
++# in a fresh room on Lean 4.34.1, seven of their modules outside that closure do not compile (see FINDINGS.md R2-F6); the S412 port never built them. They are left untouched and are not claimed.
+diff --git a/lean-toolchain b/lean-toolchain
+index b814d98..d3f4287 100644
+--- a/lean-toolchain
++++ b/lean-toolchain
+@@ -1 +1 @@
+-leanprover/lean4:v4.34.0-rc2
++leanprover/lean4:v4.34.1
+\ No newline at end of file

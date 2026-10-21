@@ -1,0 +1,7 @@
+import ClayStatementCtl.FeffermanNoF5
+
+/-! CONTROL: R3's C challenge stated over the mutated statement module (F5's integrability removed). A `sorry` here is expected, as in any Comparator challenge. -/
+
+namespace NavierStokes.ClayC
+theorem clay_C : Clay.NavierStokes.StatementC := by sorry
+end NavierStokes.ClayC

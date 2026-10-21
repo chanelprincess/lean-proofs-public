@@ -1,0 +1,8 @@
+ComparatorChallenges/ClayA.lean
+ComparatorChallenges/ClayB.lean
+ComparatorChallenges/ClayC.json
+ComparatorChallenges/ClayC.lean
+ComparatorChallenges/ClayD.json
+ComparatorChallenges/ClayD.lean
+NavierStokes/ClayCSolution.lean
+NavierStokes/ClayDSolution.lean

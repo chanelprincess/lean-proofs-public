@@ -1,0 +1,41 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the release you used, with its DOI."
+title: "Navier–Stokes R2/R3 community verification package, V1 (release r2-r3-v1)"
+type: software
+version: r2-r3-v1
+date-released: 2026-10-21
+doi: 10.5281/zenodo.23535805
+license: Apache-2.0
+authors:
+  - family-names: Jacobs
+    given-names: Tim
+    orcid: "https://orcid.org/0009-0008-7130-1448"
+    affiliation: KTS Global
+repository-code: "https://github.com/kts-global/lean-proofs-public"
+url: "https://github.com/kts-global/lean-proofs-public/releases/tag/r2-r3-v1"
+abstract: >-
+  Lean 4.34.1 statement bridge, per-alternative files and public verification
+  package (R2_FINAL_S524_COMMUNITY_V1) for OpenAI's NavierStokesAndEuler
+  formalization. Proves the encoded forms of Fefferman's alternatives C and D
+  for forced Navier–Stokes and the disjunction A or B or C or D through them.
+  Alternatives A and B are not claimed. No Clay recognition and no independent
+  replication are claimed. Inherited mathematics and formalization are OpenAI's.
+keywords:
+  - Navier–Stokes
+  - Lean 4
+  - formal verification
+references:
+  - type: software
+    title: "S437 · Lean 4.34.1 port of OpenAI's NavierStokesAndEuler formalization, Clay alternatives C and D (pre-release)"
+    version: s437-v1
+    doi: 10.5281/zenodo.23448690
+    authors:
+      - family-names: Jacobs
+        given-names: Tim
+        orcid: "https://orcid.org/0009-0008-7130-1448"
+  - type: software
+    title: NavierStokesAndEuler
+    repository-code: "https://github.com/openai/NavierStokesAndEuler"
+    commit: f9e8bc5b38b6e212696e8a30e3e91517af887bbd
+    authors:
+      - name: OpenAI

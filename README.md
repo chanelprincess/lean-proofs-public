@@ -1,34 +1,43 @@
-# KTS Global · Lean 4 · Navier–Stokes C/D port (S437)
+# KTS Global · Lean 4 · Navier–Stokes research packages
 
-Pre-release research package. Not a claimed solution of any Clay problem.
+Research packages published by KTS Global. None is a claimed solution of a Clay Millennium Problem, and none has Clay Institute recognition or independent specialist review.
 
-## What this is
-A corrected and rebuilt port, to Lean 4.34.1 and Mathlib `d13f23b`, of OpenAI's Lean formalization
-[`openai/NavierStokesAndEuler`](https://github.com/openai/NavierStokesAndEuler) at commit `f9e8bc5b38b6e212696e8a30e3e91517af887bbd` (Apache-2.0).
-The mathematics and the Lean formalization are OpenAI's. This repository's contribution is the port, the rebuild and the review material listed below.
+## Releases
 
-## What was changed relative to upstream
-- 21 Lean modules edited (all under `NavierStokes/`), plus the three pin files `lean-toolchain`, `lakefile.toml` and `lake-manifest.json`.
-- 3 files added: `DEPENDENCY_CLOSURE.json`, `RESTORE_AND_VERIFY.md`, `UPSTREAM_PROVENANCE.json`. Upstream `.gitignore` not carried over.
-- Every other file (2,644 of 2,668 shared) is byte-identical to upstream. The Euler library is unchanged.
-- An import-graph scan estimates that about 418 NavierStokes modules depend on the edited ones and were therefore rebuilt and re-verified; the pin changes rebuild all 2,659 modules.
-- The challenge statements (`ComparatorChallenges/NavierStokes.lean`) are unchanged from upstream.
-- Full list of edited files: `CHANGES.md`.
+| Release | Package | Identifiers |
+|---|---|---|
+| [`s437-v1`](https://github.com/kts-global/lean-proofs-public/releases/tag/s437-v1) | S437: Lean 4.34.1 port and rebuild of OpenAI's NavierStokesAndEuler formalization (Clay alternatives C and D) | DOI 10.5281/zenodo.23448690 · Wikidata Q141761720 |
+| [`r2-r3-v1`](https://github.com/kts-global/lean-proofs-public/releases/tag/r2-r3-v1) | R2/R3 community verification package: Fefferman-style statement and bridge layer, per-alternative packages, public verification script and receipts | No DOI issued yet |
 
-## What was checked
-- Declarations: `NavierStokes.Comparator.navier_stokes_breakdown_R3` and `NavierStokes.Comparator.navier_stokes_breakdown_periodic` (Clay alternatives C and D).
-- Kernels: Lean default and nanoda. Axioms: `propext`, `Classical.choice`, `Quot.sound` only.
-- Pins: Mathlib `d13f23b`, Comparator `19e111e`, lean4export `cacf989`. Executed on Ubuntu 24.04.5 x86_64 only.
-- Receipts: `RECEIPTS/`; statement: `STATEMENT.md`; provenance: `PROVENANCE.json`.
+Each release is a separate, citable artifact. Cite the release tag you used. Do not use the S437 DOI for R2/R3.
 
-## Review packages
-`REVIEW_PACKAGE_R1`, `REVIEW_PACKAGE_R2`, `CANDIDATE_R2`, `COMMUNITY_TEST_PACKAGE` and `COMMUNITY_TEST_PACKAGE_V3` contain a clause-by-clause comparison of the Lean statements with the official problem text, plus reproduction material. This is the authors' own analysis. No independent referee or expert review has been obtained.
+## Inherited mathematics
+
+The mathematics and the Lean formalization are OpenAI's: [`openai/NavierStokesAndEuler`](https://github.com/openai/NavierStokesAndEuler) at commit `f9e8bc5b38b6e212696e8a30e3e91517af887bbd` (Apache-2.0). Toolchain: Lean 4.34.1, Mathlib `d13f23b`.
+
+## S437: port and rebuild
+
+- 21 Lean modules edited (all under `NavierStokes/`), plus the pin files `lean-toolchain`, `lakefile.toml` and `lake-manifest.json`.
+- Challenge statements (`ComparatorChallenges/NavierStokes.lean`) unchanged from upstream.
+- Checked: `NavierStokes.Comparator.navier_stokes_breakdown_R3` and `..._breakdown_periodic` (alternatives C and D), on Lean's default kernel and nanoda, axioms `propext`, `Classical.choice`, `Quot.sound` only.
+- Full change list: `CHANGES.md`. Receipts: `RECEIPTS/`. Statement: `STATEMENT.md`. Provenance: `PROVENANCE.json`.
+- Review packages (`REVIEW_PACKAGE_R1`, `REVIEW_PACKAGE_R2`, `CANDIDATE_R2`, `COMMUNITY_TEST_PACKAGE`, `COMMUNITY_TEST_PACKAGE_V3`) are the authors' own analysis.
+
+## R2/R3: statement, bridge and community verification
+
+Folder: `R2_FINAL_S524_COMMUNITY_V1/`. Contribution: Tim Jacobs, KTS Global (ORCID [0009-0008-7130-1448](https://orcid.org/0009-0008-7130-1448)).
+
+- Adds the Fefferman-style statement and bridge layer (`Bridge`, `BridgeConverse`), the R3 per-alternative files, a public verification script and receipts.
+- Proves the encoded forms of alternatives C and D for forced Navier–Stokes, and A ∨ B ∨ C ∨ D through them. Alternatives A and B are shipped as statement files only.
+- Comparator on both kernels: ClayFefferman, ClayFeffermanViaD, NavierStokesComplete, ClayC and ClayD, all exit 0. All 40,986 theorems in the 620-module closure depend only on the three standard axioms.
+- Verify on Ubuntu 24.04 with `VERIFY.sh`; see `RESTORE_AND_VERIFY.md` in that folder.
 
 ## What is not claimed
-- Correspondence between the Lean definitions and the official Clay problem statement has not been independently reviewed.
-- No claim about alternatives A or B. They are outside this release.
-- No claim of Clay Institute recognition, original discovery, or independent evaluation.
-- Not a new porting result: the port and its historical two-kernel check pre-existed this fresh full build.
 
-## Identifiers
-Release `s437-v1` · DOI [10.5281/zenodo.23448690](https://doi.org/10.5281/zenodo.23448690) · Wikidata Q141761720 · License Apache-2.0.
+- No claim about alternatives A or B; they remain open.
+- No claim that the Lean encoding matches Fefferman's published prose; this has not been independently reviewed.
+- No Clay acceptance, original discovery of the underlying mathematics, or independent replication. Verification runs are publisher-executed on one platform (Ubuntu 24.04 x86_64). See `KNOWN_LIMITS.md`.
+
+## Licence
+
+Upstream material remains under its Apache-2.0 licence. Files added by KTS Global are published under the Apache-2.0 `LICENSE` at the root of this repository. The CHAOS implementation is not distributed or licensed by these packages.

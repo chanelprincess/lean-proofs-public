@@ -1,44 +1,98 @@
-# KTS Global · Lean 4 · Navier–Stokes research packages
+# KTS Global · Lean 4 · Navier–Stokes R2/R3 community verification package
 
-Research packages published by KTS Global. None is a claimed solution of a Clay Millennium Problem, and none has Clay Institute recognition or independent specialist review.
+> This repository publishes the Lean 4 **Navier–Stokes R2/R3 community
+> verification package**, release [`r2-r3-v1`](https://github.com/kts-global/lean-proofs-public/releases/tag/r2-r3-v1).
+> The release body is the canonical source for the claim boundary,
+> contribution attribution and verification details below. If this README
+> and the release body ever disagree, **the release body wins**.
+>
+> **Not** a claimed solution of a Clay Millennium Problem.
+> **No** Clay Institute recognition. **No** independent specialist review.
+> **Not** an independent replication: verification runs are publisher-executed
+> on one platform (Ubuntu 24.04 x86_64).
 
-## Releases
+## Canonical release
 
-| Release | Package | Identifiers |
-|---|---|---|
-| [`s437-v1`](https://github.com/kts-global/lean-proofs-public/releases/tag/s437-v1) | S437: Lean 4.34.1 port and rebuild of OpenAI's NavierStokesAndEuler formalization (Clay alternatives C and D) | DOI 10.5281/zenodo.23448690 · Wikidata Q141761720 |
-| [`r2-r3-v1`](https://github.com/kts-global/lean-proofs-public/releases/tag/r2-r3-v1) | Navier–Stokes R2/R3 community verification package, V1 (release r2-r3-v1): Fefferman-style statement and bridge layer, per-alternative packages, public verification script and receipts | DOI [10.5281/zenodo.23535805](https://doi.org/10.5281/zenodo.23535805) · Wikidata [Q141803373](https://www.wikidata.org/wiki/Q141803373) |
+| field | value |
+|---|---|
+| Release | [`r2-r3-v1`](https://github.com/kts-global/lean-proofs-public/releases/tag/r2-r3-v1) |
+| Published | 2026-10-21 13:48 UTC |
+| Asset | [`R2_FINAL_S524_COMMUNITY_V1.tar.gz`](https://github.com/kts-global/lean-proofs-public/releases/download/r2-r3-v1/R2_FINAL_S524_COMMUNITY_V1.tar.gz) |
+| Cite with DOI | [10.5281/zenodo.23535805](https://doi.org/10.5281/zenodo.23535805) |
+| Wikidata | [Q141803373](https://www.wikidata.org/wiki/Q141803373) |
 
-Each release is a separate, citable artifact. Cite the release tag you used. Do not use the S437 DOI for R2/R3, or the R2/R3 DOI for S437.
+Please cite **this release's own DOI and tag** (`10.5281/zenodo.23535805`,
+`r2-r3-v1`). See [`CITATION.cff`](./CITATION.cff) for machine-readable
+citation metadata.
 
-## Inherited mathematics
+## Claim (canonical, verbatim from release body)
 
-The mathematics and the Lean formalization are OpenAI's: [`openai/NavierStokesAndEuler`](https://github.com/openai/NavierStokesAndEuler) at commit `f9e8bc5b38b6e212696e8a30e3e91517af887bbd` (Apache-2.0). Toolchain: Lean 4.34.1, Mathlib `d13f23b`.
+Proved (Lean 4.34.1, Comparator on two kernels): the encoded forms of
+Fefferman's alternatives (C) and (D) for forced Navier–Stokes, and
+A ∨ B ∨ C ∨ D through them. **Not claimed:** (A) or (B); that the encoding
+matches Fefferman's published prose; Clay acceptance.
 
-## S437: port and rebuild
+## Contribution attribution (canonical, verbatim)
 
-- 21 Lean modules edited (all under `NavierStokes/`), plus the pin files `lean-toolchain`, `lakefile.toml` and `lake-manifest.json`.
-- Challenge statements (`ComparatorChallenges/NavierStokes.lean`) unchanged from upstream.
-- Checked: `NavierStokes.Comparator.navier_stokes_breakdown_R3` and `..._breakdown_periodic` (alternatives C and D), on Lean's default kernel and nanoda, axioms `propext`, `Classical.choice`, `Quot.sound` only.
-- Full change list: `CHANGES.md`. Receipts: `RECEIPTS/`. Statement: `STATEMENT.md`. Provenance: `PROVENANCE.json`.
-- Review packages (`REVIEW_PACKAGE_R1`, `REVIEW_PACKAGE_R2`, `CANDIDATE_R2`, `COMMUNITY_TEST_PACKAGE`, `COMMUNITY_TEST_PACKAGE_V3`) are the authors' own analysis.
+- **Inherited mathematics:** OpenAI, [`openai/NavierStokesAndEuler`](https://github.com/openai/NavierStokesAndEuler) at commit `f9e8bc5b38b6e212696e8a30e3e91517af887bbd` (Apache-2.0). The mathematics and the underlying formalization are OpenAI's.
+- **This release adds:** Tim Jacobs, KTS Global ([ORCID 0009-0008-7130-1448](https://orcid.org/0009-0008-7130-1448)) — the statement and bridge layer, the R3 per-alternative packaging, and the public verification tooling and documentation.
+- **Verification:** publisher-executed, not independent replication (publisher
+  wall-clock run: 5,678 s; `RECEIPTS/community_run/`).
 
-## Navier–Stokes R2/R3: statement, bridge and community verification
+## Theorems (named, canonical)
 
-Folder: `R2_FINAL_S524_COMMUNITY_V1/`. Contribution: Tim Jacobs, KTS Global (ORCID [0009-0008-7130-1448](https://orcid.org/0009-0008-7130-1448)).
+`NavierStokes.ClayChallenge.clay_navier_stokes_fefferman` and `..._via_D`
+(A ∨ B ∨ C ∨ D through (C) / through (D)); `NavierStokes.ClayC.clay_C`;
+`NavierStokes.ClayD.clay_D`; `NavierStokes.Comparator.navier_stokes_clay_via_C`
+and `..._via_D`; the bridges `Clay.NavierStokes.Bridge.*` and
+`BridgeConverse.*`. Alternatives (A) and (B) are shipped as statement files
+only.
 
-- Adds the Fefferman-style statement and bridge layer (`Bridge`, `BridgeConverse`), the R3 per-alternative files, a public verification script and receipts.
-- Proves the encoded forms of alternatives C and D for forced Navier–Stokes, and A ∨ B ∨ C ∨ D through them. Alternatives A and B are shipped as statement files only.
-- Comparator on both kernels: ClayFefferman, ClayFeffermanViaD, NavierStokesComplete, ClayC and ClayD, all exit 0. All 40,986 theorems in the 620-module closure depend only on the three standard axioms.
-- Verify on Ubuntu 24.04 with `VERIFY.sh`; see `RESTORE_AND_VERIFY.md` in that folder.
+## Axioms
 
-## What is not claimed
+All 40,986 theorems of the 620-module closure were enumerated; none depends
+on an axiom outside `propext`, `Classical.choice`, `Quot.sound`. 35,970
+depend on exactly those three; 5,016 depend on a strict subset. Each named
+theorem above was checked for exactly those three on both kernels
+(Lean default kernel and nanoda): ClayFefferman exit 0; ClayFeffermanViaD
+exit 0; NavierStokesComplete exit 0; ClayC exit 0; ClayD exit 0.
 
-- No claim about alternatives A or B; they remain open.
-- No claim that the Lean encoding matches Fefferman's published prose; this has not been independently reviewed.
-- No Clay acceptance, original discovery of the underlying mathematics, or independent replication. Verification runs are publisher-executed on one platform (Ubuntu 24.04 x86_64). See `KNOWN_LIMITS.md`.
+## Verify
+
+Ubuntu 24.04; prerequisites listed in `RESTORE_AND_VERIFY.md`.
+
+```
+tar xzf R2_FINAL_S524_COMMUNITY_V1.tar.gz
+cd R2_FINAL_S524_COMMUNITY_V1
+./VERIFY.sh /path/to/a/fresh/empty/directory
+```
+
+Exit 0 only if every required check passes.
+
+## Limits
+
+Publisher-executed, not an independent replication; one platform
+(native Ubuntu 24.04); no native Windows, offline or cold-cache verification;
+`landrun` not byte-reproducible; the encoding has not been independently
+reviewed against Fefferman's prose; (A) and (B) are open; no Clay acceptance.
+See `KNOWN_LIMITS.md`.
 
 ## Licence
 
-Upstream material remains under its Apache-2.0 licence. Files added by KTS Global are published under the Apache-2.0 `LICENSE` at the root of this repository. The CHAOS implementation is not distributed or licensed by these packages.
+Upstream OpenAI material remains under its Apache-2.0 licence. Files added
+by the package publisher are published under the Apache-2.0 [`LICENSE`](./LICENSE)
+at the root of this repository; see
+[`THIRD_PARTY_NOTICES.md`](./R2_FINAL_S524_COMMUNITY_V1/THIRD_PARTY_NOTICES.md).
+The CHAOS implementation is not distributed or licensed by this package.
 
+## Prior work (separate release, separate citation)
+
+The Lean 4.34.1 port of OpenAI's `NavierStokesAndEuler` that this release
+builds on is published as its own release
+[`s437-v1`](https://github.com/kts-global/lean-proofs-public/releases/tag/s437-v1).
+It is a **separate release with a separate DOI**. **Do not use any S437
+identifier to cite R2/R3** — the citation for R2/R3 is the DOI and tag
+listed above. S437's own identifiers appear on its release page.
+
+Each release in this repository is a distinct, citable artefact. Cite the
+release tag you used.
